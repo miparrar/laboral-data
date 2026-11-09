@@ -1,0 +1,8 @@
+sources:
+  indicadores_principales:
+    name: "Indicadores principales ENE"
+    url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx"
+    file: "indicadores_principales.xlsx"
+    parser: "indicadores_principales_v1"
+    frequency: "rolling_quarter"
+    source: "Instituto Nacional de Estadísticas (Chile)"
