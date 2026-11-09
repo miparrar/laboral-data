@@ -1,0 +1,96 @@
+name: Update ENE tabulados
+
+on:
+  schedule:
+    - cron: "20 17 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+concurrency:
+  group: laboral-data-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    outputs:
+      changed: ${{ steps.commit.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: true
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          packages: |
+            any::readxl
+            any::dplyr
+            any::tidyr
+            any::purrr
+            any::stringr
+            any::tibble
+            any::jsonlite
+            any::yaml
+            any::digest
+
+      - name: Download, normalize and validate
+        run: |
+          make update
+          make test
+
+      - name: Commit versioned JSON if changed
+        id: commit
+        shell: bash
+        run: |
+          git add api/v1/
+          if git diff --cached --quiet; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git commit -m "data: refresh official ENE indicators"
+            git push origin HEAD:main
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Archive original XLSX in GitHub Release
+        if: steps.commit.outputs.changed == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        shell: bash
+        run: |
+          HASH=$(sha256sum data_raw/indicadores_principales.xlsx | cut -d' ' -f1)
+          TAG="source-${HASH:0:16}"
+          if ! gh release view "$TAG" >/dev/null 2>&1; then
+            gh release create "$TAG" data_raw/indicadores_principales.xlsx \
+              --title "INE originales (${HASH:0:16})" \
+              --notes "Archivo original INE, SHA-256: $HASH" \
+              --latest=false
+          fi
+
+      - name: Prepare static site
+        run: |
+          mkdir -p _site/api
+          cp -R api/v1 _site/api/v1
+
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: _site
+
+  deploy:
+    needs: update
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - id: deployment
+        uses: actions/deploy-pages@v4
