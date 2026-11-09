@@ -1,0 +1,9 @@
+data_raw/
+.Rproj.user/
+.Rhistory
+.RData
+.Renviron
+renv/library/
+renv/staging/
+*.log
+.DS_Store
