@@ -1,0 +1,33 @@
+# Posición estable de los 13 pares (nota, valor) en las hojas de este cuadro.
+# Las etiquetas se contrastan contra la fila 6 del Excel durante el procesamiento.
+indicators:
+  - {id: poblacion_edad_trabajar, label: "Población en edad de trabajar", unit: thousand_persons}
+  - {id: fuerza_trabajo, label: "Fuerza de trabajo", unit: thousand_persons}
+  - {id: ocupados, label: "Población ocupada", unit: thousand_persons}
+  - {id: desocupados, label: "Población desocupada (Total)", unit: thousand_persons}
+  - {id: cesantes, label: "Población desocupada (Cesantes)", unit: thousand_persons}
+  - {id: buscan_primera_vez, label: "Población desocupada (Buscan trabajo por primera vez)", unit: thousand_persons}
+  - {id: fuera_fuerza_trabajo, label: "Fuera de la fuerza de trabajo (Total)", unit: thousand_persons}
+  - {id: inactivos_iniciadores, label: "Fuera de la fuerza de trabajo (Iniciadores)", unit: thousand_persons}
+  - {id: inactivos_potenciales, label: "Fuera de la fuerza de trabajo (Inactivos potencialmente activos)", unit: thousand_persons}
+  - {id: inactivos_habituales, label: "Fuera de la fuerza de trabajo (Inactivos habituales)", unit: thousand_persons}
+  - {id: tasa_desocupacion, label: "Tasa de desocupación", unit: percent}
+  - {id: tasa_ocupacion, label: "Tasa de ocupación", unit: percent}
+  - {id: tasa_participacion, label: "Tasa de participación", unit: percent}
+regions:
+  AP: arica_parinacota
+  TA: tarapaca
+  AN: antofagasta
+  AT: atacama
+  CO: coquimbo
+  VA: valparaiso
+  RM: metropolitana
+  LI: ohiggins
+  ML: maule
+  NB: nuble
+  BI: biobio
+  AR: araucania
+  LR: los_rios
+  LL: los_lagos
+  AI: aysen
+  MA: magallanes
