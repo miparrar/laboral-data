@@ -28,6 +28,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
+      due: ${{ steps.calendar.outputs.due }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -50,12 +51,19 @@ jobs:
             any::yaml
             any::digest
 
+      - name: Check ENE publication calendar
+        id: calendar
+        if: github.event_name == 'schedule'
+        run: Rscript scripts/check_calendar.R
+
       - name: Download, normalize and validate
+        if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         run: |
           make update
           make test
 
       - name: Commit versioned JSON if changed
+        if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         id: commit
         shell: bash
         run: |
@@ -90,16 +98,19 @@ jobs:
           fi
 
       - name: Prepare static site
+        if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         run: |
           mkdir -p _site/api
           cp -R api/v1 _site/api/v1
 
       - uses: actions/upload-pages-artifact@v3
+        if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         with:
           path: _site
 
   deploy:
     needs: update
+    if: github.event_name != 'schedule' || needs.update.outputs.due == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
