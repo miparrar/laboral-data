@@ -6,3 +6,10 @@ sources:
     parser: "indicadores_principales_v1"
     frequency: "rolling_quarter"
     source: "Instituto Nacional de Estadísticas (Chile)"
+  complementarios:
+    name: "Indicadores complementarios a la tasa de desocupación ENE"
+    url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/complementarios.xlsx?sfvrsn=513dfbba_203"
+    file: "complementarios.xlsx"
+    parser: "tabulado_pares_v1"
+    frequency: "rolling_quarter"
+    source: "Instituto Nacional de Estadísticas (Chile)"
