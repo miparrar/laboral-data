@@ -60,7 +60,7 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
 
   if (data_row <= header_row + 1L) stop("data_row debe seguir a las dos filas de encabezado.", call. = FALSE)
   values <- raw[-seq_len(data_row - header_row), , drop = FALSE] |>
-    dplyr::filter(stringr::str_detect(.data$V1, "^[0-9]{4}$"))
+    dplyr::filter(stringr::str_detect(.data$V1, "^[0-9]{4}(\\.0+)?$"))
   if (!nrow(values)) {
     stop(sprintf("Hoja %s sin observaciones.", sheet), call. = FALSE)
   }
@@ -88,7 +88,7 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
     }
     tibble::tibble(
       period = periods,
-      anio = as.integer(values$V1),
+      anio = as.integer(as.numeric(values$V1)),
       trimestre_movil = trimws(values$V2),
       region = region,
       sex = sex,
