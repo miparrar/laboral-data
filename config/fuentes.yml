@@ -13,3 +13,10 @@ sources:
     parser: "tabulado_pares_v1"
     frequency: "rolling_quarter"
     source: "Instituto Nacional de Estadísticas (Chile)"
+  horas:
+    name: "Indicadores relacionados con horas trabajadas ENE"
+    url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205"
+    file: "horas.xlsx"
+    parser: "tabulado_pares_v1"
+    frequency: "rolling_quarter"
+    source: "Instituto Nacional de Estadísticas (Chile)"
