@@ -13,13 +13,14 @@ La actualización automática consulta el [calendario de publicaciones ENE de `l
 
 ## Datos disponibles
 
-Por ahora se publica **Indicadores principales**: total nacional, hombres, mujeres y las 16 regiones (sin desagregación regional por sexo).
+Se publican **Indicadores principales** (13 indicadores) e **Indicadores complementarios a la tasa de desocupación** (15 indicadores, incluidos SU1–SU4). Ambos cubren el total nacional, hombres, mujeres y las 16 regiones (sin desagregación regional por sexo). Los valores no disponibles en el Excel se conservan como `null`.
 
 Para consumirlos, consulta:
 
 - [Catálogo de indicadores](https://miparrar.github.io/laboral-data/api/v1/catalog.json): variables y cobertura.
 - [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): períodos, origen, versión y archivos.
-- [Observaciones JSON](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json): cifras y calidad de cada observación.
+- [Indicadores principales](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json): cifras y calidad de cada observación.
+- [Indicadores complementarios](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json): subutilización, presión laboral y otros indicadores.
 
 En R:
 
