@@ -1,15 +1,16 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T01:22:28Z",
+  "updated_at": "2026-11-10T02:12:43Z",
   "datasets": [
     {
       "id": "indicadores_principales",
       "path": "series/indicadores_principales.json",
+      "parser_version": 2,
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx",
       "source_sha256": "63bbe64b2174ae04ecb76eacd2d188db0d1e6e8429b5b770131d84ad844b302f",
       "observations": 49153,
       "first_period": "2010-02",
-      "last_period": "2027-01",
+      "last_period": "2026-08",
       "status": "ok"
     }
   ]
