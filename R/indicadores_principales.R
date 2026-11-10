@@ -18,7 +18,8 @@ ip_period <- function(year, quarter) {
   initial <- stringr::str_to_lower(stringr::str_sub(trimws(quarter), 1L, 3L))
   month <- unname(months[initial])
   if (anyNA(month)) stop("Trimestres móviles no reconocidos.", call. = FALSE)
-  yy <- as.integer(year) + as.integer(month == 12L)
+  # En el INE, Dic-Feb ya utiliza el año del mes central (enero).
+  yy <- as.integer(year)
   mm <- (month %% 12L) + 1L
   sprintf("%04d-%02d", yy, mm)
 }
@@ -179,6 +180,7 @@ ip_publish <- function(data, path, source_url, hash,
     datasets = list(list(
       id = "indicadores_principales",
       path = series_path,
+      parser_version = 2L,
       source_url = source_url,
       source_sha256 = hash,
       observations = nrow(data),
