@@ -27,3 +27,10 @@ sources:
     parser: "tabulado_pares_v1"
     frequency: "rolling_quarter"
     source: "Instituto Nacional de Estadísticas (Chile)"
+  rama:
+    name: "Personas ocupadas por rama de actividad económica"
+    url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/rama.xlsx?sfvrsn=23a76b12_214"
+    file: "rama.xlsx"
+    parser: "tabulado_pares_rama_v1"
+    frequency: "rolling_quarter"
+    source: "Instituto Nacional de Estadísticas (Chile)"
