@@ -1,48 +1,37 @@
 # laboral-data
 
-Datos tabulados de la **Encuesta Nacional de Empleo (ENE)** de Chile, preparados para consumo por aplicaciones como [laborales](https://github.com/miparrar/laborales).
+**laboral-data transforma los tabulados de la Encuesta Nacional de Empleo (ENE) publicados por el INE en datos JSON estructurados, validados y accesibles públicamente.** Su objetivo es facilitar la consulta de las cifras oficiales sin tener que procesar los archivos Excel en cada uso.
 
-Este repositorio implementa una primera familia: **Indicadores principales de empleo**. No descarga ni estima microdatos; publica las cifras que el INE ya difundió, preservando sus notas de calidad por observación.
+## Cómo funciona
 
-## Arquitectura
+1. **Descarga** los archivos Excel oficiales desde el INE.
+2. **Procesa** las hojas de datos con R: la primera hoja es el índice; las columnas A y B contienen año y trimestre móvil; desde la fila 8, cada indicador utiliza un par de columnas (nota de calidad y valor).
+3. **Normaliza** las observaciones por período, indicador y dimensiones disponibles (sexo y territorio, cuando corresponde), conservando valores y notas originales: sin advertencia, `a` (poco fiable) y `b` (no fiable). Las magnitudes de población se expresan en miles y las tasas en porcentaje.
+4. **Valida y publica** los JSON. GitHub conserva las versiones; GitHub Releases archiva los Excel originales y GitHub Pages distribuye los datos.
 
-```text
-INE (Excel) → descarga → normalización R → validación → JSON → GitHub Pages
-                    ↘ original XLSX → GitHub Release
+La actualización automática consulta el [calendario de publicaciones ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). GitHub Actions comprueba diariamente si hay una publicación pendiente y, cuando corresponde, vuelve a descargar y procesar el Excel completo para incorporar también posibles revisiones históricas. Puede ejecutarse manualmente.
+
+## Datos disponibles
+
+Por ahora se publica **Indicadores principales**: total nacional, hombres, mujeres y las 16 regiones (sin desagregación regional por sexo).
+
+Para consumirlos, consulta:
+
+- [Catálogo de indicadores](https://miparrar.github.io/laboral-data/api/v1/catalog.json): variables y cobertura.
+- [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): períodos, origen, versión y archivos.
+- [Observaciones JSON](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json): cifras y calidad de cada observación.
+
+En R:
+
+```r
+datos <- jsonlite::fromJSON(
+  "https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json"
+)
 ```
 
-- **GitHub Actions** ejecuta la actualización programada y manual.
-- **Git (main)** conserva los JSON, el catálogo y el manifiesto, con historial de cambios.
-- **GitHub Releases** conserva el Excel original de cada versión **distinta** descargada (identificada por hash).
-- **GitHub Pages** distribuye una API estática con el contenido de `api/v1/` (requiere activar Pages con fuente GitHub Actions en Settings → Pages).
-- El procesamiento se puede repetir localmente con **GNU Make y R**.
+## Desarrollo
 
-## Primer tabulado
-
-Fuente: [indicadores_principales.xlsx](https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx).
-
-El parser de tabulados utiliza un patrón común: primera hoja como índice; columnas A y B con año y trimestre móvil; fila 6 con nombres; fila 7 con unidades y notas; datos desde fila 8; cada variable ocupa dos columnas consecutivas (nota y valor). El número de pares se detecta desde las columnas, y se contrasta con la configuración declarada. Un formato desconocido falla antes de publicar.\n\nEl libro tiene un índice, tres hojas nacionales (`AS`, `H`, `M`) y 16 hojas regionales. Las regionales **no están desagregadas por sexo**. Cada estimación tiene su columna de nota y su columna de valor.
-
-### Contrato de datos
-
-- `api/v1/catalog.json`: metadatos e indicadores, cobertura **real** por combinación territorio/sexo.
-- `api/v1/manifest.json`: archivo publicado, SHA-256 del Excel, período de cobertura y cantidad de observaciones.
-- `api/v1/series/indicadores_principales.json`: observaciones normalizadas, con `period` (mes central del trimestre móvil), `anio` y `trimestre_movil` (tal como vienen en las columnas A y B), `region`, `sex`, `indicator`, `value`, `unit`, `quality_code` y `quality`.
-
-Las magnitudes de población se mantienen **en miles de personas** y las tasas **en porcentaje** según la unidad explícita de la hoja; no todas las variables son miles. No se redondean valores.
-
-Calidad:
-- Nota vacía → `quality_code: null`, `quality: sin_advertencia` (no implica inferencia sobre precisión).
-- `a` → `poco_fiable`.
-- `b` → `no_fiable`.
-
-No se eliminan observaciones marcadas como no fiables. Una nota desconocida hace fallar la validación, en lugar de inventar una interpretación.
-
-**Advertencia metodológica:** las series de trimestres móviles solapados no son independientes. La existencia de dos estimaciones no permite afirmar significación estadística de su diferencia.
-
-## Requisitos
-
-R con `readxl`, `dplyr`, `tidyr`, `purrr`, `stringr`, `tibble`, `jsonlite`, `yaml` y `digest`. Se usa `renv` opcionalmente; el flujo CI instala dependencias de forma explícita.
+Requiere R y los paquetes declarados en el `Makefile`. Desde la raíz del repositorio:
 
 ```bash
 make deps
@@ -50,20 +39,10 @@ make update
 make test
 ```
 
-Para probar usando un archivo local ya descargado:
+Para trabajar con un Excel local:
 
 ```bash
 Rscript scripts/update_data.R --input="/ruta/indicadores_principales.xlsx"
 ```
 
-Los Excel descargados quedan en `data_raw/` (ignorado por Git). El pipeline en CI crea una Release adjuntando la fuente original **solo después** de validar la generación del JSON.
-
-## Actualización
-
-El workflow se ejecuta diariamente como comprobación y también admite `workflow_dispatch`. Solo registra un commit y una nueva Release cuando cambia el SHA-256 del Excel. Como el INE reemplaza el Excel en la misma URL, **cada cambio obliga a reprocesar la historia completa**, incluidos períodos históricos revisados.
-
-Las publicaciones en Pages pueden requerir habilitar el entorno `github-pages` en la configuración del repositorio. La programación puede retrasarse: una comprobación diaria con idempotencia evita depender de una ejecución en el minuto preciso.
-
-## Extensión a otros cuadros
-
-Agregar otros tabulados requiere un adaptador de formato, un registro de fuente y pruebas de equivalencia frente al Excel. No asumir que todos los Excel del INE comparten encabezados, unidades o clasificaciones.
+Los archivos descargados durante la ejecución quedan en `data_raw/`, fuera del control de versiones. Los JSON se publican en `api/v1/`.
