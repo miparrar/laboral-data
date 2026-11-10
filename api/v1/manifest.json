@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T20:58:46Z",
+  "updated_at": "2026-11-10T21:13:23Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -43,6 +43,17 @@
       "source_sha256": "66b445e228ab9fca4d7f740b2952b41f9c8ce1ab31c4cdf02fcbefaf0b2c4f90",
       "observations": 15522,
       "first_period": "2010-02",
+      "last_period": "2026-08",
+      "status": "ok"
+    },
+    {
+      "id": "rama",
+      "path": "series/rama.json",
+      "parser_version": 3,
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/rama.xlsx?sfvrsn=23a76b12_214",
+      "source_sha256": "2723e9acd4d6e34e8ced6e6145661216a696eb3920eb0c177f414e26e273331c",
+      "observations": 71231,
+      "first_period": "2013-02",
       "last_period": "2026-08",
       "status": "ok"
     }

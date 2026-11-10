@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T20:58:46Z",
+  "updated_at": "2026-11-10T21:13:23Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -152,6 +152,7 @@
           "sex": "total"
         }
       ],
+      "dimension_labels": {},
       "quality_codes": {
         "sin_advertencia": "Sin nota de advertencia en el Excel",
         "a": "Estimación poco fiable según el INE",
@@ -319,6 +320,7 @@
           "sex": "total"
         }
       ],
+      "dimension_labels": {},
       "quality_codes": {
         "sin_advertencia": "Sin nota de advertencia en el Excel",
         "a": "Estimación poco fiable según el INE",
@@ -412,6 +414,7 @@
           "sex": "total"
         }
       ],
+      "dimension_labels": {},
       "quality_codes": {
         "sin_advertencia": "Sin nota de advertencia en el Excel",
         "a": "Estimación poco fiable según el INE",
@@ -523,6 +526,2309 @@
           "age_group": "65+"
         }
       ],
+      "dimension_labels": {},
+      "quality_codes": {
+        "sin_advertencia": "Sin nota de advertencia en el Excel",
+        "a": "Estimación poco fiable según el INE",
+        "b": "Estimación no fiable según el INE",
+        "sin_dato": "Valor no disponible en el archivo original"
+      }
+    },
+    {
+      "id": "rama",
+      "title": "Personas ocupadas por rama de actividad económica",
+      "path": "series/rama.json",
+      "frequency": "rolling_quarter",
+      "indicators": [
+        {
+          "id": "ocupados",
+          "label": "Personas ocupadas según rama de actividad económica",
+          "unit": "thousand_persons"
+        }
+      ],
+      "coverage": [
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "antofagasta",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "araucania",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "atacama",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "aysen",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "biobio",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "maule",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "comercio"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "construccion"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "mineria"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "total"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "comercio"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "construccion"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "mineria"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "total"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "nacional",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "nuble",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "actividades_inmobiliarias"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "administracion_publica_defensa"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "agricultura_ganaderia_silvicultura_pesca"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "alojamiento_comidas"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "artisticas_entretenimiento_recreativas"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "comercio"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "construccion"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "electricidad_gas_vapor_aire"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "ensenanza"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "finanzas_seguros"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "hogares_empleadores"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "industria_manufacturera"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "informacion_comunicaciones"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "mineria"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "no_sabe_no_responde"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "organizaciones_extraterritoriales"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "otros_servicios"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "profesionales_cientificas_tecnicas"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "salud_asistencia_social"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "servicios_administrativos_apoyo"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "suministro_agua"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "total"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total",
+          "branch": "transporte_almacenamiento"
+        }
+      ],
+      "dimension_labels": {
+        "branch": [
+          {
+            "id": "total",
+            "label": "Población ocupada (total)"
+          },
+          {
+            "id": "agricultura_ganaderia_silvicultura_pesca",
+            "label": "Agricultura, ganadería, silvicultura y pesca"
+          },
+          {
+            "id": "mineria",
+            "label": "Explotación de minas y canteras"
+          },
+          {
+            "id": "industria_manufacturera",
+            "label": "Industrias manufactureras"
+          },
+          {
+            "id": "electricidad_gas_vapor_aire",
+            "label": "Suministro de electricidad, gas, vapor y aire acondicionado"
+          },
+          {
+            "id": "suministro_agua",
+            "label": "Suministro de agua"
+          },
+          {
+            "id": "construccion",
+            "label": "Construcción"
+          },
+          {
+            "id": "comercio",
+            "label": "Comercio al por mayor y al por menor"
+          },
+          {
+            "id": "transporte_almacenamiento",
+            "label": "Transporte y almacenamiento"
+          },
+          {
+            "id": "alojamiento_comidas",
+            "label": "Actividades de alojamiento y de servicio de comidas"
+          },
+          {
+            "id": "informacion_comunicaciones",
+            "label": "Información y comunicaciones"
+          },
+          {
+            "id": "finanzas_seguros",
+            "label": "Actividades financieras y de seguros"
+          },
+          {
+            "id": "actividades_inmobiliarias",
+            "label": "Actividades inmobiliarias"
+          },
+          {
+            "id": "profesionales_cientificas_tecnicas",
+            "label": "Actividades profesionales, científicas y técnicas"
+          },
+          {
+            "id": "servicios_administrativos_apoyo",
+            "label": "Actividades de servicios administrativos y de apoyo"
+          },
+          {
+            "id": "administracion_publica_defensa",
+            "label": "Administración pública y defensa"
+          },
+          {
+            "id": "ensenanza",
+            "label": "Enseñanza"
+          },
+          {
+            "id": "salud_asistencia_social",
+            "label": "Actividades de atención de la salud humana y de asistencia social"
+          },
+          {
+            "id": "artisticas_entretenimiento_recreativas",
+            "label": "Actividades artísticas, de entretenimiento y recreativas"
+          },
+          {
+            "id": "otros_servicios",
+            "label": "Otras actividades de servicios"
+          },
+          {
+            "id": "hogares_empleadores",
+            "label": "Actividades de los hogares como empleadores"
+          },
+          {
+            "id": "organizaciones_extraterritoriales",
+            "label": "Actividades de organizaciones y órganos extraterritoriales"
+          },
+          {
+            "id": "no_sabe_no_responde",
+            "label": "No sabe / No responde [2]"
+          }
+        ]
+      },
       "quality_codes": {
         "sin_advertencia": "Sin nota de advertencia en el Excel",
         "a": "Estimación poco fiable según el INE",
