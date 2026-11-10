@@ -1,7 +1,7 @@
 source("R/indicadores_principales.R")
 stopifnot(
-  identical(ip_period(c("2010", "2010", "2010"), c("Ene - Mar", "Nov - Ene", "Dic - Feb")),
-            c("2010-02", "2010-12", "2011-01")),
+  identical(ip_period(c("2010", "2010", "2011", "2026"), c("Ene - Mar", "Nov - Ene", "Dic - Feb", "Jul - Sep")),
+            c("2010-02", "2010-12", "2011-01", "2026-08")),
   length(ip_sheet_map(ip_config())) == 19L,
   length(ip_config()$indicators) == 13L,
   !anyDuplicated(vapply(ip_config()$indicators, function(x) x$id, character(1)))
@@ -15,6 +15,8 @@ if (file.exists(path)) {
     all(data$quality %in% c("sin_advertencia", "poco_fiable", "no_fiable")),
     all(data$region != "nacional" | data$sex %in% c("total", "hombre", "mujer")),
     all(data$region == "nacional" | data$sex == "total"),
+    max(data$period) == "2026-08",
+    min(data$period) == "2010-02",
     !anyDuplicated(data[c("period", "region", "sex", "indicator")])
   )
 }
