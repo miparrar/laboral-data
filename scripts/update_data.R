@@ -3,11 +3,17 @@ source("R/indicadores_principales.R")
 
 sources <- yaml::read_yaml("config/fuentes.yml")$sources
 args <- commandArgs(trailingOnly = TRUE)
-inputs <- list(
-  indicadores_principales = sub("^--input=", "", args[grepl("^--input=", args)]),
-  complementarios = sub("^--complementarios-input=", "", args[grepl("^--complementarios-input=", args)])
-)
-if (any(lengths(inputs) > 1L)) stop("Solo una ruta por fuente.", call. = FALSE)
+# --input= se mantiene como alias histórico para indicadores_principales.
+input_args <- args[grepl("^--(input|[a-z_]+-input)=", args)]
+inputs <- stats::setNames(vector("list", length(sources)), names(sources))
+for (argument in input_args) {
+  key <- sub("^--([^=]+)=.*$", "\\1", argument)
+  id <- if (identical(key, "input")) "indicadores_principales" else
+    sub("-input$", "", key)
+  if (!id %in% names(sources)) stop("Fuente desconocida: ", id)
+  if (length(inputs[[id]])) stop("Solo una ruta por fuente: ", id)
+  inputs[[id]] <- sub("^[^=]+=", "", argument)
+}
 dir.create("data_raw", recursive = TRUE, showWarnings = FALSE)
 
 datasets <- purrr::imap(sources, function(source, id) {
@@ -44,8 +50,8 @@ datasets <- purrr::imap(datasets, function(entry, id) {
   message(id, ": ", nrow(entry$data), " estimaciones, ",
           dplyr::n_distinct(entry$data$period), " períodos, ",
           dplyr::n_distinct(paste(entry$data$region, entry$data$sex)), " coberturas")
-  if (id == "complementarios" && dplyr::n_distinct(entry$data$indicator) != 15L) {
-    stop("La fuente complementarios no contiene los 15 indicadores esperados.")
+  if (dplyr::n_distinct(entry$data$indicator) != length(entry$config$indicators)) {
+    stop("Cobertura de indicadores incorrecta en: ", id)
   }
   entry
 })
