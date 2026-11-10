@@ -20,6 +20,7 @@ if (file.exists(manifest_path)) {
   previous <- jsonlite::fromJSON(manifest_path, simplifyVector = FALSE)
   old <- previous$datasets[[1L]]$source_sha256
   if (identical(old, hash) &&
+      identical(previous$datasets[[1L]]$parser_version, 2L) &&
       file.exists("api/v1/catalog.json") &&
       file.exists("api/v1/series/indicadores_principales.json")) {
     message("Sin cambios en el Excel (SHA-256 coincide); no se reescriben los JSON.")
