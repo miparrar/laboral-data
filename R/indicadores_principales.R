@@ -23,18 +23,18 @@ ip_period <- function(year, quarter) {
   sprintf("%04d-%02d", yy, mm)
 }
 
-ip_process_sheet <- function(path, sheet, config) {
+tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_row = 8L) {
   raw <- readxl::read_excel(
-    path, sheet = sheet, skip = 5L, col_names = FALSE,
+    path, sheet = sheet, skip = header_row - 1L, col_names = FALSE,
     col_types = "text", .name_repair = "minimal"
   )
-  if (ncol(raw) < 28L) {
-    stop(sprintf("La hoja %s tiene menos de 28 columnas.", sheet), call. = FALSE)
+  if (ncol(raw) < 4L || (ncol(raw) - 2L) %% 2L != 0L) {
+    stop(sprintf("Pares de columnas (nota, valor) inválidos en %s.", sheet), call. = FALSE)
   }
   names(raw) <- paste0("V", seq_along(raw))
   headers <- unlist(raw[1, ], use.names = FALSE)
   subheaders <- unlist(raw[2, ], use.names = FALSE)
-  starts <- seq.int(3L, 27L, by = 2L)
+  starts <- seq.int(3L, ncol(raw) - 1L, by = 2L)
   specs <- config$indicators
 
   if (length(specs) != length(starts) ||
@@ -51,14 +51,21 @@ ip_process_sheet <- function(path, sheet, config) {
     stop(sprintf("Unidades inesperadas en hoja %s.", sheet), call. = FALSE)
   }
 
-  values <- raw[-c(1L, 2L), , drop = FALSE] |>
+  if (data_row <= header_row + 1L) stop("data_row debe seguir a las dos filas de encabezado.", call. = FALSE)
+  values <- raw[-seq_len(data_row - header_row), , drop = FALSE] |>
     dplyr::filter(stringr::str_detect(.data$V1, "^[0-9]{4}$"))
   if (!nrow(values)) {
     stop(sprintf("Hoja %s sin observaciones.", sheet), call. = FALSE)
   }
   periods <- ip_period(values$V1, values$V2)
-  region <- unname(ip_sheet_map(config)[[sheet]])
-  sex <- switch(sheet, AS = "total", H = "hombre", M = "mujer", "total")
+  sheet_dimensions <- config$sheet_dimensions[[sheet]]
+  if (!is.null(sheet_dimensions)) {
+    region <- sheet_dimensions$region
+    sex <- sheet_dimensions$sex
+  } else {
+    region <- unname(ip_sheet_map(config)[[sheet]])
+    sex <- switch(sheet, AS = "total", H = "hombre", M = "mujer", "total")
+  }
 
   purrr::map2_dfr(starts, specs, function(col, spec) {
     note <- trimws(values[[col]])
@@ -89,13 +96,17 @@ ip_process_sheet <- function(path, sheet, config) {
   })
 }
 
+ip_process_sheet <- function(path, sheet, config) {
+  tabulado_process_sheet(path, sheet, config)
+}
+
 ip_process <- function(path, config = ip_config()) {
   available <- readxl::excel_sheets(path)
   expected <- names(ip_sheet_map(config))
-  if (!setequal(available, c("índice", expected))) {
+  if (length(available) < 2L || !setequal(available[-1L], expected)) {
     stop(paste0("Inventario de hojas cambiado. Faltan: ",
                 paste(setdiff(expected, available), collapse = ", "),
-                "; nuevas: ", paste(setdiff(available, c("índice", expected)), collapse = ", ")),
+                "; nuevas: ", paste(setdiff(available[-1L], expected), collapse = ", ")),
          call. = FALSE)
   }
   result <- purrr::map_dfr(expected, ~ ip_process_sheet(path, .x, config)) |>
