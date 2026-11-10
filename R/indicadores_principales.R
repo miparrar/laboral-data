@@ -49,11 +49,15 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
       anyNA(headers[starts]) ||
       any(!nzchar(trimws(headers[starts]))) ||
       any(tolower(trimws(subheaders[starts])) != "nota") ||
-      any(!tolower(trimws(subheaders[starts + 1L])) %in% c("en miles", "tasa (%)"))) {
+      any(!tolower(trimws(subheaders[starts + 1L])) %in% c("en miles", "tasa (%)", "en horas"))) {
     stop(sprintf("Encabezados inesperados en hoja %s.", sheet), call. = FALSE)
   }
   expected_units <- vapply(specs, function(x) {
-    if (identical(x$unit, "percent")) "tasa (%)" else "en miles"
+    switch(x$unit,
+           percent = "tasa (%)",
+           thousand_persons = "en miles",
+           hours = "en horas",
+           stop("Unidad no declarada: ", x$unit))
   }, character(1))
   if (!identical(tolower(trimws(subheaders[starts + 1L])), expected_units)) {
     stop(sprintf("Unidades inesperadas en hoja %s.", sheet), call. = FALSE)
