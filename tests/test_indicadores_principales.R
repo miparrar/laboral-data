@@ -43,3 +43,25 @@ if (file.exists(comp_path)) {
     !anyDuplicated(comp[c("period", "region", "sex", "indicator")])
   )
 }
+
+# Contrato de publicación: todas las fuentes y series deben estar presentes.
+manifest <- jsonlite::fromJSON("api/v1/manifest.json", simplifyVector = FALSE)
+catalog <- jsonlite::fromJSON("api/v1/catalog.json", simplifyVector = FALSE)
+sources <- names(yaml::read_yaml("config/fuentes.yml")$sources)
+manifest_ids <- vapply(manifest$datasets, function(x) x$id, character(1))
+catalog_ids <- vapply(catalog$datasets, function(x) x$id, character(1))
+stopifnot(setequal(manifest_ids, sources), setequal(catalog_ids, sources))
+for (id in sources) {
+  entry <- purrr::detect(manifest$datasets, ~ identical(.x$id, id))
+  description <- purrr::detect(catalog$datasets, ~ identical(.x$id, id))
+  file <- file.path("api/v1", entry$path)
+  stopifnot(file.exists(file), identical(entry$status, "ok"))
+  series <- jsonlite::fromJSON(file, simplifyVector = FALSE)
+  stopifnot(
+    identical(series$id, id),
+    length(series$observations) == entry$observations,
+    length(description$coverage) == 19L,
+    length(description$indicators) == if (id == "complementarios") 15L else 13L
+  )
+}
+message("Contrato JSON y cobertura de ambas fuentes validados.")
