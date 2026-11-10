@@ -1,10 +1,10 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T02:12:43Z",
+  "updated_at": "2026-11-10T02:27:27Z",
   "datasets": [
     {
       "id": "indicadores_principales",
-      "title": "Indicadores principales de empleo",
+      "title": "Indicadores principales ENE",
       "path": "series/indicadores_principales.json",
       "frequency": "rolling_quarter",
       "indicators": [
@@ -155,7 +155,175 @@
       "quality_codes": {
         "sin_advertencia": "Sin nota de advertencia en el Excel",
         "a": "Estimación poco fiable según el INE",
-        "b": "Estimación no fiable según el INE"
+        "b": "Estimación no fiable según el INE",
+        "sin_dato": "Valor no disponible en el archivo original"
+      }
+    },
+    {
+      "id": "complementarios",
+      "title": "Indicadores complementarios a la tasa de desocupación ENE",
+      "path": "series/complementarios.json",
+      "frequency": "rolling_quarter",
+      "indicators": [
+        {
+          "id": "fuerza_trabajo",
+          "label": "Fuerza de trabajo (FT)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "ocupados",
+          "label": "Personas ocupadas (O)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "desocupados",
+          "label": "Personas desocupadas (DO)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "iniciadores_disponibles",
+          "label": "Personas iniciadoras disponibles (ID)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tiempo_parcial_involuntario",
+          "label": "Personas ocupados/as que trabajan a tiempo parcial involuntario (TPI) [2]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "ocupados_buscaron_empleo",
+          "label": "Personas ocupados/as que buscaron empleo (OBE) [3]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "fuerza_trabajo_potencial",
+          "label": "Fuerza de trabajo potencial (FTP) [4]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "fuerza_trabajo_ampliada",
+          "label": "Fuerza de trabajo ampliada (FTA) [5]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "deseo_trabajar",
+          "label": "Deseo de trabajar [6]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tasa_desocupacion",
+          "label": "Tasa de desocupación",
+          "unit": "percent"
+        },
+        {
+          "id": "tasa_presion_laboral",
+          "label": "Tasa de presión laboral [7]",
+          "unit": "percent"
+        },
+        {
+          "id": "su1",
+          "label": "Tasa de desocupación con iniciadores disponibles (SU1) [8]",
+          "unit": "percent"
+        },
+        {
+          "id": "su2",
+          "label": "Tasa combinada de desocupación y tiempo parcial involuntario (SU2) [9]",
+          "unit": "percent"
+        },
+        {
+          "id": "su3",
+          "label": "Tasa combinada de desocupación y fuerza de trabajo potencial (SU3) [10]",
+          "unit": "percent"
+        },
+        {
+          "id": "su4",
+          "label": "Tasa global de subutilización (SU4) [11]",
+          "unit": "percent"
+        }
+      ],
+      "coverage": [
+        {
+          "region": "antofagasta",
+          "sex": "total"
+        },
+        {
+          "region": "araucania",
+          "sex": "total"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total"
+        },
+        {
+          "region": "atacama",
+          "sex": "total"
+        },
+        {
+          "region": "aysen",
+          "sex": "total"
+        },
+        {
+          "region": "biobio",
+          "sex": "total"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total"
+        },
+        {
+          "region": "maule",
+          "sex": "total"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer"
+        },
+        {
+          "region": "nacional",
+          "sex": "total"
+        },
+        {
+          "region": "nuble",
+          "sex": "total"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total"
+        }
+      ],
+      "quality_codes": {
+        "sin_advertencia": "Sin nota de advertencia en el Excel",
+        "a": "Estimación poco fiable según el INE",
+        "b": "Estimación no fiable según el INE",
+        "sin_dato": "Valor no disponible en el archivo original"
       }
     }
   ]
