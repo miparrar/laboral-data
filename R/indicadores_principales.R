@@ -15,7 +15,7 @@ ip_period <- function(year, quarter) {
   months <- c(ene = 1L, feb = 2L, mar = 3L, abr = 4L, may = 5L,
               jun = 6L, jul = 7L, ago = 8L, sep = 9L, oct = 10L,
               nov = 11L, dic = 12L)
-  initial <- stringr::str_to_lower(stringr::str_sub(quarter, 1L, 3L))
+  initial <- stringr::str_to_lower(stringr::str_sub(trimws(quarter), 1L, 3L))
   month <- unname(months[initial])
   if (anyNA(month)) stop("Trimestres móviles no reconocidos.", call. = FALSE)
   yy <- as.integer(year) + as.integer(month == 12L)
@@ -29,6 +29,13 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
     col_types = "text", .name_repair = "minimal"
   )
   if (ncol(raw) < 4L || (ncol(raw) - 2L) %% 2L != 0L) {
+    stop(sprintf("Pares de columnas (nota, valor) inválidos en %s.", sheet), call. = FALSE)
+  }
+  # Ignora columnas finales completamente vacías (formato residual de Excel).
+  while (ncol(raw) > 2L && all(is.na(raw[[ncol(raw)]]) | trimws(raw[[ncol(raw)]]) == "")) {
+    raw <- raw[, -ncol(raw), drop = FALSE]
+  }
+  if ((ncol(raw) - 2L) %% 2L != 0L) {
     stop(sprintf("Pares de columnas (nota, valor) inválidos en %s.", sheet), call. = FALSE)
   }
   names(raw) <- paste0("V", seq_along(raw))
@@ -81,6 +88,8 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
     }
     tibble::tibble(
       period = periods,
+      anio = as.integer(values$V1),
+      trimestre_movil = trimws(values$V2),
       region = region,
       sex = sex,
       indicator = spec$id,
@@ -115,7 +124,8 @@ ip_process <- function(path, config = ip_config()) {
   if (anyDuplicated(result[c("period", "region", "sex", "indicator")])) {
     stop("Observaciones duplicadas en la clave estadística.", call. = FALSE)
   }
-  if (anyNA(result$period) || anyNA(result$quality)) {
+  if (anyNA(result$period) || anyNA(result$quality) ||
+      anyNA(result$anio) || anyNA(result$trimestre_movil)) {
     stop("Valores de período/calidad incompletos.", call. = FALSE)
   }
   if (dplyr::n_distinct(result$indicator) != length(config$indicators) ||
