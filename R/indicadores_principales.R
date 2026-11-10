@@ -83,8 +83,13 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
       stop(sprintf("Notas de calidad desconocidas en %s: %s",
                    sheet, paste(unexpected, collapse = ", ")), call. = FALSE)
     }
-    value <- suppressWarnings(as.numeric(values[[col + 1L]]))
-    if (anyNA(value) || any(!is.finite(value))) {
+    raw_value <- trimws(values[[col + 1L]])
+    missing <- is.na(raw_value) | raw_value %in% c("-", "")
+    if (any(missing) && !isTRUE(config$allow_missing_values)) {
+      stop(sprintf("Valores ausentes no esperados en %s / %s.", sheet, spec$id), call. = FALSE)
+    }
+    value <- suppressWarnings(as.numeric(raw_value))
+    if (any(!missing & (is.na(value) | !is.finite(value)))) {
       stop(sprintf("Valores no numéricos en %s / %s.", sheet, spec$id), call. = FALSE)
     }
     tibble::tibble(
@@ -98,6 +103,7 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
       unit = spec$unit,
       quality_code = note,
       quality = dplyr::case_when(
+        missing ~ "sin_dato",
         is.na(note) ~ "sin_advertencia",
         note == "a" ~ "poco_fiable",
         note == "b" ~ "no_fiable"
@@ -131,72 +137,69 @@ ip_process <- function(path, config = ip_config()) {
   }
   if (dplyr::n_distinct(result$indicator) != length(config$indicators) ||
       dplyr::n_distinct(result$period) < 1L) {
-    stop("Cobertura insuficiente en indicadores principales.", call. = FALSE)
+    stop("Cobertura insuficiente en el tabulado.", call. = FALSE)
   }
   result
 }
 
-ip_publish <- function(data, path, source_url, hash,
-                       root = "api/v1") {
+# Publicación conjunta de tabulados que comparten el mismo contrato JSON.
+ip_publish <- function(datasets, root = "api/v1") {
   dir.create(file.path(root, "series"), recursive = TRUE, showWarnings = FALSE)
-  series_path <- "series/indicadores_principales.json"
   updated_at <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
-  config <- ip_config()
+  catalogs <- list()
+  manifests <- list()
 
-  # Coberturas existentes, no el producto cartesiano región × sexo.
-  coverage <- data |>
-    dplyr::distinct(.data$region, .data$sex) |>
-    dplyr::arrange(.data$region, .data$sex)
+  for (id in names(datasets)) {
+    entry <- datasets[[id]]
+    data <- entry$data
+    config <- entry$config
+    series_path <- paste0("series/", id, ".json")
+    coverage <- data |>
+      dplyr::distinct(.data$region, .data$sex) |>
+      dplyr::arrange(.data$region, .data$sex)
 
-  series <- list(
-    schema_version = 1L,
-    id = "indicadores_principales",
-    source = "Instituto Nacional de Estadísticas (Chile)",
-    source_url = source_url,
-    source_sha256 = hash,
-    frequency = "rolling_quarter",
-    observations = data
-  )
-  catalog <- list(
-    schema_version = 1L,
-    updated_at = updated_at,
-    datasets = list(list(
-      id = "indicadores_principales",
-      title = "Indicadores principales de empleo",
-      path = series_path,
+    series <- list(
+      schema_version = 1L, id = id,
+      source = "Instituto Nacional de Estadísticas (Chile)",
+      source_url = entry$source_url,
+      source_sha256 = entry$hash,
       frequency = "rolling_quarter",
-      indicators = config$indicators,
-      coverage = coverage,
+      observations = data
+    )
+    jsonlite::write_json(
+      series, file.path(root, series_path), pretty = TRUE,
+      auto_unbox = TRUE, dataframe = "rows", na = "null", digits = NA
+    )
+
+    catalogs[[length(catalogs) + 1L]] <- list(
+      id = id, title = entry$title, path = series_path,
+      frequency = "rolling_quarter",
+      indicators = config$indicators, coverage = coverage,
       quality_codes = list(
         sin_advertencia = "Sin nota de advertencia en el Excel",
         a = "Estimación poco fiable según el INE",
-        b = "Estimación no fiable según el INE"
+        b = "Estimación no fiable según el INE",
+        sin_dato = "Valor no disponible en el archivo original"
       )
-    ))
-  )
-  manifest <- list(
-    schema_version = 1L,
-    updated_at = updated_at,
-    datasets = list(list(
-      id = "indicadores_principales",
-      path = series_path,
-      parser_version = 2L,
-      source_url = source_url,
-      source_sha256 = hash,
+    )
+    manifests[[length(manifests) + 1L]] <- list(
+      id = id, path = series_path, parser_version = 3L,
+      source_url = entry$source_url, source_sha256 = entry$hash,
       observations = nrow(data),
       first_period = min(data$period),
       last_period = max(data$period),
       status = "ok"
-    ))
-  )
-
-  write <- function(value, file) {
-    jsonlite::write_json(value, file.path(root, file),
-                         pretty = TRUE, auto_unbox = TRUE,
-                         dataframe = "rows", na = "null", digits = NA)
+    )
   }
-  write(series, series_path)
-  write(catalog, "catalog.json")
-  write(manifest, "manifest.json")
-  invisible(manifest)
+  jsonlite::write_json(
+    list(schema_version = 1L, updated_at = updated_at, datasets = catalogs),
+    file.path(root, "catalog.json"), pretty = TRUE, auto_unbox = TRUE,
+    dataframe = "rows", na = "null", digits = NA
+  )
+  jsonlite::write_json(
+    list(schema_version = 1L, updated_at = updated_at, datasets = manifests),
+    file.path(root, "manifest.json"), pretty = TRUE, auto_unbox = TRUE,
+    dataframe = "rows", na = "null", digits = NA
+  )
+  invisible(manifests)
 }
