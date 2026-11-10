@@ -1,0 +1,24 @@
+# Indicadores principales ENE por tramo etario (cobertura nacional, ambos sexos).
+# Se conservan los 13 pares nota/valor del cuadro; cada hoja es un tramo de edad.
+allow_missing_values: true
+sheet_dimensions:
+  "15-24": {region: nacional, sex: total, age_group: "15-24"}
+  "25-34": {region: nacional, sex: total, age_group: "25-34"}
+  "35-44": {region: nacional, sex: total, age_group: "35-44"}
+  "45-54": {region: nacional, sex: total, age_group: "45-54"}
+  "55-64": {region: nacional, sex: total, age_group: "55-64"}
+  "65-Más": {region: nacional, sex: total, age_group: "65+"}
+indicators:
+  - {id: poblacion_edad_trabajar, label: "Población en edad de trabajar", unit: thousand_persons}
+  - {id: fuerza_trabajo, label: "Fuerza de trabajo", unit: thousand_persons}
+  - {id: ocupados, label: "Población ocupada", unit: thousand_persons}
+  - {id: desocupados, label: "Población desocupada (Total)", unit: thousand_persons}
+  - {id: cesantes, label: "Población desocupada (Cesantes)", unit: thousand_persons}
+  - {id: buscan_primera_vez, label: "Población desocupada (Buscan trabajo por primera vez)", unit: thousand_persons}
+  - {id: fuera_fuerza_trabajo, label: "Fuera de la fuerza de trabajo (Total)", unit: thousand_persons}
+  - {id: inactivos_iniciadores, label: "Fuera de la fuerza de trabajo (Iniciadores)", unit: thousand_persons}
+  - {id: inactivos_potenciales, label: "Fuera de la fuerza de trabajo (Inactivos potencialmente activos)", unit: thousand_persons}
+  - {id: inactivos_habituales, label: "Fuera de la fuerza de trabajo (Inactivos habituales)", unit: thousand_persons}
+  - {id: tasa_desocupacion, label: "Tasa de desocupación", unit: percent}
+  - {id: tasa_ocupacion, label: "Tasa de ocupación", unit: percent}
+  - {id: tasa_participacion, label: "Tasa de participación", unit: percent}
