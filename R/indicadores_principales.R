@@ -7,6 +7,12 @@ ip_config <- function(path = "config/indicadores_principales.yml") {
 }
 
 ip_sheet_map <- function(config) {
+  if (!is.null(config$sheet_dimensions)) {
+    return(stats::setNames(
+      vapply(config$sheet_dimensions, function(x) x$region, character(1)),
+      names(config$sheet_dimensions)
+    ))
+  }
   c(AS = "nacional", H = "nacional", M = "nacional",
     unlist(config$regions, use.names = TRUE))
 }
@@ -102,6 +108,7 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
       trimestre_movil = trimws(values$V2),
       region = region,
       sex = sex,
+      age_group = if (is.null(sheet_dimensions$age_group)) NULL else sheet_dimensions$age_group,
       indicator = spec$id,
       value = value,
       unit = spec$unit,
@@ -132,7 +139,8 @@ ip_process <- function(path, config = ip_config()) {
   result <- purrr::map_dfr(expected, ~ ip_process_sheet(path, .x, config)) |>
     dplyr::arrange(.data$indicator, .data$region, .data$sex, .data$period)
 
-  if (anyDuplicated(result[c("period", "region", "sex", "indicator")])) {
+  key <- intersect(c("period", "region", "sex", "age_group", "indicator"), names(result))
+  if (anyDuplicated(result[key])) {
     stop("Observaciones duplicadas en la clave estadística.", call. = FALSE)
   }
   if (anyNA(result$period) || anyNA(result$quality) ||
@@ -158,9 +166,10 @@ ip_publish <- function(datasets, root = "api/v1") {
     data <- entry$data
     config <- entry$config
     series_path <- paste0("series/", id, ".json")
+    dimensions <- intersect(c("region", "sex", "age_group"), names(data))
     coverage <- data |>
-      dplyr::distinct(.data$region, .data$sex) |>
-      dplyr::arrange(.data$region, .data$sex)
+      dplyr::distinct(dplyr::across(dplyr::all_of(dimensions))) |>
+      dplyr::arrange(dplyr::across(dplyr::all_of(dimensions)))
 
     series <- list(
       schema_version = 1L, id = id,
