@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "updated_at": "2026-11-10T01:22:28Z",
+  "datasets": [
+    {
+      "id": "indicadores_principales",
+      "title": "Indicadores principales de empleo",
+      "path": "series/indicadores_principales.json",
+      "frequency": "rolling_quarter",
+      "indicators": [
+        {
+          "id": "poblacion_edad_trabajar",
+          "label": "Población en edad de trabajar",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "fuerza_trabajo",
+          "label": "Fuerza de trabajo",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "ocupados",
+          "label": "Población ocupada",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "desocupados",
+          "label": "Población desocupada (Total)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "cesantes",
+          "label": "Población desocupada (Cesantes)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "buscan_primera_vez",
+          "label": "Población desocupada (Buscan trabajo por primera vez)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "fuera_fuerza_trabajo",
+          "label": "Fuera de la fuerza de trabajo (Total)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "inactivos_iniciadores",
+          "label": "Fuera de la fuerza de trabajo (Iniciadores)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "inactivos_potenciales",
+          "label": "Fuera de la fuerza de trabajo (Inactivos potencialmente activos)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "inactivos_habituales",
+          "label": "Fuera de la fuerza de trabajo (Inactivos habituales)",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tasa_desocupacion",
+          "label": "Tasa de desocupación",
+          "unit": "percent"
+        },
+        {
+          "id": "tasa_ocupacion",
+          "label": "Tasa de ocupación",
+          "unit": "percent"
+        },
+        {
+          "id": "tasa_participacion",
+          "label": "Tasa de participación",
+          "unit": "percent"
+        }
+      ],
+      "coverage": [
+        {
+          "region": "antofagasta",
+          "sex": "total"
+        },
+        {
+          "region": "araucania",
+          "sex": "total"
+        },
+        {
+          "region": "arica_parinacota",
+          "sex": "total"
+        },
+        {
+          "region": "atacama",
+          "sex": "total"
+        },
+        {
+          "region": "aysen",
+          "sex": "total"
+        },
+        {
+          "region": "biobio",
+          "sex": "total"
+        },
+        {
+          "region": "coquimbo",
+          "sex": "total"
+        },
+        {
+          "region": "los_lagos",
+          "sex": "total"
+        },
+        {
+          "region": "los_rios",
+          "sex": "total"
+        },
+        {
+          "region": "magallanes",
+          "sex": "total"
+        },
+        {
+          "region": "maule",
+          "sex": "total"
+        },
+        {
+          "region": "metropolitana",
+          "sex": "total"
+        },
+        {
+          "region": "nacional",
+          "sex": "hombre"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer"
+        },
+        {
+          "region": "nacional",
+          "sex": "total"
+        },
+        {
+          "region": "nuble",
+          "sex": "total"
+        },
+        {
+          "region": "ohiggins",
+          "sex": "total"
+        },
+        {
+          "region": "tarapaca",
+          "sex": "total"
+        },
+        {
+          "region": "valparaiso",
+          "sex": "total"
+        }
+      ],
+      "quality_codes": {
+        "sin_advertencia": "Sin nota de advertencia en el Excel",
+        "a": "Estimación poco fiable según el INE",
+        "b": "Estimación no fiable según el INE"
+      }
+    }
+  ]
+}
