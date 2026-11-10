@@ -17,6 +17,7 @@ La actualización automática utiliza el [calendario de publicaciones ENE de `la
 - [Indicadores principales (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json).
 - [Indicadores complementarios (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json).
 - [Horas trabajadas (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/horas.json).
+- [Ocupación por rama de actividad (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/rama.json): total de ocupados y 22 categorías del cuadro (21 actividades y «No sabe / No responde»), por sexo a nivel nacional y por región para ambos sexos. Los registros incorporan `branch` y mantienen el indicador común `ocupados` (en miles). Nota: no sumar `branch=total` a las ramas; `no_sabe_no_responde` no es una actividad económica.
 - [Indicadores principales por tramo etario (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales_edad.json): 13 indicadores, seis tramos nacionales de 15–24 a 65 años o más. Las observaciones incluyen `age_group` (`15-24`, `25-34`, `35-44`, `45-54`, `55-64` o `65+`), además de `region` y `sex`.
 
 Ejemplo en R:
