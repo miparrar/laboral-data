@@ -66,6 +66,10 @@ jobs:
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
             git commit -m "data: refresh official ENE indicators"
+            # Las ejecuciones pueden comenzar sobre un main anterior.
+            # Integramos primero commits nuevos sin reescribir el historial.
+            git fetch origin main
+            git rebase origin/main
             git push origin HEAD:main
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
