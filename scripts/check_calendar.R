@@ -31,14 +31,26 @@ eligible <- rows[rows$fecha < today | (rows$fecha == today & rows$hora <= clock)
 if (!nrow(eligible)) stop("No existe una publicación ENE anterior a la fecha actual.")
 
 expected <- max(eligible$periodo)
+sources <- names(yaml::read_yaml("config/fuentes.yml")$sources)
 manifest_path <- "api/v1/manifest.json"
-actual <- if (file.exists(manifest_path)) {
-  jsonlite::fromJSON(manifest_path)$datasets$last_period[[1]]
+entries <- if (file.exists(manifest_path)) {
+  jsonlite::fromJSON(manifest_path, simplifyVector = FALSE)$datasets
 } else {
-  ""
+  list()
 }
-due <- !nzchar(actual) || actual < expected
+due_by_source <- vapply(sources, function(id) {
+  entry <- purrr::detect(entries, ~ identical(.x$id, id))
+  is.null(entry) ||
+    is.null(entry$last_period) ||
+    entry$last_period < expected ||
+    !file.exists(file.path("api/v1/series", paste0(id, ".json")))
+}, logical(1))
+due <- any(due_by_source)
 out <- Sys.getenv("GITHUB_OUTPUT")
 if (nzchar(out)) cat(sprintf("due=%s\n", tolower(as.character(due))), file = out, append = TRUE)
-message(sprintf("Calendario ENE: último período publicado esperado=%s; manifest=%s; actualizar=%s",
-                expected, actual, due))
+message(sprintf(
+  "Calendario ENE: período esperado=%s; pendientes=%s; actualizar=%s",
+  expected,
+  if (due) paste(names(due_by_source)[due_by_source], collapse = ", ") else "ninguno",
+  due
+))
