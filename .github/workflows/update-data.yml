@@ -56,22 +56,6 @@ jobs:
         if: github.event_name == 'schedule'
         run: Rscript scripts/check_calendar.R
 
-      - name: Inspect new hours workbook with R
-        if: github.event_name != 'schedule'
-        run: |
-          mkdir -p data_raw
-          Rscript -e 'utils::download.file("https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205", "data_raw/horas.xlsx", mode = "wb", quiet = TRUE)'
-          Rscript scripts/inspect_tabulado.R data_raw/horas.xlsx config/horas_layout.json
-          git add config/horas_layout.json
-          if ! git diff --cached --quiet; then
-            git config user.name "github-actions[bot]"
-            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "data: inspect ENE hours workbook structure"
-            git fetch origin main
-            git rebase origin/main
-            git push origin HEAD:main
-          fi
-
       - name: Download, normalize and validate
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         run: |
@@ -104,11 +88,12 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         shell: bash
         run: |
-          for NAME in indicadores_principales complementarios; do
-            HASH=$(sha256sum "data_raw/$NAME.xlsx" | cut -d' ' -f1)
+          for FILE in data_raw/*.xlsx; do
+            NAME=$(basename "$FILE" .xlsx)
+            HASH=$(sha256sum "$FILE" | cut -d' ' -f1)
             TAG="source-$NAME-${HASH:0:16}"
             if ! gh release view "$TAG" >/dev/null 2>&1; then
-              gh release create "$TAG" "data_raw/$NAME.xlsx" \
+              gh release create "$TAG" "$FILE" \
                 --title "INE $NAME (${HASH:0:16})" \
                 --notes "Archivo original INE, SHA-256: $HASH" \
                 --latest=false
