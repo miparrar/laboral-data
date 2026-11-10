@@ -16,6 +16,7 @@ La actualización automática utiliza el [calendario de publicaciones ENE de `la
 - [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): versiones, cobertura temporal y archivos.
 - [Indicadores principales (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json).
 - [Indicadores complementarios (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json).
+- [Horas trabajadas (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/horas.json).
 
 Ejemplo en R:
 
