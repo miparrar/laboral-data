@@ -20,3 +20,10 @@ sources:
     parser: "tabulado_pares_v1"
     frequency: "rolling_quarter"
     source: "Instituto Nacional de Estadísticas (Chile)"
+  indicadores_principales_edad:
+    name: "Indicadores principales ENE por tramo de edad"
+    url: "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_edad.xlsx?sfvrsn=3fc0d55f_36"
+    file: "indicadores_principales_edad.xlsx"
+    parser: "tabulado_pares_v1"
+    frequency: "rolling_quarter"
+    source: "Instituto Nacional de Estadísticas (Chile)"
