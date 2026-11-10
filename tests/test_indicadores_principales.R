@@ -66,6 +66,35 @@ if (file.exists(horas_path)) {
   )
 }
 
+# Principales por edad: seis tramos nacionales, ambos sexos, 13 indicadores.
+edad_cfg <- yaml::read_yaml("config/indicadores_principales_edad.yml")
+tramos <- c("15-24", "25-34", "35-44", "45-54", "55-64", "65+")
+stopifnot(
+  identical(names(ip_sheet_map(edad_cfg)),
+            c("15-24", "25-34", "35-44", "45-54", "55-64", "65-Más")),
+  identical(vapply(edad_cfg$sheet_dimensions, function(x) x$age_group, character(1)),
+            stats::setNames(tramos, names(edad_cfg$sheet_dimensions))),
+  length(edad_cfg$indicators) == 13L,
+  isTRUE(edad_cfg$allow_missing_values),
+  !anyDuplicated(vapply(edad_cfg$indicators, function(x) x$id, character(1)))
+)
+edad_path <- "data_raw/indicadores_principales_edad.xlsx"
+if (file.exists(edad_path)) {
+  edad <- ip_process(edad_path, edad_cfg)
+  periodos <- dplyr::n_distinct(edad$period)
+  stopifnot(
+    nrow(edad) == 6L * 13L * periodos,
+    dplyr::n_distinct(edad$indicator) == 13L,
+    setequal(unique(edad$age_group), tramos),
+    all(edad$region == "nacional"),
+    all(edad$sex == "total"),
+    all(edad$quality %in% c("sin_advertencia", "poco_fiable", "no_fiable", "sin_dato")),
+    all(is.na(edad$value) == (edad$quality == "sin_dato")),
+    min(edad$period) == "2010-02",
+    !anyDuplicated(edad[c("period", "region", "sex", "age_group", "indicator")])
+  )
+}
+
 # Contrato de publicación: todas las fuentes y series deben estar presentes.
 manifest <- jsonlite::fromJSON("api/v1/manifest.json", simplifyVector = FALSE)
 catalog <- jsonlite::fromJSON("api/v1/catalog.json", simplifyVector = FALSE)
