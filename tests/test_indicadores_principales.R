@@ -15,9 +15,31 @@ if (file.exists(path)) {
     all(data$quality %in% c("sin_advertencia", "poco_fiable", "no_fiable")),
     all(data$region != "nacional" | data$sex %in% c("total", "hombre", "mujer")),
     all(data$region == "nacional" | data$sex == "total"),
-    max(data$period) == "2026-08",
+    max(data$period) >= "2026-08",
     min(data$period) == "2010-02",
     !anyDuplicated(data[c("period", "region", "sex", "indicator")])
   )
 }
 message("Pruebas completadas.")
+
+# Complementarios reutiliza el mismo parser para 15 indicadores y 19 coberturas.
+comp_cfg <- yaml::read_yaml("config/complementarios.yml")
+stopifnot(
+  length(ip_sheet_map(comp_cfg)) == 19L,
+  length(comp_cfg$indicators) == 15L,
+  isTRUE(comp_cfg$allow_missing_values),
+  !anyDuplicated(vapply(comp_cfg$indicators, function(x) x$id, character(1)))
+)
+comp_path <- "data_raw/complementarios.xlsx"
+if (file.exists(comp_path)) {
+  comp <- ip_process(comp_path, comp_cfg)
+  stopifnot(
+    nrow(comp) == 19L * 15L * dplyr::n_distinct(comp$period),
+    dplyr::n_distinct(comp$indicator) == 15L,
+    dplyr::n_distinct(paste(comp$region, comp$sex)) == 19L,
+    all(comp$quality %in% c("sin_advertencia", "poco_fiable", "no_fiable", "sin_dato")),
+    all(is.na(comp$value) == (comp$quality == "sin_dato")),
+    min(comp$period) == "2010-02",
+    !anyDuplicated(comp[c("period", "region", "sex", "indicator")])
+  )
+}
