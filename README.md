@@ -1,28 +1,23 @@
 # laboral-data
 
-**laboral-data transforma los tabulados de la Encuesta Nacional de Empleo (ENE) publicados por el INE en datos JSON estructurados, validados y accesibles públicamente.** Su objetivo es facilitar la consulta de las cifras oficiales sin tener que procesar los archivos Excel en cada uso.
+**laboral-data transforma los tabulados que publica el Instituto Nacional de Estadísticas (INE) para la Encuesta Nacional de Empleo (ENE) en archivos JSON estructurados, validados y accesibles públicamente.**
+
+La descripción de las estadísticas, sus definiciones y los tabulados originales se encuentran en la [página oficial de Ocupación y Desocupación del INE](https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion).
 
 ## Cómo funciona
 
-1. **Descarga** los archivos Excel oficiales desde el INE.
-2. **Procesa** las hojas de datos con R: la primera hoja es el índice; las columnas A y B contienen año y trimestre móvil; desde la fila 8, cada indicador utiliza un par de columnas (nota de calidad y valor).
-3. **Normaliza** las observaciones por período, indicador y dimensiones disponibles (sexo y territorio, cuando corresponde), conservando valores y notas originales: sin advertencia, `a` (poco fiable) y `b` (no fiable). Las magnitudes de población se expresan en miles y las tasas en porcentaje.
-4. **Valida y publica** los JSON. GitHub conserva las versiones; GitHub Releases archiva los Excel originales y GitHub Pages distribuye los datos.
+El proyecto descarga los Excel del INE, los procesa con R y normaliza las observaciones y sus notas de calidad. Luego valida los resultados y publica archivos JSON mediante GitHub Pages. Los Excel originales se respaldan en GitHub Releases.
 
-La actualización automática consulta el [calendario de publicaciones ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). GitHub Actions comprueba diariamente si hay una publicación pendiente y, cuando corresponde, vuelve a descargar y procesar el Excel completo para incorporar también posibles revisiones históricas. Puede ejecutarse manualmente.
+La actualización automática utiliza el [calendario de publicaciones ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). También puede ejecutarse manualmente.
 
-## Datos disponibles
+## Consumo de datos
 
-Se publican **Indicadores principales** (13 indicadores) e **Indicadores complementarios a la tasa de desocupación** (15 indicadores, incluidos SU1–SU4). Ambos cubren el total nacional, hombres, mujeres y las 16 regiones (sin desagregación regional por sexo). Los valores no disponibles en el Excel se conservan como `null`.
+- [Catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json): conjuntos de datos y variables disponibles.
+- [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): versiones, cobertura temporal y archivos.
+- [Indicadores principales (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json).
+- [Indicadores complementarios (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json).
 
-Para consumirlos, consulta:
-
-- [Catálogo de indicadores](https://miparrar.github.io/laboral-data/api/v1/catalog.json): variables y cobertura.
-- [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): períodos, origen, versión y archivos.
-- [Indicadores principales](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json): cifras y calidad de cada observación.
-- [Indicadores complementarios](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json): subutilización, presión laboral y otros indicadores.
-
-En R:
+Ejemplo en R:
 
 ```r
 datos <- jsonlite::fromJSON(
@@ -30,20 +25,10 @@ datos <- jsonlite::fromJSON(
 )
 ```
 
-## Desarrollo
-
-Requiere R y los paquetes declarados en el `Makefile`. Desde la raíz del repositorio:
+## Ejecución local
 
 ```bash
 make deps
 make update
 make test
 ```
-
-Para trabajar con un Excel local:
-
-```bash
-Rscript scripts/update_data.R --input="/ruta/indicadores_principales.xlsx"
-```
-
-Los archivos descargados durante la ejecución quedan en `data_raw/`, fuera del control de versiones. Los JSON se publican en `api/v1/`.
