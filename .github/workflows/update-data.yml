@@ -56,6 +56,13 @@ jobs:
         if: github.event_name == 'schedule'
         run: Rscript scripts/check_calendar.R
 
+      - name: Inspect new hours workbook with R
+        if: github.event_name != 'schedule'
+        run: |
+          mkdir -p data_raw
+          curl -fLsS --retry 3 --output data_raw/horas.xlsx 'https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205'
+          Rscript scripts/inspect_tabulado.R data_raw/horas.xlsx config/horas_layout.json
+
       - name: Download, normalize and validate
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         run: |
@@ -67,7 +74,7 @@ jobs:
         id: commit
         shell: bash
         run: |
-          git add api/v1/
+          git add api/v1/ config/horas_layout.json
           if git diff --cached --quiet; then
             echo "changed=false" >> "$GITHUB_OUTPUT"
           else
