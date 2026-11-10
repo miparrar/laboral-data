@@ -61,6 +61,7 @@ jobs:
         run: |
           make update
           make test
+          Rscript -e 'm <- jsonlite::fromJSON("api/v1/manifest.json"); stopifnot(setequal(m$datasets$id, names(yaml::read_yaml("config/fuentes.yml")$sources))); message("Publicación validada: ", paste(m$datasets$id, collapse = ", "))'
 
       - name: Commit versioned JSON if changed
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
@@ -73,7 +74,7 @@ jobs:
           else
             git config user.name "github-actions[bot]"
             git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-            git commit -m "data: refresh official ENE indicators"
+            git commit -m "data: refresh official ENE tabulados"
             # Las ejecuciones pueden comenzar sobre un main anterior.
             # Integramos primero commits nuevos sin reescribir el historial.
             git fetch origin main
