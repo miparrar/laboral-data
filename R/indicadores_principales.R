@@ -28,8 +28,8 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
     path, sheet = sheet, skip = header_row - 1L, col_names = FALSE,
     col_types = "text", .name_repair = "minimal"
   )
-  if (ncol(raw) < 4L || (ncol(raw) - 2L) %% 2L != 0L) {
-    stop(sprintf("Pares de columnas (nota, valor) inválidos en %s.", sheet), call. = FALSE)
+  if (ncol(raw) < 4L) {
+    stop(sprintf("La hoja %s no contiene pares nota/valor.", sheet), call. = FALSE)
   }
   # Ignora columnas finales completamente vacías (formato residual de Excel).
   while (ncol(raw) > 2L && all(is.na(raw[[ncol(raw)]]) | trimws(raw[[ncol(raw)]]) == "")) {
