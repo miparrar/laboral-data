@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T02:27:27Z",
+  "updated_at": "2026-11-10T13:34:46Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -20,6 +20,17 @@
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/complementarios.xlsx?sfvrsn=513dfbba_203",
       "source_sha256": "729641bb90adca5f6f747ee54290b1aee133958acdd729e75166c8c895296a4d",
       "observations": 56715,
+      "first_period": "2010-02",
+      "last_period": "2026-08",
+      "status": "ok"
+    },
+    {
+      "id": "horas",
+      "path": "series/horas.json",
+      "parser_version": 3,
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205",
+      "source_sha256": "3bb356169cbc2d3351db71ba26272e502cc22bc0df18d83d9c2b16c4f4c282ce",
+      "observations": 7761,
       "first_period": "2010-02",
       "last_period": "2026-08",
       "status": "ok"

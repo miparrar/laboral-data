@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T02:27:27Z",
+  "updated_at": "2026-11-10T13:34:46Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -316,6 +316,99 @@
         },
         {
           "region": "valparaiso",
+          "sex": "total"
+        }
+      ],
+      "quality_codes": {
+        "sin_advertencia": "Sin nota de advertencia en el Excel",
+        "a": "Estimación poco fiable según el INE",
+        "b": "Estimación no fiable según el INE",
+        "sin_dato": "Valor no disponible en el archivo original"
+      }
+    },
+    {
+      "id": "horas",
+      "title": "Indicadores relacionados con horas trabajadas ENE",
+      "path": "series/horas.json",
+      "frequency": "rolling_quarter",
+      "indicators": [
+        {
+          "id": "ocupados",
+          "label": "Población ocupada [2]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "horas_habituales_1_30",
+          "label": "Personas ocupadas que trabajaron entre 1 y 30 horas habituales",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tiempo_parcial_voluntario",
+          "label": "Personas ocupadas  que trabajaron a tiempo parcial voluntario (TPV) [3]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tiempo_parcial_involuntario",
+          "label": "Personas ocupadas  que trabajaron a tiempo parcial involuntario (TPI) [4]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "tiempo_parcial_no_declara_voluntariedad",
+          "label": "Personas ocupadas  que trabajaron a tiempo parcial y sin declarar voluntariedad [5]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "horas_habituales_31_44",
+          "label": "Personas ocupadas  que trabajaron entre 31 y 44 horas habituales",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "horas_habituales_45",
+          "label": "Personas ocupadas  que trabajaron 45 horas habituales",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "horas_habituales_mas_45",
+          "label": "Personas ocupadas  que trabajaron más de 45 horas habituales",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "horas_efectivas_mas_45",
+          "label": "Personas ocupadas  que trabajaron más de 45 horas efectivas a la semana [6]",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "ocupados_declaran_horas",
+          "label": "Personas ocupadas que declararon horas trabajadas",
+          "unit": "thousand_persons"
+        },
+        {
+          "id": "promedio_horas_efectivas_incluye_ausentes",
+          "label": "Promedio de horas efectivas trabajadas a la semana (incluyendo personas ocupadas ausentes) [7]",
+          "unit": "hours"
+        },
+        {
+          "id": "promedio_horas_efectivas_excluye_ausentes",
+          "label": "Promedio de horas efectivas trabajadas a la semana (excluyendo personas ocupadas ausentes) [8]",
+          "unit": "hours"
+        },
+        {
+          "id": "promedio_horas_habituales",
+          "label": "Promedio de horas habitualmente  trabajadas a la semana",
+          "unit": "hours"
+        }
+      ],
+      "coverage": [
+        {
+          "region": "nacional",
+          "sex": "hombre"
+        },
+        {
+          "region": "nacional",
+          "sex": "mujer"
+        },
+        {
+          "region": "nacional",
           "sex": "total"
         }
       ],
