@@ -50,8 +50,15 @@ datasets <- purrr::imap(datasets, function(entry, id) {
   message(id, ": ", nrow(entry$data), " estimaciones, ",
           dplyr::n_distinct(entry$data$period), " períodos, ",
           dplyr::n_distinct(paste(entry$data$region, entry$data$sex)), " coberturas")
-  if (dplyr::n_distinct(entry$data$indicator) != length(entry$config$indicators)) {
+  published <- if (is.null(entry$config$public_indicators)) {
+    entry$config$indicators
+  } else entry$config$public_indicators
+  if (dplyr::n_distinct(entry$data$indicator) != length(published)) {
     stop("Cobertura de indicadores incorrecta en: ", id)
+  }
+  if (identical(entry$config$dimension_from_indicator, "branch") &&
+      dplyr::n_distinct(entry$data$branch) != length(entry$config$indicators)) {
+    stop("Cobertura de ramas incorrecta en: ", id)
   }
   entry
 })
