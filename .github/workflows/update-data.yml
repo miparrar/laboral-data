@@ -21,7 +21,7 @@ permissions:
 
 concurrency:
   group: laboral-data-update
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   update:
@@ -29,6 +29,7 @@ jobs:
     outputs:
       changed: ${{ steps.commit.outputs.changed }}
       due: ${{ steps.calendar.outputs.due }}
+      artifact_ready: ${{ steps.pages_ready.outputs.ready }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -107,14 +108,23 @@ jobs:
           mkdir -p _site/api
           cp -R api/v1 _site/api/v1
 
+      - uses: actions/configure-pages@v5
+        if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
+
       - uses: actions/upload-pages-artifact@v3
+        id: pages_artifact
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         with:
           path: _site
 
+      - name: Mark Pages artifact ready
+        id: pages_ready
+        if: steps.pages_artifact.outcome == 'success'
+        run: echo "ready=true" >> "$GITHUB_OUTPUT"
+
   deploy:
     needs: update
-    if: github.event_name != 'schedule' || needs.update.outputs.due == 'true'
+    if: needs.update.outputs.artifact_ready == 'true'
     runs-on: ubuntu-latest
     environment:
       name: github-pages
