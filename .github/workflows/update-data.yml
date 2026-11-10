@@ -60,7 +60,7 @@ jobs:
         if: github.event_name != 'schedule'
         run: |
           mkdir -p data_raw
-          curl -fLsS --retry 3 --output data_raw/horas.xlsx 'https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205'
+          Rscript -e 'utils::download.file("https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205", "data_raw/horas.xlsx", mode = "wb", quiet = TRUE)'
           Rscript scripts/inspect_tabulado.R data_raw/horas.xlsx config/horas_layout.json
           git add config/horas_layout.json
           if ! git diff --cached --quiet; then
