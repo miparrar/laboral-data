@@ -44,6 +44,28 @@ if (file.exists(comp_path)) {
   )
 }
 
+
+# Horas: sólo tres hojas nacionales (AS, H y M); 13 indicadores, 3 en horas.
+horas_cfg <- yaml::read_yaml("config/horas.yml")
+stopifnot(
+  identical(names(ip_sheet_map(horas_cfg)), c("AS", "H", "M")),
+  length(horas_cfg$indicators) == 13L,
+  sum(vapply(horas_cfg$indicators, function(x) identical(x$unit, "hours"), logical(1))) == 3L,
+  isTRUE(horas_cfg$allow_missing_values)
+)
+horas_path <- "data_raw/horas.xlsx"
+if (file.exists(horas_path)) {
+  horas <- ip_process(horas_path, horas_cfg)
+  stopifnot(
+    nrow(horas) == 3L * 13L * dplyr::n_distinct(horas$period),
+    dplyr::n_distinct(paste(horas$region, horas$sex)) == 3L,
+    all(horas$region == "nacional"),
+    setequal(unique(horas$sex), c("total", "hombre", "mujer")),
+    all(is.na(horas$value) == (horas$quality == "sin_dato")),
+    !anyDuplicated(horas[c("period", "region", "sex", "indicator")])
+  )
+}
+
 # Contrato de publicación: todas las fuentes y series deben estar presentes.
 manifest <- jsonlite::fromJSON("api/v1/manifest.json", simplifyVector = FALSE)
 catalog <- jsonlite::fromJSON("api/v1/catalog.json", simplifyVector = FALSE)
@@ -60,8 +82,8 @@ for (id in sources) {
   stopifnot(
     identical(series$id, id),
     length(series$observations) == entry$observations,
-    length(description$coverage) == 19L,
-    length(description$indicators) == if (id == "complementarios") 15L else 13L
+    length(description$coverage) == length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))),
+    length(description$indicators) == length(yaml::read_yaml(paste0("config/", id, ".yml"))$indicators)
   )
 }
-message("Contrato JSON y cobertura de ambas fuentes validados.")
+message("Contrato JSON y cobertura de todas las fuentes validados.")
