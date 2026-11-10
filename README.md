@@ -21,13 +21,13 @@ INE (Excel) → descarga → normalización R → validación → JSON → GitHu
 
 Fuente: [indicadores_principales.xlsx](https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx).
 
-El parser de tabulados utiliza un patrón común: primera hoja como índice; fila 6 con nombres; fila 7 con unidades y notas; datos desde fila 8; cada variable ocupa dos columnas consecutivas (nota y valor). El número de pares se detecta desde las columnas, y se contrasta con la configuración declarada. Un formato desconocido falla antes de publicar.\n\nEl libro tiene un índice, tres hojas nacionales (`AS`, `H`, `M`) y 16 hojas regionales. Las regionales **no están desagregadas por sexo**. Cada estimación tiene su columna de nota y su columna de valor.
+El parser de tabulados utiliza un patrón común: primera hoja como índice; columnas A y B con año y trimestre móvil; fila 6 con nombres; fila 7 con unidades y notas; datos desde fila 8; cada variable ocupa dos columnas consecutivas (nota y valor). El número de pares se detecta desde las columnas, y se contrasta con la configuración declarada. Un formato desconocido falla antes de publicar.\n\nEl libro tiene un índice, tres hojas nacionales (`AS`, `H`, `M`) y 16 hojas regionales. Las regionales **no están desagregadas por sexo**. Cada estimación tiene su columna de nota y su columna de valor.
 
 ### Contrato de datos
 
 - `api/v1/catalog.json`: metadatos e indicadores, cobertura **real** por combinación territorio/sexo.
 - `api/v1/manifest.json`: archivo publicado, SHA-256 del Excel, período de cobertura y cantidad de observaciones.
-- `api/v1/series/indicadores_principales.json`: observaciones normalizadas, con `period` (mes central del trimestre móvil), `region`, `sex`, `indicator`, `value`, `unit`, `quality_code` y `quality`.
+- `api/v1/series/indicadores_principales.json`: observaciones normalizadas, con `period` (mes central del trimestre móvil), `anio` y `trimestre_movil` (tal como vienen en las columnas A y B), `region`, `sex`, `indicator`, `value`, `unit`, `quality_code` y `quality`.
 
 Las magnitudes de población se mantienen **en miles de personas** y las tasas **en porcentaje** según la unidad explícita de la hoja; no todas las variables son miles. No se redondean valores.
 
