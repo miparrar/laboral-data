@@ -1,31 +1,36 @@
 #!/usr/bin/env Rscript
-# Inspección estructural de un tabulado antes de registrarlo como fuente.
-# No genera datos ni modifica la API publicada.
+# Inspección genérica con readxl (sin alterar los datos publicados).
 args <- commandArgs(trailingOnly = TRUE)
-if (length(args) != 1L || !file.exists(args[[1]])) {
-  stop("Uso: Rscript scripts/inspect_tabulado.R /ruta/al/archivo.xlsx", call. = FALSE)
+if (length(args) < 1L || !file.exists(args[[1L]])) {
+  stop("Uso: Rscript scripts/inspect_tabulado.R archivo.xlsx [reporte.json]")
 }
-path <- args[[1]]
+path <- args[[1L]]
 sheets <- readxl::excel_sheets(path)
-cat("Archivo:", basename(path), "\nHojas:", length(sheets), "\n")
-purrr::walk(seq_along(sheets), function(i) {
-  sheet <- sheets[[i]]
-  if (i == 1L) {
-    cat(sprintf("%-24s ÍNDICE (omitir)\n", sheet))
-    return(invisible(NULL))
-  }
-  x <- readxl::read_excel(path, sheet = sheet, skip = 5L, col_names = FALSE,
-                          col_types = "text", n_max = 4L, .name_repair = "minimal")
-  row <- function(n) if (nrow(x) >= n) unlist(x[n, ], use.names = FALSE) else character()
-  headers <- row(1L)
-  units <- row(2L)
-  col <- seq.int(3L, length(headers) - 1L, by = 2L)
-  vals <- headers[col]
-  quality <- units[col]
-  measures <- units[col + 1L]
-  cat(sprintf("%-24s %2d pares, %d encabezados, notas=%s, unidades=%s\n",
-              sheet, length(col), sum(!is.na(vals) & nzchar(vals)),
-              paste(unique(stats::na.omit(quality)), collapse = "/"),
-              paste(unique(stats::na.omit(measures)), collapse = "/")))
-  cat(" Indicadores:", paste(vals, collapse = " | "), "\n")
+result <- purrr::map(sheets, function(sheet) {
+  x <- readxl::read_excel(path, sheet = sheet, col_names = FALSE,
+                          n_max = 12L, col_types = "text",
+                          .name_repair = "minimal")
+  row <- function(i) if (i <= nrow(x)) unname(unlist(x[i, ], use.names = FALSE)) else character()
+  list(
+    sheet = sheet, columns = ncol(x),
+    rows = purrr::map(seq_len(min(12L, nrow(x))), function(i) {
+      values <- row(i)
+      which(!is.na(values) & nzchar(trimws(values))) |>
+        purrr::map(function(j) list(column = j, text = values[[j]]))
+    })
+  )
 })
+for (entry in result) {
+  cat(entry$sheet, ": ", entry$columns, " columnas\n", sep = "")
+  for (i in seq_along(entry$rows)) {
+    cat("  fila ", i, ": ",
+        paste(vapply(entry$rows[[i]], function(y) paste0(y$column, "=", y$text),
+                     character(1)), collapse = " | "), "\n", sep = "")
+  }
+}
+if (length(args) >= 2L) {
+  jsonlite::write_json(
+    list(source = basename(path), sheets = result), args[[2L]],
+    pretty = TRUE, auto_unbox = TRUE
+  )
+}
