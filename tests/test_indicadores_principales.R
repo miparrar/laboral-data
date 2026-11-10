@@ -95,6 +95,38 @@ if (file.exists(edad_path)) {
   )
 }
 
+# Rama de actividad: 23 categorías (total + 22), 19 coberturas geográficas/sexo.
+rama_cfg <- yaml::read_yaml("config/rama.yml")
+stopifnot(
+  length(rama_cfg$indicators) == 23L,
+  length(rama_cfg$public_indicators) == 1L,
+  identical(rama_cfg$public_indicators[[1L]]$id, "ocupados"),
+  identical(rama_cfg$dimension_from_indicator, "branch"),
+  identical(rama_cfg$indicators[[1L]]$id, "total"),
+  identical(rama_cfg$indicators[[23L]]$id, "no_sabe_no_responde"),
+  length(ip_sheet_map(rama_cfg)) == 19L,
+  isTRUE(rama_cfg$allow_missing_values),
+  !anyDuplicated(vapply(rama_cfg$indicators, function(x) x$id, character(1)))
+)
+rama_path <- "data_raw/rama.xlsx"
+if (file.exists(rama_path)) {
+  rama <- ip_process(rama_path, rama_cfg)
+  stopifnot(
+    min(rama$period) == "2013-02",
+    nrow(rama) == 19L * 23L * dplyr::n_distinct(rama$period),
+    setequal(unique(rama$indicator), "ocupados"),
+    dplyr::n_distinct(rama$branch) == 23L,
+    dplyr::n_distinct(rama$region) == 17L,
+    setequal(unique(rama$sex), c("total", "hombre", "mujer")),
+    all(rama$region == "nacional" | rama$sex == "total"),
+    all(rama$quality %in% c("sin_advertencia", "poco_fiable", "no_fiable", "sin_dato")),
+    all(is.na(rama$value) == (rama$quality == "sin_dato")),
+    !anyDuplicated(rama[c("period", "region", "sex", "branch", "indicator")])
+  )
+  # El total y las categorías permanecen separados: nunca sumar el total
+  # a las ramas, ni interpretar NS/NR como una actividad productiva.
+}
+
 # Contrato de publicación: todas las fuentes y series deben estar presentes.
 manifest <- jsonlite::fromJSON("api/v1/manifest.json", simplifyVector = FALSE)
 catalog <- jsonlite::fromJSON("api/v1/catalog.json", simplifyVector = FALSE)
@@ -111,8 +143,12 @@ for (id in sources) {
   stopifnot(
     identical(series$id, id),
     length(series$observations) == entry$observations,
-    length(description$coverage) == length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))),
-    length(description$indicators) == length(yaml::read_yaml(paste0("config/", id, ".yml"))$indicators)
+    length(description$coverage) ==
+      length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))) *
+      if (identical(id, "rama")) length(rama_cfg$indicators) else 1L,
+    length(description$indicators) ==
+      length(if (identical(id, "rama")) rama_cfg$public_indicators
+             else yaml::read_yaml(paste0("config/", id, ".yml"))$indicators)
   )
 }
 message("Contrato JSON y cobertura de todas las fuentes validados.")
