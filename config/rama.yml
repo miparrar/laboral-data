@@ -1,0 +1,48 @@
+# INE rama.xlsx: 23 columnas estadísticas, desde 2013.
+# Todas miden personas ocupadas (miles); las ramas son una dimensión,
+# no indicadores independientes.
+allow_missing_values: true
+dimension_from_indicator: branch
+public_indicators:
+  - {id: ocupados, label: "Personas ocupadas según rama de actividad económica", unit: thousand_persons}
+indicators:
+  - {id: total, label: "Población ocupada (total)", unit: thousand_persons}
+  - {id: agricultura_ganaderia_silvicultura_pesca, label: "Agricultura, ganadería, silvicultura y pesca", unit: thousand_persons}
+  - {id: mineria, label: "Explotación de minas y canteras", unit: thousand_persons}
+  - {id: industria_manufacturera, label: "Industrias manufactureras", unit: thousand_persons}
+  - {id: electricidad_gas_vapor_aire, label: "Suministro de electricidad, gas, vapor y aire acondicionado", unit: thousand_persons}
+  - {id: suministro_agua, label: "Suministro de agua", unit: thousand_persons}
+  - {id: construccion, label: "Construcción", unit: thousand_persons}
+  - {id: comercio, label: "Comercio al por mayor y al por menor", unit: thousand_persons}
+  - {id: transporte_almacenamiento, label: "Transporte y almacenamiento", unit: thousand_persons}
+  - {id: alojamiento_comidas, label: "Actividades de alojamiento y de servicio de comidas", unit: thousand_persons}
+  - {id: informacion_comunicaciones, label: "Información y comunicaciones", unit: thousand_persons}
+  - {id: finanzas_seguros, label: "Actividades financieras y de seguros", unit: thousand_persons}
+  - {id: actividades_inmobiliarias, label: "Actividades inmobiliarias", unit: thousand_persons}
+  - {id: profesionales_cientificas_tecnicas, label: "Actividades profesionales, científicas y técnicas", unit: thousand_persons}
+  - {id: servicios_administrativos_apoyo, label: "Actividades de servicios administrativos y de apoyo", unit: thousand_persons}
+  - {id: administracion_publica_defensa, label: "Administración pública y defensa", unit: thousand_persons}
+  - {id: ensenanza, label: "Enseñanza", unit: thousand_persons}
+  - {id: salud_asistencia_social, label: "Actividades de atención de la salud humana y de asistencia social", unit: thousand_persons}
+  - {id: artisticas_entretenimiento_recreativas, label: "Actividades artísticas, de entretenimiento y recreativas", unit: thousand_persons}
+  - {id: otros_servicios, label: "Otras actividades de servicios", unit: thousand_persons}
+  - {id: hogares_empleadores, label: "Actividades de los hogares como empleadores", unit: thousand_persons}
+  - {id: organizaciones_extraterritoriales, label: "Actividades de organizaciones y órganos extraterritoriales", unit: thousand_persons}
+  - {id: no_sabe_no_responde, label: "No sabe / No responde [2]", unit: thousand_persons}
+regions:
+  AP: arica_parinacota
+  TA: tarapaca
+  AN: antofagasta
+  AT: atacama
+  CO: coquimbo
+  VA: valparaiso
+  RM: metropolitana
+  LI: ohiggins
+  ML: maule
+  NB: nuble
+  BI: biobio
+  AR: araucania
+  LR: los_rios
+  LL: los_lagos
+  AI: aysen
+  MA: magallanes
