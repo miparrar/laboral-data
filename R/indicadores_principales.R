@@ -136,10 +136,28 @@ ip_process <- function(path, config = ip_config()) {
                 "; nuevas: ", paste(setdiff(available[-1L], expected), collapse = ", ")),
          call. = FALSE)
   }
-  result <- purrr::map_dfr(expected, ~ ip_process_sheet(path, .x, config)) |>
-    dplyr::arrange(.data$indicator, .data$region, .data$sex, .data$period)
+  result <- purrr::map_dfr(expected, ~ ip_process_sheet(path, .x, config))
+  if (!is.null(config$dimension_from_indicator)) {
+    # El cuadro por rama publica un total y 22 categorías de la ocupación.
+    # Todas son la misma medida, diferenciada por su rama de actividad.
+    dimension <- config$dimension_from_indicator
+    if (!identical(dimension, "branch") ||
+        length(config$public_indicators) != 1L) {
+      stop("Configuración de dimensión no soportada.", call. = FALSE)
+    }
+    result <- result |>
+      dplyr::mutate(
+        branch = .data$indicator,
+        indicator = config$public_indicators[[1L]]$id
+      )
+  }
+  order_cols <- intersect(c("indicator", "region", "sex", "age_group",
+                            "branch", "period"), names(result))
+  result <- result |>
+    dplyr::arrange(dplyr::across(dplyr::all_of(order_cols)))
 
-  key <- intersect(c("period", "region", "sex", "age_group", "indicator"), names(result))
+  key <- intersect(c("period", "region", "sex", "age_group", "branch", "indicator"),
+                   names(result))
   if (anyDuplicated(result[key])) {
     stop("Observaciones duplicadas en la clave estadística.", call. = FALSE)
   }
@@ -147,7 +165,10 @@ ip_process <- function(path, config = ip_config()) {
       anyNA(result$anio) || anyNA(result$trimestre_movil)) {
     stop("Valores de período/calidad incompletos.", call. = FALSE)
   }
-  if (dplyr::n_distinct(result$indicator) != length(config$indicators) ||
+  published_indicators <- if (is.null(config$public_indicators)) {
+    config$indicators
+  } else config$public_indicators
+  if (dplyr::n_distinct(result$indicator) != length(published_indicators) ||
       dplyr::n_distinct(result$period) < 1L) {
     stop("Cobertura insuficiente en el tabulado.", call. = FALSE)
   }
@@ -166,7 +187,7 @@ ip_publish <- function(datasets, root = "api/v1") {
     data <- entry$data
     config <- entry$config
     series_path <- paste0("series/", id, ".json")
-    dimensions <- intersect(c("region", "sex", "age_group"), names(data))
+    dimensions <- intersect(c("region", "sex", "age_group", "branch"), names(data))
     coverage <- data |>
       dplyr::distinct(dplyr::across(dplyr::all_of(dimensions))) |>
       dplyr::arrange(dplyr::across(dplyr::all_of(dimensions)))
@@ -187,7 +208,12 @@ ip_publish <- function(datasets, root = "api/v1") {
     catalogs[[length(catalogs) + 1L]] <- list(
       id = id, title = entry$title, path = series_path,
       frequency = "rolling_quarter",
-      indicators = config$indicators, coverage = coverage,
+      indicators = if (is.null(config$public_indicators))
+        config$indicators else config$public_indicators,
+      coverage = coverage,
+      dimension_labels = if (identical(config$dimension_from_indicator, "branch"))
+        list(branch = lapply(config$indicators, function(x)
+          list(id = x$id, label = x$label))) else NULL,
       quality_codes = list(
         sin_advertencia = "Sin nota de advertencia en el Excel",
         a = "Estimación poco fiable según el INE",
