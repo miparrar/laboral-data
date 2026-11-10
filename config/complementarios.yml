@@ -1,0 +1,66 @@
+# Misma disposición de columnas que indicadores principales (15 pares).
+allow_missing_values: true
+indicators:
+  - id: fuerza_trabajo
+    label: "Fuerza de trabajo (FT)"
+    unit: thousand_persons
+  - id: ocupados
+    label: "Personas ocupadas (O)"
+    unit: thousand_persons
+  - id: desocupados
+    label: "Personas desocupadas (DO)"
+    unit: thousand_persons
+  - id: iniciadores_disponibles
+    label: "Personas iniciadoras disponibles (ID)"
+    unit: thousand_persons
+  - id: tiempo_parcial_involuntario
+    label: "Personas ocupados/as que trabajan a tiempo parcial involuntario (TPI) [2]"
+    unit: thousand_persons
+  - id: ocupados_buscaron_empleo
+    label: "Personas ocupados/as que buscaron empleo (OBE) [3]"
+    unit: thousand_persons
+  - id: fuerza_trabajo_potencial
+    label: "Fuerza de trabajo potencial (FTP) [4]"
+    unit: thousand_persons
+  - id: fuerza_trabajo_ampliada
+    label: "Fuerza de trabajo ampliada (FTA) [5]"
+    unit: thousand_persons
+  - id: deseo_trabajar
+    label: "Deseo de trabajar [6]"
+    unit: thousand_persons
+  - id: tasa_desocupacion
+    label: "Tasa de desocupación"
+    unit: percent
+  - id: tasa_presion_laboral
+    label: "Tasa de presión laboral [7]"
+    unit: percent
+  - id: su1
+    label: "Tasa de desocupación con iniciadores disponibles (SU1) [8]"
+    unit: percent
+  - id: su2
+    label: "Tasa combinada de desocupación y tiempo parcial involuntario (SU2) [9]"
+    unit: percent
+  - id: su3
+    label: "Tasa combinada de desocupación y fuerza de trabajo potencial (SU3) [10]"
+    unit: percent
+  - id: su4
+    label: "Tasa global de subutilización (SU4) [11]"
+    unit: percent
+regions:
+  AP: arica_parinacota
+  TA: tarapaca
+  AN: antofagasta
+  AT: atacama
+  CO: coquimbo
+  VA: valparaiso
+  RM: metropolitana
+  LI: ohiggins
+  ML: maule
+  NB: nuble
+  BI: biobio
+  AR: araucania
+  LR: los_rios
+  LL: los_lagos
+  AI: aysen
+  MA: magallanes
+
