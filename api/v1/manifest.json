@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T13:34:46Z",
+  "updated_at": "2026-11-10T20:58:46Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -31,6 +31,17 @@
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205",
       "source_sha256": "3bb356169cbc2d3351db71ba26272e502cc22bc0df18d83d9c2b16c4f4c282ce",
       "observations": 7761,
+      "first_period": "2010-02",
+      "last_period": "2026-08",
+      "status": "ok"
+    },
+    {
+      "id": "indicadores_principales_edad",
+      "path": "series/indicadores_principales_edad.json",
+      "parser_version": 3,
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_edad.xlsx?sfvrsn=3fc0d55f_36",
+      "source_sha256": "66b445e228ab9fca4d7f740b2952b41f9c8ce1ab31c4cdf02fcbefaf0b2c4f90",
+      "observations": 15522,
       "first_period": "2010-02",
       "last_period": "2026-08",
       "status": "ok"
