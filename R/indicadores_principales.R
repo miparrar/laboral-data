@@ -250,7 +250,7 @@ ip_series_catalogo <- function(data, config, dataset_id) {
       value_column = ip_col_excel(4L + 2L * (.env$indice - 1L)),
       .after = "source_sheet"
     ) |>
-    dplyr::select(-.data$sheets_count, -.data$units_count)
+    dplyr::select(-dplyr::all_of(c("sheets_count", "units_count")))
 
   resultado$series_key <- vapply(seq_len(nrow(resultado)), function(i) {
     paste(c(dataset_id, resultado$indicator[[i]],
@@ -328,7 +328,18 @@ ip_publish <- function(datasets, root = "api/v1") {
     )
   }
   jsonlite::write_json(
-    list(schema_version = 2L, updated_at = updated_at, datasets = catalogs),
+    list(
+      schema_version = 2L,
+      updated_at = updated_at,
+      sdmx_mapping = list(
+        series_key = c("indicator", "region", "sex", "age_group", "branch"),
+        time_dimension = "period",
+        primary_measure = "value",
+        observation_attributes = c("quality_code", "quality"),
+        series_attributes = c("unit", "source_sheet")
+      ),
+      datasets = catalogs
+    ),
     file.path(root, "catalog.json"), pretty = TRUE, auto_unbox = TRUE,
     dataframe = "rows", na = "null", digits = NA
   )
