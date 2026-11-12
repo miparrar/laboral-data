@@ -1,6 +1,6 @@
 RSCRIPT ?= Rscript
 
-.PHONY: deps update test
+.PHONY: deps update test audit
 
 deps:
 	$(RSCRIPT) -e 'install.packages(c("readxl","dplyr","tidyr","purrr","stringr","tibble","jsonlite","yaml","digest"), repos="https://cloud.r-project.org")'
@@ -11,3 +11,7 @@ update:
 test:
 	$(RSCRIPT) tests/test_indicadores_principales.R
 	$(RSCRIPT) tests/test_cliente_api.R
+	$(RSCRIPT) tests/test_redundancias.R
+
+audit:
+	$(RSCRIPT) scripts/auditar_redundancias.R
