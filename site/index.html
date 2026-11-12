@@ -1,0 +1,297 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#10243b">
+  <meta name="description" content="Estadísticas laborales de Chile en JSON: series oficiales de la Encuesta Nacional de Empleo, documentadas y actualizadas automáticamente.">
+  <title>laboral-data — Estadísticas laborales abiertas</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #11263a;
+      --muted: #526476;
+      --teal: #047e79;
+      --teal-dark: #006963;
+      --border: #dbe3e7;
+      --page: #f6f8f7;
+      --white: #fff;
+      --dark: #10243b;
+      --radius: 16px;
+      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { margin: 0; background: var(--page); color: var(--ink); line-height: 1.55; }
+    a { color: var(--teal-dark); text-underline-offset: 3px; }
+    a:hover { color: #064b49; }
+    a:focus-visible, button:focus-visible { outline: 3px solid #4ab2ac; outline-offset: 3px; }
+    .wrap { width: min(1100px, calc(100% - 40px)); margin-inline: auto; }
+    header { background: var(--dark); border-bottom: 1px solid #2e465c; }
+    .topbar { display: flex; justify-content: space-between; align-items: center; gap: 20px; padding-block: 20px; }
+    .wordmark { color: white; font: 750 1.15rem ui-monospace, SFMono-Regular, Consolas, monospace; letter-spacing: -.05em; text-decoration: none; }
+    .wordmark span { color: #73d2c7; }
+    nav { display: flex; gap: clamp(12px, 3vw, 32px); font-size: .88rem; }
+    nav a { color: #c9d8e2; text-decoration: none; }
+    nav a:hover { color: white; }
+    .hero { color: white; background: var(--dark); position: relative; overflow: hidden; }
+    .hero::after { content: ""; position: absolute; width: 360px; height: 360px; right: -120px; top: 16%; border-radius: 50%; border: 80px solid #1a4552; opacity: .42; pointer-events: none; }
+    .hero-inner { position: relative; z-index: 1; padding-block: 78px 96px; }
+    .eyebrow { font-size: .75rem; font-weight: 750; text-transform: uppercase; letter-spacing: .15em; }
+    .hero .eyebrow { color: #7fdbcf; }
+    h1 { font-size: clamp(2.7rem, 6.7vw, 5.45rem); max-width: 930px; line-height: 1.07; letter-spacing: -.058em; margin: 22px 0 24px; font-weight: 780; }
+    h1 em { font-style: normal; color: #7fdbcf; }
+    .lead { max-width: 710px; color: #c5d8e1; font-size: clamp(1rem, 2vw, 1.19rem); margin: 0 0 30px; }
+    .actions { display: flex; flex-wrap: wrap; gap: 12px; }
+    .button { display: inline-flex; align-items: center; justify-content: center; min-height: 45px; border-radius: 8px; padding: 11px 18px; font-weight: 700; font-size: .9rem; text-decoration: none; border: 1px solid transparent; cursor: pointer; }
+    .button-primary { color: #082e2d; background: #8ce2d7; }
+    .button-primary:hover { background: #b0f0e8; color: #082e2d; }
+    .button-secondary { background: transparent; color: white; border-color: #577088; }
+    .button-secondary:hover { color: white; border-color: white; }
+    .metrics { position: relative; margin-top: -44px; z-index: 2; }
+    .metrics-box { display: grid; grid-template-columns: repeat(4,1fr); background: white; border: 1px solid var(--border); border-radius: var(--radius); box-shadow: 0 14px 40px #122c3e12; overflow: hidden; }
+    .metric { padding: 25px 26px; }
+    .metric + .metric { border-left: 1px solid var(--border); }
+    .metric strong { display: block; font-size: clamp(1.45rem, 3vw, 2.1rem); line-height: 1.1; letter-spacing: -.04em; font-variant-numeric: tabular-nums; }
+    .metric span { display: block; color: var(--muted); margin-top: 9px; font-size: .83rem; }
+    section { padding-block: 70px 24px; }
+    .section-head { display: flex; align-items: end; justify-content: space-between; gap: 20px; margin-bottom: 26px; }
+    .section-head h2, .info h2 { font-size: clamp(1.8rem, 3.5vw, 2.6rem); line-height: 1.17; letter-spacing: -.045em; margin: 8px 0 0; }
+    .section-head p { max-width: 430px; margin: 0; color: var(--muted); font-size: .94rem; }
+    .teal { color: var(--teal); }
+    .grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; }
+    .card { background: white; border: 1px solid var(--border); border-radius: var(--radius); padding: 25px; display: flex; flex-direction: column; min-height: 245px; transition: border-color .15s, transform .15s; }
+    .card:hover { border-color: #98c8c3; transform: translateY(-2px); }
+    .card-top { display: flex; justify-content: space-between; gap: 12px; align-items: start; }
+    .card-index { font: 700 .78rem ui-monospace, SFMono-Regular, Consolas, monospace; color: var(--teal); }
+    .tag { font-size: .7rem; padding: 3px 9px; border-radius: 15px; color: #0a605b; background: #e5f7f3; font-weight: 700; white-space: nowrap; }
+    .card h3 { font-size: 1.28rem; line-height: 1.3; letter-spacing: -.03em; margin: 22px 0 10px; }
+    .card-meta { color: var(--muted); font-size: .84rem; margin: 0 0 20px; }
+    .card-links { display: flex; flex-wrap: wrap; gap: 16px; margin-top: auto; font-weight: 700; font-size: .85rem; }
+    .card-links a { text-decoration: none; }
+    .details { margin-top: 17px; padding-top: 14px; border-top: 1px solid var(--border); font-size: .82rem; color: var(--muted); }
+    .details summary { cursor: pointer; color: var(--ink); font-weight: 650; }
+    .details p { margin: 8px 0 0; }
+    .info { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: start; }
+    .info p { color: var(--muted); }
+    .pill-list { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0; }
+    .pill-list span { background: #e4eeec; border-radius: 6px; padding: 6px 11px; font: 600 .8rem ui-monospace, monospace; }
+    .terminal { background: #12293b; color: #d8e8ee; border-radius: 14px; overflow: hidden; box-shadow: 0 14px 32px #18334b15; }
+    .terminal-head { display: flex; justify-content: space-between; align-items: center; padding: 13px 20px; border-bottom: 1px solid #32495b; color: #99bac8; font: 650 .79rem ui-monospace, monospace; }
+    .terminal button { border: 1px solid #5b7587; border-radius: 6px; color: #d8e8ee; background: transparent; padding: 4px 9px; cursor: pointer; font: inherit; }
+    pre { overflow: auto; padding: 20px; margin: 0; font: .87rem/1.75 ui-monospace, SFMono-Regular, Consolas, monospace; }
+    code { font-family: ui-monospace, SFMono-Regular, Consolas, monospace; }
+    .note-box { border-left: 4px solid #06847a; padding: 18px 22px; background: #e9f4f1; border-radius: 0 10px 10px 0; margin-top: 26px; color: #214b49; font-size: .92rem; }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 25px; }
+    .principle { padding: 23px; border: 1px solid var(--border); border-radius: 14px; background: white; }
+    .principle strong { display: block; margin-bottom: 9px; font-size: 1rem; }
+    .principle p { margin: 0; color: var(--muted); font-size: .88rem; }
+    .footer { margin-top: 76px; padding-block: 32px; border-top: 1px solid var(--border); color: var(--muted); font-size: .82rem; }
+    .footer-inner { display: flex; justify-content: space-between; gap: 20px; }
+    .footer p { margin: 0; }
+    .status { margin: 12px 0 0; color: var(--muted); font-size: .82rem; }
+    @media (max-width: 750px) {
+      .topbar { align-items: start; }
+      nav { flex-wrap: wrap; justify-content: end; }
+      .hero-inner { padding-block: 56px 78px; }
+      .metrics-box { grid-template-columns: repeat(2, 1fr); }
+      .metric:nth-child(3) { border-left: 0; border-top: 1px solid var(--border); }
+      .metric:nth-child(4) { border-top: 1px solid var(--border); }
+      .grid, .info { grid-template-columns: 1fr; }
+      .info { gap: 25px; }
+      .principles { grid-template-columns: 1fr; }
+      .section-head { display: block; }
+      .section-head p { margin-top: 14px; }
+      .footer-inner { flex-direction: column; }
+    }
+    @media (max-width: 430px) {
+      .wrap { width: min(100% - 28px, 1100px); }
+      nav { gap: 12px; font-size: .78rem; }
+      .metric { padding: 18px 16px; }
+      .card { padding: 20px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      .card { transition: none; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap topbar">
+      <a class="wordmark" href="./" aria-label="laboral-data, inicio">laboral<span>·</span>data</a>
+      <nav aria-label="Navegación principal">
+        <a href="#datos">Datos</a>
+        <a href="#usar">Cómo usar</a>
+        <a href="#metodologia">Metodología</a>
+        <a href="https://github.com/miparrar/laboral-data" target="_blank" rel="noopener noreferrer">GitHub ↗</a>
+      </nav>
+    </div>
+  </header>
+  <main>
+    <div class="hero">
+      <div class="wrap hero-inner">
+        <div class="eyebrow">Chile · Encuesta Nacional de Empleo</div>
+        <h1>Datos laborales.<br><em>Listos para analizar.</em></h1>
+        <p class="lead">Series estadísticas del INE transformadas en JSON abierto, estructurado y versionado. Datos para investigar, desarrollar aplicaciones y comprender el mercado laboral chileno.</p>
+        <div class="actions">
+          <a href="#datos" class="button button-primary">Explorar conjuntos de datos →</a>
+          <a class="button button-secondary" href="./api/v1/catalog.json">Abrir catálogo JSON ↗</a>
+        </div>
+      </div>
+    </div>
+    <div class="wrap metrics" aria-label="Resumen de datos disponibles">
+      <div class="metrics-box">
+        <div class="metric"><strong id="dataset-count">5</strong><span>Conjuntos de datos</span></div>
+        <div class="metric"><strong id="observation-count">200.382</strong><span>Observaciones</span></div>
+        <div class="metric"><strong id="period-start">2010</strong><span>Inicio de las series</span></div>
+        <div class="metric"><strong id="period-end">2026-08</strong><span>Último trimestre móvil publicado</span></div>
+      </div>
+      <p class="status" id="last-updated" aria-live="polite">Metadatos publicados en el manifiesto de la API.</p>
+    </div>
+    <section id="datos" class="wrap">
+      <div class="section-head">
+        <div><div class="eyebrow teal">01 / Explorar</div><h2>Conjuntos disponibles</h2></div>
+        <p>Cada colección incluye observaciones, dimensiones y notas de calidad. El catálogo y los archivos JSON son públicos.</p>
+      </div>
+      <div id="datasets-grid" class="grid" aria-live="polite">
+        <article class="card">
+          <div class="card-index">CATÁLOGO</div>
+          <h3>Consultar colecciones disponibles</h3>
+          <p class="card-meta">Consulta el catálogo si los metadatos aún no se han cargado.</p>
+          <div class="card-links"><a href="./api/v1/catalog.json">Ver catálogo JSON →</a></div>
+        </article>
+      </div>
+    </section>
+    <section id="usar" class="wrap">
+      <div class="info">
+        <div>
+          <div class="eyebrow teal">02 / Integración</div>
+          <h2>Una URL.<br>Datos reproducibles.</h2>
+          <p>No necesitas credenciales ni una base de datos. Accede por HTTP a los archivos JSON y utiliza sus observaciones en R, Python o cualquier aplicación.</p>
+          <div class="pill-list"><span>JSON</span><span>R / tidyverse</span><span>HTTP</span><span>GitHub Pages</span></div>
+          <p><a href="./api/v1/manifest.json">Ver manifiesto de versiones →</a></p>
+        </div>
+        <div class="terminal" aria-label="Ejemplo de uso con R">
+          <div class="terminal-head"><span>R · tidyverse</span><button id="copy-code" type="button">Copiar</button></div>
+          <pre><code id="r-code">library(dplyr)
+library(jsonlite)
+
+url &lt;- paste0(
+  "https://miparrar.github.io/",
+  "laboral-data/api/v1/series/",
+  "indicadores_principales.json"
+)
+
+serie &lt;- fromJSON(url)$observations
+
+desocupacion &lt;- serie |&gt;
+  filter(
+    indicator == "tasa_desocupacion",
+    region == "nacional",
+    sex == "total"
+  ) |&gt;
+  arrange(period)</code></pre>
+        </div>
+      </div>
+    </section>
+    <section id="metodologia" class="wrap">
+      <div class="eyebrow teal">03 / Método y procedencia</div>
+      <h2>Datos públicos, con trazabilidad.</h2>
+      <div class="principles">
+        <div class="principle"><strong>Fuente oficial</strong><p>Se procesan los tabulados de la Encuesta Nacional de Empleo del Instituto Nacional de Estadísticas (INE) de Chile. No se producen estimaciones independientes.</p></div>
+        <div class="principle"><strong>Actualización auditable</strong><p>El pipeline en R valida los archivos, registra hashes SHA-256 y publica cobertura temporal, número de observaciones y versión del parser en el manifiesto.</p></div>
+        <div class="principle"><strong>Advertencias preservadas</strong><p>Las observaciones mantienen las notas de calidad del INE: sin advertencia, estimación poco fiable, no fiable o sin dato. Revisa estas marcas antes de analizar.</p></div>
+      </div>
+      <div class="note-box"><strong>Consideraciones:</strong> la ENE publica trimestres móviles superpuestos, no meses independientes. La desagregación geográfica y por sexo depende del conjunto. En ocupación por rama, la categoría total no debe sumarse a las ramas. Consulta el catálogo y la <a href="https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion">documentación oficial del INE</a>.</div>
+    </section>
+  </main>
+  <footer class="footer">
+    <div class="wrap footer-inner">
+      <p><strong>laboral-data</strong> · Proyecto abierto e independiente. No es un servicio oficial del INE.</p>
+      <p><a href="https://github.com/miparrar/laboral-data">Código fuente</a> · <a href="./api/v1/catalog.json">Catálogo</a> · <a href="./api/v1/manifest.json">Manifiesto</a></p>
+    </div>
+  </footer>
+  <script>
+    (function () {
+      "use strict";
+      var base = "./api/v1/";
+      var format = new Intl.NumberFormat("es-CL");
+      var grid = document.getElementById("datasets-grid");
+      var headings = {
+        indicadores_principales: "Indicadores principales",
+        complementarios: "Indicadores complementarios",
+        horas: "Horas trabajadas",
+        indicadores_principales_edad: "Indicadores por edad",
+        rama: "Ocupación por actividad económica"
+      };
+      function addText(parent, tag, value, className) {
+        var el = document.createElement(tag);
+        if (className) el.className = className;
+        el.textContent = value;
+        parent.appendChild(el);
+        return el;
+      }
+      function link(parent, label, href, isExternal) {
+        var a = document.createElement("a");
+        a.href = href;
+        a.textContent = label;
+        if (isExternal) {
+          a.target = "_blank";
+          a.rel = "noopener noreferrer";
+        }
+        parent.appendChild(a);
+        return a;
+      }
+      function render(catalog, manifest) {
+        document.getElementById("dataset-count").textContent = format.format(manifest.datasets.length);
+        document.getElementById("observation-count").textContent = format.format(manifest.datasets.reduce(function (s, d) { return s + d.observations; }, 0));
+        document.getElementById("period-start").textContent = manifest.datasets.reduce(function (v, d) { return v < d.first_period ? v : d.first_period; }, "9999").slice(0, 4);
+        document.getElementById("period-end").textContent = manifest.datasets.reduce(function (v, d) { return v > d.last_period ? v : d.last_period; }, "0000");
+        var dt = new Date(manifest.updated_at);
+        document.getElementById("last-updated").textContent = "Metadatos actualizados: " + (Number.isNaN(dt.valueOf()) ? manifest.updated_at : new Intl.DateTimeFormat("es-CL", { dateStyle: "long", timeZone: "UTC" }).format(dt)) + " · Fuente: INE Chile.";
+        grid.replaceChildren();
+        catalog.datasets.forEach(function (dataset, i) {
+          var m = manifest.datasets.find(function (item) { return item.id === dataset.id; });
+          if (!m) return;
+          var card = document.createElement("article");
+          card.className = "card";
+          var top = addText(card, "div", "", "card-top");
+          addText(top, "span", String(i + 1).padStart(2, "0") + " / " + String(catalog.datasets.length).padStart(2, "0"), "card-index");
+          addText(top, "span", m.status === "ok" ? "Validado" : "Revisar", "tag");
+          addText(card, "h3", headings[dataset.id] || dataset.title);
+          addText(card, "p", format.format(m.observations) + " registros · " + m.first_period + " a " + m.last_period + " · " + dataset.indicators.length + " indicador(es)", "card-meta");
+          var links = addText(card, "div", "", "card-links");
+          link(links, "Consultar JSON →", base + dataset.path, false);
+          link(links, "Excel del INE ↗", m.source_url, true);
+          var details = document.createElement("details");
+          details.className = "details";
+          addText(details, "summary", "Ver dimensiones y cobertura");
+          var dim = dataset.coverage && dataset.coverage[0] ? Object.keys(dataset.coverage[0]).join(", ") : "Según catálogo";
+          addText(details, "p", "Dimensiones: " + dim + ". Coberturas: " + (dataset.coverage ? dataset.coverage.length : "consultar catálogo") + ". Indicadores y notas de calidad disponibles en el catálogo.");
+          link(details, "Ficha de metadatos →", base + "catalog.json", false);
+          card.appendChild(details);
+          grid.appendChild(card);
+        });
+      }
+      Promise.all([
+        fetch(base + "catalog.json").then(function (r) { if (!r.ok) throw Error("Catálogo no disponible"); return r.json(); }),
+        fetch(base + "manifest.json").then(function (r) { if (!r.ok) throw Error("Manifiesto no disponible"); return r.json(); })
+      ]).then(function (parts) { render(parts[0], parts[1]); })
+      .catch(function () {
+        document.getElementById("last-updated").textContent = "No se pudo cargar el resumen automático. Los enlaces al catálogo y al manifiesto siguen disponibles.";
+      });
+      var copy = document.getElementById("copy-code");
+      copy.addEventListener("click", function () {
+        var content = document.getElementById("r-code").textContent;
+        if (!navigator.clipboard || !navigator.clipboard.writeText) { copy.textContent = "Selecciona el código"; return; }
+        navigator.clipboard.writeText(content).then(function () {
+          copy.textContent = "Copiado";
+          setTimeout(function () { copy.textContent = "Copiar"; }, 1600);
+        }).catch(function () { copy.textContent = "Selecciona el código"; });
+      });
+    }());
+  </script>
+</body>
+</html>
