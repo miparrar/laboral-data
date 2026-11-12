@@ -1,5 +1,7 @@
 # laboral-data
 
+**[Explorar datos y colecciones](https://miparrar.github.io/laboral-data/)** · [Catálogo JSON](https://miparrar.github.io/laboral-data/api/v1/catalog.json) · [Manifiesto de versiones](https://miparrar.github.io/laboral-data/api/v1/manifest.json)
+
 **laboral-data transforma los tabulados que publica el Instituto Nacional de Estadísticas (INE) para la Encuesta Nacional de Empleo (ENE) en archivos JSON estructurados, validados y accesibles públicamente.**
 
 La descripción de las estadísticas, sus definiciones y los tabulados originales se encuentran en la [página oficial de Ocupación y Desocupación del INE](https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion).
