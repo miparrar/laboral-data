@@ -2,6 +2,14 @@
 
 **Datos abiertos de la Encuesta Nacional de Empleo (ENE) de Chile.** Tabulados del Instituto Nacional de Estadísticas (INE) convertidos a JSON estructurado, validado y actualizado automáticamente.
 
+## ¿Por qué laboral-data?
+
+Los tabulados del INE son una fuente fundamental para analizar el mercado laboral chileno, pero trabajar directamente con archivos Excel exige descargarlos, identificar sus hojas y adaptar su estructura. `laboral-data` facilita ese acceso: ofrece series normalizadas y disponibles mediante URL, listas para consultar e integrar en R, Python y otros entornos de análisis.
+
+También busca facilitar la integración con modelos de lenguaje y sistemas agénticos. JSON es un formato de intercambio ampliamente soportado, con una sintaxis explícita y herramientas de validación que favorecen su consumo programático. YAML suele ser más cómodo para la lectura y edición humana; ambos pueden procesarse automáticamente, pero JSON resulta especialmente práctico para APIs y salidas estructuradas de modelos de lenguaje.
+
+La intención no es reemplazar las publicaciones del INE, sino **reducir la fricción entre los datos oficiales y sus posibles usos**, conservando su procedencia y advertencias de calidad.
+
 [Explorar datos](https://miparrar.github.io/laboral-data/) · [Catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) · [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json)
 
 ## Datos disponibles
