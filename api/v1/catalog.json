@@ -1,12 +1,15 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T21:13:23Z",
+  "updated_at": "2026-11-12T02:06:52Z",
   "datasets": [
     {
       "id": "indicadores_principales",
       "title": "Indicadores principales ENE",
       "path": "series/indicadores_principales.json",
       "frequency": "rolling_quarter",
+      "source_file": "indicadores_principales.xlsx",
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx",
+      "source_sheets": ["AS", "H", "M", "AP", "TA", "AN", "AT", "CO", "VA", "RM", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
       "indicators": [
         {
           "id": "poblacion_edad_trabajar",
@@ -165,6 +168,9 @@
       "title": "Indicadores complementarios a la tasa de desocupación ENE",
       "path": "series/complementarios.json",
       "frequency": "rolling_quarter",
+      "source_file": "complementarios.xlsx",
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/complementarios.xlsx?sfvrsn=513dfbba_203",
+      "source_sheets": ["AS", "H", "M", "AP", "TA", "AN", "AT", "CO", "VA", "RM", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
       "indicators": [
         {
           "id": "fuerza_trabajo",
@@ -333,6 +339,9 @@
       "title": "Indicadores relacionados con horas trabajadas ENE",
       "path": "series/horas.json",
       "frequency": "rolling_quarter",
+      "source_file": "horas.xlsx",
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205",
+      "source_sheets": ["AS", "H", "M"],
       "indicators": [
         {
           "id": "ocupados",
@@ -427,6 +436,9 @@
       "title": "Indicadores principales ENE por tramo de edad",
       "path": "series/indicadores_principales_edad.json",
       "frequency": "rolling_quarter",
+      "source_file": "indicadores_principales_edad.xlsx",
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_edad.xlsx?sfvrsn=3fc0d55f_36",
+      "source_sheets": ["15-24", "25-34", "35-44", "45-54", "55-64", "65-Más"],
       "indicators": [
         {
           "id": "poblacion_edad_trabajar",
@@ -539,6 +551,9 @@
       "title": "Personas ocupadas por rama de actividad económica",
       "path": "series/rama.json",
       "frequency": "rolling_quarter",
+      "source_file": "rama.xlsx",
+      "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/rama.xlsx?sfvrsn=23a76b12_214",
+      "source_sheets": ["AS", "H", "M", "AP", "TA", "AN", "AT", "CO", "VA", "RM", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
       "indicators": [
         {
           "id": "ocupados",

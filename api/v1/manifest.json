@@ -1,11 +1,12 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-10T21:13:23Z",
+  "updated_at": "2026-11-12T02:06:52Z",
   "datasets": [
     {
       "id": "indicadores_principales",
       "path": "series/indicadores_principales.json",
-      "parser_version": 3,
+      "parser_version": 4,
+      "source_file": "indicadores_principales.xlsx",
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales.xlsx",
       "source_sha256": "63bbe64b2174ae04ecb76eacd2d188db0d1e6e8429b5b770131d84ad844b302f",
       "observations": 49153,
@@ -16,7 +17,8 @@
     {
       "id": "complementarios",
       "path": "series/complementarios.json",
-      "parser_version": 3,
+      "parser_version": 4,
+      "source_file": "complementarios.xlsx",
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/complementarios.xlsx?sfvrsn=513dfbba_203",
       "source_sha256": "729641bb90adca5f6f747ee54290b1aee133958acdd729e75166c8c895296a4d",
       "observations": 56715,
@@ -27,7 +29,8 @@
     {
       "id": "horas",
       "path": "series/horas.json",
-      "parser_version": 3,
+      "parser_version": 4,
+      "source_file": "horas.xlsx",
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/horas.xlsx?sfvrsn=d294ce0e_205",
       "source_sha256": "3bb356169cbc2d3351db71ba26272e502cc22bc0df18d83d9c2b16c4f4c282ce",
       "observations": 7761,
@@ -38,7 +41,8 @@
     {
       "id": "indicadores_principales_edad",
       "path": "series/indicadores_principales_edad.json",
-      "parser_version": 3,
+      "parser_version": 4,
+      "source_file": "indicadores_principales_edad.xlsx",
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/indicadores_principales_edad.xlsx?sfvrsn=3fc0d55f_36",
       "source_sha256": "66b445e228ab9fca4d7f740b2952b41f9c8ce1ab31c4cdf02fcbefaf0b2c4f90",
       "observations": 15522,
@@ -49,7 +53,8 @@
     {
       "id": "rama",
       "path": "series/rama.json",
-      "parser_version": 3,
+      "parser_version": 4,
+      "source_file": "rama.xlsx",
       "source_url": "https://www.ine.gob.cl/docs/default-source/ocupacion-y-desocupacion/cuadros-estadisticos/series-vigentes/rama.xlsx?sfvrsn=23a76b12_214",
       "source_sha256": "2723e9acd4d6e34e8ced6e6145661216a696eb3920eb0c177f414e26e273331c",
       "observations": 71231,
