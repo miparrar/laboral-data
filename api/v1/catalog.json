@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_at": "2026-11-12T02:06:52Z",
+  "updated_at": "2026-11-12T02:40:49Z",
   "datasets": [
     {
       "id": "indicadores_principales",
@@ -14,67 +14,136 @@
         {
           "id": "poblacion_edad_trabajar",
           "label": "Población en edad de trabajar",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuerza_trabajo",
           "label": "Fuerza de trabajo",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "ocupados",
           "label": "Población ocupada",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "desocupados",
           "label": "Población desocupada (Total)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "cesantes",
           "label": "Población desocupada (Cesantes)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "buscan_primera_vez",
           "label": "Población desocupada (Buscan trabajo por primera vez)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuera_fuerza_trabajo",
           "label": "Fuera de la fuerza de trabajo (Total)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_iniciadores",
           "label": "Fuera de la fuerza de trabajo (Iniciadores)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_potenciales",
           "label": "Fuera de la fuerza de trabajo (Inactivos potencialmente activos)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_habituales",
           "label": "Fuera de la fuerza de trabajo (Inactivos habituales)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tasa_desocupacion",
           "label": "Tasa de desocupación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Personas desocupadas divididas por fuerza de trabajo, multiplicado por 100.",
+          "aliases": ["tasa de desempleo", "desempleo"]
         },
         {
           "id": "tasa_ocupacion",
           "label": "Tasa de ocupación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Personas ocupadas sobre población en edad de trabajar, multiplicado por 100."
         },
         {
           "id": "tasa_participacion",
           "label": "Tasa de participación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Fuerza de trabajo sobre población en edad de trabajar, multiplicado por 100."
         }
       ],
       "coverage": [
@@ -173,79 +242,114 @@
       "source_sheets": ["AS", "H", "M", "AP", "TA", "AN", "AT", "CO", "VA", "RM", "LI", "ML", "NB", "BI", "AR", "LR", "LL", "AI", "MA"],
       "indicators": [
         {
-          "id": "fuerza_trabajo",
-          "label": "Fuerza de trabajo (FT)",
-          "unit": "thousand_persons"
-        },
-        {
-          "id": "ocupados",
-          "label": "Personas ocupadas (O)",
-          "unit": "thousand_persons"
-        },
-        {
-          "id": "desocupados",
-          "label": "Personas desocupadas (DO)",
-          "unit": "thousand_persons"
-        },
-        {
           "id": "iniciadores_disponibles",
           "label": "Personas iniciadoras disponibles (ID)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tiempo_parcial_involuntario",
           "label": "Personas ocupados/as que trabajan a tiempo parcial involuntario (TPI) [2]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "ocupados_buscaron_empleo",
           "label": "Personas ocupados/as que buscaron empleo (OBE) [3]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuerza_trabajo_potencial",
           "label": "Fuerza de trabajo potencial (FTP) [4]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuerza_trabajo_ampliada",
           "label": "Fuerza de trabajo ampliada (FTA) [5]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "deseo_trabajar",
           "label": "Deseo de trabajar [6]",
-          "unit": "thousand_persons"
-        },
-        {
-          "id": "tasa_desocupacion",
-          "label": "Tasa de desocupación",
-          "unit": "percent"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tasa_presion_laboral",
           "label": "Tasa de presión laboral [7]",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "su1",
           "label": "Tasa de desocupación con iniciadores disponibles (SU1) [8]",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "su2",
           "label": "Tasa combinada de desocupación y tiempo parcial involuntario (SU2) [9]",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "su3",
           "label": "Tasa combinada de desocupación y fuerza de trabajo potencial (SU3) [10]",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "su4",
           "label": "Tasa global de subutilización (SU4) [11]",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         }
       ],
       "coverage": [
@@ -344,69 +448,114 @@
       "source_sheets": ["AS", "H", "M"],
       "indicators": [
         {
-          "id": "ocupados",
-          "label": "Población ocupada [2]",
-          "unit": "thousand_persons"
-        },
-        {
           "id": "horas_habituales_1_30",
           "label": "Personas ocupadas que trabajaron entre 1 y 30 horas habituales",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tiempo_parcial_voluntario",
           "label": "Personas ocupadas  que trabajaron a tiempo parcial voluntario (TPV) [3]",
-          "unit": "thousand_persons"
-        },
-        {
-          "id": "tiempo_parcial_involuntario",
-          "label": "Personas ocupadas  que trabajaron a tiempo parcial involuntario (TPI) [4]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tiempo_parcial_no_declara_voluntariedad",
           "label": "Personas ocupadas  que trabajaron a tiempo parcial y sin declarar voluntariedad [5]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "horas_habituales_31_44",
           "label": "Personas ocupadas  que trabajaron entre 31 y 44 horas habituales",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "horas_habituales_45",
           "label": "Personas ocupadas  que trabajaron 45 horas habituales",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "horas_habituales_mas_45",
           "label": "Personas ocupadas  que trabajaron más de 45 horas habituales",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "horas_efectivas_mas_45",
           "label": "Personas ocupadas  que trabajaron más de 45 horas efectivas a la semana [6]",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "ocupados_declaran_horas",
           "label": "Personas ocupadas que declararon horas trabajadas",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "promedio_horas_efectivas_incluye_ausentes",
           "label": "Promedio de horas efectivas trabajadas a la semana (incluyendo personas ocupadas ausentes) [7]",
-          "unit": "hours"
+          "unit": "hours",
+          "analysis": {
+            "measurement_type": "average",
+            "allowed": ["serie_temporal", "diferencia_horas", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["No sumar promedios ni agregarlos sin denominadores apropiados.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "promedio_horas_efectivas_excluye_ausentes",
           "label": "Promedio de horas efectivas trabajadas a la semana (excluyendo personas ocupadas ausentes) [8]",
-          "unit": "hours"
+          "unit": "hours",
+          "analysis": {
+            "measurement_type": "average",
+            "allowed": ["serie_temporal", "diferencia_horas", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["No sumar promedios ni agregarlos sin denominadores apropiados.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "promedio_horas_habituales",
           "label": "Promedio de horas habitualmente  trabajadas a la semana",
-          "unit": "hours"
+          "unit": "hours",
+          "analysis": {
+            "measurement_type": "average",
+            "allowed": ["serie_temporal", "diferencia_horas", "comparacion_periodos", "brecha_por_sexo"],
+            "warnings": ["No sumar promedios ni agregarlos sin denominadores apropiados.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         }
       ],
       "coverage": [
@@ -443,67 +592,136 @@
         {
           "id": "poblacion_edad_trabajar",
           "label": "Población en edad de trabajar",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuerza_trabajo",
           "label": "Fuerza de trabajo",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "ocupados",
           "label": "Población ocupada",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "desocupados",
           "label": "Población desocupada (Total)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "cesantes",
           "label": "Población desocupada (Cesantes)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "buscan_primera_vez",
           "label": "Población desocupada (Buscan trabajo por primera vez)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "fuera_fuerza_trabajo",
           "label": "Fuera de la fuerza de trabajo (Total)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_iniciadores",
           "label": "Fuera de la fuerza de trabajo (Iniciadores)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_potenciales",
           "label": "Fuera de la fuerza de trabajo (Inactivos potencialmente activos)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "inactivos_habituales",
           "label": "Fuera de la fuerza de trabajo (Inactivos habituales)",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         },
         {
           "id": "tasa_desocupacion",
           "label": "Tasa de desocupación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Personas desocupadas divididas por fuerza de trabajo, multiplicado por 100.",
+          "aliases": ["tasa de desempleo", "desempleo"]
         },
         {
           "id": "tasa_ocupacion",
           "label": "Tasa de ocupación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Personas ocupadas sobre población en edad de trabajar, multiplicado por 100."
         },
         {
           "id": "tasa_participacion",
           "label": "Tasa de participación",
-          "unit": "percent"
+          "unit": "percent",
+          "analysis": {
+            "measurement_type": "rate",
+            "allowed": ["serie_temporal", "diferencia_puntos_porcentuales", "comparacion_periodos", "comparacion_etaria"],
+            "warnings": ["No sumar tasas ni calcular promedios no ponderados como agregación.", "Los trimestres móviles consecutivos se superponen.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          },
+          "definition": "Fuerza de trabajo sobre población en edad de trabajar, multiplicado por 100."
         }
       ],
       "coverage": [
@@ -558,7 +776,12 @@
         {
           "id": "ocupados",
           "label": "Personas ocupadas según rama de actividad económica",
-          "unit": "thousand_persons"
+          "unit": "thousand_persons",
+          "analysis": {
+            "measurement_type": "estimated_count",
+            "allowed": ["serie_temporal", "variacion_absoluta", "variacion_relativa", "comparacion_periodos", "comparacion_territorial", "brecha_por_sexo", "comparacion_ramas"],
+            "warnings": ["Estimaciones expandidas en miles de personas; no son recuentos censales.", "No sumar períodos de trimestres móviles superpuestos.", "No sumar totales con sus categorías ni regiones con el total nacional.", "No inferir significación estadística sin errores estándar y diseño muestral."]
+          }
         }
       ],
       "coverage": [
@@ -670,11 +893,6 @@
         {
           "region": "antofagasta",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "antofagasta",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -781,11 +999,6 @@
           "region": "araucania",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "araucania",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "araucania",
@@ -900,11 +1113,6 @@
         {
           "region": "arica_parinacota",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "arica_parinacota",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -1011,11 +1219,6 @@
           "region": "atacama",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "atacama",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "atacama",
@@ -1130,11 +1333,6 @@
         {
           "region": "aysen",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "aysen",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -1241,11 +1439,6 @@
           "region": "biobio",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "biobio",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "biobio",
@@ -1360,11 +1553,6 @@
         {
           "region": "coquimbo",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "coquimbo",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -1471,11 +1659,6 @@
           "region": "los_lagos",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "los_lagos",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "los_lagos",
@@ -1590,11 +1773,6 @@
         {
           "region": "los_rios",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "los_rios",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -1701,11 +1879,6 @@
           "region": "magallanes",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "magallanes",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "magallanes",
@@ -1820,11 +1993,6 @@
         {
           "region": "maule",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "maule",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -1931,11 +2099,6 @@
           "region": "metropolitana",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "metropolitana",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "metropolitana",
@@ -2050,11 +2213,6 @@
         {
           "region": "nacional",
           "sex": "hombre",
-          "branch": "total"
-        },
-        {
-          "region": "nacional",
-          "sex": "hombre",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -2161,11 +2319,6 @@
           "region": "nacional",
           "sex": "mujer",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "nacional",
-          "sex": "mujer",
-          "branch": "total"
         },
         {
           "region": "nacional",
@@ -2280,11 +2433,6 @@
         {
           "region": "nacional",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "nacional",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -2391,11 +2539,6 @@
           "region": "nuble",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "nuble",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "nuble",
@@ -2510,11 +2653,6 @@
         {
           "region": "ohiggins",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "ohiggins",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -2625,11 +2763,6 @@
         {
           "region": "tarapaca",
           "sex": "total",
-          "branch": "total"
-        },
-        {
-          "region": "tarapaca",
-          "sex": "total",
           "branch": "transporte_almacenamiento"
         },
         {
@@ -2736,11 +2869,6 @@
           "region": "valparaiso",
           "sex": "total",
           "branch": "suministro_agua"
-        },
-        {
-          "region": "valparaiso",
-          "sex": "total",
-          "branch": "total"
         },
         {
           "region": "valparaiso",
@@ -2750,10 +2878,6 @@
       ],
       "dimension_labels": {
         "branch": [
-          {
-            "id": "total",
-            "label": "Población ocupada (total)"
-          },
           {
             "id": "agricultura_ganaderia_silvicultura_pesca",
             "label": "Agricultura, ganadería, silvicultura y pesca"
