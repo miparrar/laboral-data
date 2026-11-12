@@ -1,0 +1,50 @@
+# Metadatos de análisis inspirados en conceptos SDMX.
+# Son capacidades declarativas: las aplicaciones deben validar dimensiones,
+# suficiencia de períodos y calidad antes de ejecutar un procedimiento.
+# No autorizan inferencia estadística ni agregaciones arbitrarias.
+units:
+  percent:
+    measurement_type: rate
+    analyses:
+      - serie_temporal
+      - diferencia_puntos_porcentuales
+      - comparacion_periodos
+    warnings:
+      - "No sumar tasas ni calcular promedios no ponderados como agregación."
+      - "Los trimestres móviles consecutivos se superponen."
+      - "No inferir significación estadística sin errores estándar y diseño muestral."
+  thousand_persons:
+    measurement_type: estimated_count
+    analyses:
+      - serie_temporal
+      - variacion_absoluta
+      - variacion_relativa
+      - comparacion_periodos
+    warnings:
+      - "Estimaciones expandidas en miles de personas; no son recuentos censales."
+      - "No sumar períodos de trimestres móviles superpuestos."
+      - "No sumar totales con sus categorías ni regiones con el total nacional."
+      - "No inferir significación estadística sin errores estándar y diseño muestral."
+  hours:
+    measurement_type: average
+    analyses:
+      - serie_temporal
+      - diferencia_horas
+      - comparacion_periodos
+    warnings:
+      - "No sumar promedios ni agregarlos sin denominadores apropiados."
+      - "Los trimestres móviles consecutivos se superponen."
+      - "No inferir significación estadística sin errores estándar y diseño muestral."
+dimension_analyses:
+  region: comparacion_territorial
+  sex: brecha_por_sexo
+  age_group: comparacion_etaria
+  branch: comparacion_ramas
+indicators:
+  tasa_desocupacion:
+    definition: "Personas desocupadas divididas por fuerza de trabajo, multiplicado por 100."
+    aliases: ["tasa de desempleo", "desempleo"]
+  tasa_ocupacion:
+    definition: "Personas ocupadas sobre población en edad de trabajar, multiplicado por 100."
+  tasa_participacion:
+    definition: "Fuerza de trabajo sobre población en edad de trabajar, multiplicado por 100."

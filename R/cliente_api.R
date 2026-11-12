@@ -82,7 +82,21 @@ laboral_metadata <- function() {
       hojas = paste(unlist(dataset$source_sheets), collapse = ", "),
       archivo = .laboral_fuente(dataset),
       fuente_url = dataset$source_url,
-      ramas = paste(labels, collapse = " ")
+      ramas = paste(labels, collapse = " "),
+      tipo_medida = vapply(dataset$indicators, function(x)
+        if (is.null(x$analysis$measurement_type)) "" else
+          x$analysis$measurement_type, character(1)),
+      analisis = vapply(dataset$indicators, function(x)
+        paste(unlist(x$analysis$allowed, use.names = FALSE),
+              collapse = ", "), character(1)),
+      advertencias = vapply(dataset$indicators, function(x)
+        paste(unlist(x$analysis$warnings, use.names = FALSE),
+              collapse = " | "), character(1)),
+      definicion = vapply(dataset$indicators, function(x)
+        if (is.null(x$definition)) "" else x$definition, character(1)),
+      sinonimos = vapply(dataset$indicators, function(x)
+        paste(unlist(x$aliases, use.names = FALSE), collapse = ", "),
+        character(1))
     )
   }))
 }
@@ -99,17 +113,27 @@ laboral_buscar <- function(query) {
     x[is.na(x)] <- ""
     tolower(x)
   }
-  busqueda <- normalizar(paste(
-    catalogo$series_id, catalogo$titulo, catalogo$descripcion,
-    catalogo$ramas
-  ))
+  # El título del tabulado NO determina relevancia del indicador:
+  # evita devolver todos los complementarios por mencionar "desocupación".
+  descripcion <- normalizar(catalogo$descripcion)
+  sinonimos <- normalizar(catalogo$sinonimos)
+  busqueda <- normalizar(paste(catalogo$series_id, catalogo$descripcion,
+                               catalogo$sinonimos, catalogo$ramas))
 
   dplyr::bind_rows(lapply(query, function(texto) {
-    terminos <- strsplit(trimws(normalizar(texto)), "[[:space:]]+")[[1L]]
-    candidatos <- vapply(terminos, function(t) grepl(t, busqueda, fixed = TRUE),
-                        logical(nrow(catalogo)))
-    seleccion <- if (length(terminos) == 1L) candidatos else {
-      rowSums(candidatos) == length(terminos)
+    texto_norm <- trimws(normalizar(texto))
+    exactos <- descripcion == texto_norm |
+      vapply(strsplit(sinonimos, ", ", fixed = TRUE),
+             function(x) texto_norm %in% x, logical(1))
+    if (any(exactos)) {
+      seleccion <- exactos
+    } else {
+      terminos <- strsplit(texto_norm, "[[:space:]]+")[[1L]]
+      candidatos <- vapply(terminos, function(t) grepl(t, busqueda, fixed = TRUE),
+                          logical(nrow(catalogo)))
+      seleccion <- if (length(terminos) == 1L) candidatos else {
+        rowSums(candidatos) == length(terminos)
+      }
     }
     dplyr::mutate(catalogo[seleccion, , drop = FALSE],
                   query = texto, .before = 1L)
