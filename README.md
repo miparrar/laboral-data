@@ -1,16 +1,8 @@
 # laboral-data
 
-**Autores:** Matías Parra y Joshua Kunst · **K&P**.
+**laboral-data transforma los tabulados de la Encuesta Nacional de Empleo (ENE) del INE en archivos JSON públicos, estructurados y actualizados.** Así facilita su consulta y análisis desde R, Python o modelos de lenguaje.
 
-**Datos abiertos de la Encuesta Nacional de Empleo (ENE) de Chile.** Tabulados del Instituto Nacional de Estadísticas (INE) convertidos a JSON estructurado, validado y actualizado automáticamente.
-
-## ¿Por qué laboral-data?
-
-Buscamos facilitar la consulta, exploración y análisis de la información de la Encuesta Nacional de Empleo (ENE). En un contexto en que la situación de los trabajadores en Chile es delicada, creemos necesario conocer mejor qué está ocurriendo con el empleo y la desocupación, cómo evolucionan y qué diferencias existen entre territorios, grupos de edad, hombres y mujeres y actividades económicas.
-
-Para ello, ponemos los tabulados del INE a disposición en archivos JSON que pueden consultarse directamente desde R, Python y otros entornos. Este formato también facilita su integración con modelos de lenguaje y sistemas agénticos, abriendo nuevas posibilidades para explorar y analizar las estadísticas.
-
-No buscamos producir nuevas cifras ni reemplazar las publicaciones del INE, sino hacer más accesible la información existente, conservando la trazabilidad a las fuentes originales y las notas de calidad.
+Buscamos hacer más accesible esta información para contribuir a comprender la situación de los trabajadores en Chile.
 
 ## Datos disponibles
 
