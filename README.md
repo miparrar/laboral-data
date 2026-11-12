@@ -127,11 +127,34 @@ respuesta <- jsonlite::fromJSON(
 datos <- tibble::as_tibble(respuesta$observations)
 ```
 
+## Calendario oficial de publicaciones
+
+El calendario de **Empleo Nacional** del INE se mantiene en este repositorio. Cada año conserva la fecha y hora oficial de publicación, el trimestre móvil y su período correspondiente (mes central).
+
+- [Calendario 2026, fuente YAML](config/calendario_ene/2026.yaml).
+- [Calendario 2026 en JSON](https://miparrar.github.io/laboral-data/api/v1/calendario/2026.json).
+- [Índice de años disponibles](https://miparrar.github.io/laboral-data/api/v1/calendario/index.json).
+- [Calendario oficial del INE](https://www.ine.gob.cl/docs/default-source/prensa-y-comunicacion/calendario/calendario-de-publicaciones.pdf.pdf?sfvrsn=93b45045_58).
+
+Por ejemplo, en R:
+
+```r
+publicaciones <- jsonlite::fromJSON(
+  "https://miparrar.github.io/laboral-data/api/v1/calendario/2026.json"
+)$publicaciones |>
+  tibble::as_tibble()
+
+publicaciones |>
+  dplyr::select(fecha, hora, trimestre, periodo)
+```
+
+El YAML es la **fuente única** para mantener las fechas; el JSON se genera automáticamente a partir de él. `laborales` consume el calendario directamente desde `laboral-data`. La fecha programada no garantiza que un CSV o tabulado ya esté disponible: la descarga debe comprobarlo.
+
 ## Cómo funciona
 
 Los archivos Excel originales se descargan desde el [INE](https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion), se procesan y validan con R y se publican mediante GitHub Pages. Se preservan notas de calidad, hashes SHA-256 y versiones de procesamiento. Los Excel se respaldan en GitHub Releases.
 
-La actualización sigue el [calendario ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). Los trimestres móviles son períodos superpuestos, no observaciones mensuales independientes.
+La actualización sigue el calendario oficial ENE versionado aquí. Los trimestres móviles son períodos superpuestos, no observaciones mensuales independientes.
 
 ## Ejecución local
 
