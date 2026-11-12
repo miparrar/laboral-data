@@ -1,12 +1,14 @@
 # laboral-data
 
+**Autores:** Matías Parra y Joshua Kunst · **K&P**.
+
 **Datos abiertos de la Encuesta Nacional de Empleo (ENE) de Chile.** Tabulados del Instituto Nacional de Estadísticas (INE) convertidos a JSON estructurado, validado y actualizado automáticamente.
 
 ## ¿Por qué laboral-data?
 
 La idea es sencilla: facilitar el acceso a las estadísticas de la ENE para trabajar con ellas desde distintos entornos. En lugar de descargar los Excel del INE y procesarlos cada vez, las series quedan disponibles en archivos JSON que se pueden consultar directamente desde R, Python u otras herramientas.
 
-Hay una segunda razón: facilitar su uso con modelos de lenguaje y sistemas agénticos. Elegí JSON porque es un formato estándar, con una estructura bien definida y ampliamente utilizado para intercambiar información entre aplicaciones. YAML puede ser más cómodo de leer y escribir para una persona; JSON, en cambio, resulta práctico para integrarlo con APIs y herramientas que trabajan con datos estructurados.
+Hay una segunda razón: facilitar su uso con modelos de lenguaje y sistemas agénticos. Elegimos JSON porque es un formato estándar, con una estructura bien definida y ampliamente utilizado para intercambiar información entre aplicaciones. YAML puede ser más cómodo de leer y escribir para una persona; JSON, en cambio, resulta práctico para integrarlo con APIs y herramientas que trabajan con datos estructurados.
 
 No se trata de producir nuevas estadísticas, sino de hacer más accesibles las que ya publica el INE, manteniendo la referencia a sus fuentes y las notas de calidad.
 
@@ -18,7 +20,23 @@ No se trata de producir nuevas estadísticas, sino de hacer más accesibles las 
 - [Ocupación por rama](https://miparrar.github.io/laboral-data/api/v1/series/rama.json): ocupados por actividad económica; nacional por sexo y regiones.
 - [Indicadores por edad](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales_edad.json): indicadores principales en seis tramos de edad; total nacional.
 
-Todas las series incluyen trimestre móvil y notas de calidad. En la serie por rama, `branch = "total"` **no se suma** a las actividades; `no_sabe_no_responde` no es una actividad económica. Consulta el [catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) para identificar indicadores, unidades y dimensiones.
+Todas las series incluyen trimestre móvil y notas de calidad. Los indicadores repetidos entre tabulados se publican una sola vez por período y cobertura estadística: la tasa de desocupación general, la fuerza de trabajo y los totales de ocupados y desocupados se consultan en **indicadores principales**. El total de ocupados por rama tampoco se duplica: el desglose por actividad permanece en **rama** y el total se obtiene desde principales. Los indicadores por edad se mantienen porque aportan un desglose diferente. `no_sabe_no_responde` no es una actividad económica. Consulta el [catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) para identificar indicadores, unidades, dimensiones y análisis admitidos.
+
+## Metadatos y análisis posibles
+
+El catálogo JSON incluye, para cada indicador, el tipo de medida, los análisis posibles, sus dimensiones y advertencias estadísticas. Estas reglas se mantienen en [`config/analisis.yml`](config/analisis.yml), inspiradas en conceptos de SDMX, sin implementar todo el estándar.
+
+Por ejemplo, una **tasa** admite evolución temporal, comparaciones y diferencias en puntos porcentuales; una **cantidad estimada** admite variaciones absolutas y relativas; y un **promedio de horas** admite diferencias de horas. Las comparaciones por región, sexo, edad o rama sólo se ofrecen cuando existe ese desglose. Son posibilidades analíticas, **no instrucciones para sumar tasas, promediar resultados arbitrariamente ni inferir significación estadística sin el diseño muestral**.
+
+La redundancia se identifica por indicador, unidad, período y todas sus dimensiones. Se conserva una fuente prioritaria y se registra cualquier discrepancia de valores entre tabulados originales. Los Excel no se alteran.
+
+Para revisar solapamientos de las series publicadas:
+
+```bash
+make audit
+```
+
+La función `laboral_redundancias(datasets)` de [`R/redundancias.R`](R/redundancias.R) permite auditar una lista de tabulados antes de depurarla, y `laboral_resumen_redundancias(datasets)` resume las coincidencias y discrepancias.
 
 ## Usar desde R
 
@@ -33,7 +51,7 @@ laboral_catalogo()
 # 2. Buscar indicadores
 laboral_buscar("desocupación")
 
-# 3. Revisar la definición y la fuente
+# 3. Revisar definición, análisis posibles y fuente
 laboral_describir("indicadores_principales/tasa_desocupacion")
 
 # 4. Descargar los datos como tibble
@@ -140,5 +158,7 @@ make deps
 make update
 make test
 ```
+
+**Autores:** [Matías Parra](https://github.com/miparrar) y [Joshua Kunst](https://github.com/jbkunst), K&P. Véase [AUTHORS.md](AUTHORS.md).
 
 **Proyecto independiente; no es un servicio oficial del INE.**
