@@ -27,7 +27,7 @@ for (archivo in archivos) {
 }
 
 jsonlite::write_json(
-  list(schema_version = 1L, anios = sort(anios)),
+  list(schema_version = 1L, anios = as.list(sort(anios))),
   file.path(destino, "index.json"),
   pretty = TRUE, auto_unbox = TRUE
 )
