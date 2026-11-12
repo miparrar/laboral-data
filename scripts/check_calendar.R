@@ -38,9 +38,9 @@ if (!nrow(eligible)) stop("No existe una publicación ENE anterior a la fecha ac
 
 expected <- max(eligible$periodo)
 sources <- names(yaml::read_yaml("config/fuentes.yml")$sources)
-manifest_path <- "api/v1/manifest.json"
-entries <- if (file.exists(manifest_path)) {
-  jsonlite::fromJSON(manifest_path, simplifyVector = FALSE)$datasets
+catalog_path <- "api/v1/catalog.json"
+entries <- if (file.exists(catalog_path)) {
+  jsonlite::fromJSON(catalog_path, simplifyVector = FALSE)$datasets
 } else {
   list()
 }
