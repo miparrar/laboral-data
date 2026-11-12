@@ -112,4 +112,24 @@ stopifnot(
   da_error(laboral_obtener("rama/ocupados", desde = "2026-09", hasta = "2026-07")),
   da_error(laboral_obtener("rama/ocupados", desde = "2026-99"))
 )
+# Una coincidencia en el título del TABULADO no hace relevante
+# a cada uno de sus indicadores para la consulta del agente.
+catalogo$datasets[[3L]] <- list(
+  id = "complementarios",
+  title = "Indicadores complementarios a la tasa de desocupación ENE",
+  indicators = list(list(id = "su3",
+                         label = "Tasa combinada de desocupación y fuerza potencial",
+                         unit = "percent")),
+  coverage = list(list(region = "nacional", sex = "total")),
+  source_file = "complementarios.xlsx",
+  source_url = "https://www.ine.gob.cl/complementarios.xlsx",
+  source_sheets = c("AS", "H", "M")
+)
+assign("raw:catalog.json", catalogo, envir = .laboral_cache)
+stopifnot(
+  identical(laboral_buscar("tasa de desocupación")$indicador,
+            "tasa_desocupacion"),
+  !any(laboral_buscar("tasa de desocupación")$tabulado == "complementarios")
+)
+
 message("Pruebas del cliente API y trazabilidad completadas.")
