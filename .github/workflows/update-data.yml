@@ -9,6 +9,7 @@ on:
       - "tests/**"
       - "config/**"
       - "Makefile"
+      - "site/**"
       - ".github/workflows/update-data.yml"
   schedule:
     - cron: "20 17 * * *"
@@ -107,6 +108,7 @@ jobs:
         run: |
           mkdir -p _site/api
           cp -R api/v1 _site/api/v1
+          cp -R site/. _site/
 
       - uses: actions/configure-pages@v5
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
