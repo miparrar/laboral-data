@@ -20,6 +20,8 @@ Todas las series incluyen trimestre móvil y notas de calidad. Los indicadores r
 
 ## Metadatos y análisis posibles
 
+El [catálogo](api/v1/catalog.json) es el único archivo de metadata: reúne el origen, la trazabilidad del procesamiento y el inventario de **series estadísticas**. Cada serie es una combinación única de indicador, región, sexo y, cuando corresponde, edad o rama. Identifica el tabulado del INE, la hoja y las columnas originales de valor y nota, junto con los períodos de inicio y término, cantidad de observaciones, unidad y estado de calidad. Las definiciones y reglas analíticas se conservan una sola vez por indicador.
+
 El catálogo JSON incluye, para cada indicador, el tipo de medida, los análisis posibles, sus dimensiones y advertencias estadísticas. Estas reglas se mantienen en [`config/analisis.yml`](config/analisis.yml), inspiradas en conceptos de SDMX, sin implementar todo el estándar.
 
 Por ejemplo, una **tasa** admite evolución temporal, comparaciones y diferencias en puntos porcentuales; una **cantidad estimada** admite variaciones absolutas y relativas; y un **promedio de horas** admite diferencias de horas. Las comparaciones por región, sexo, edad o rama sólo se ofrecen cuando existe ese desglose. Son posibilidades analíticas, **no instrucciones para sumar tasas, promediar resultados arbitrariamente ni inferir significación estadística sin el diseño muestral**.
@@ -43,6 +45,12 @@ source("R/cliente_api.R")
 
 # 1. Explorar los tabulados
 laboral_catalogo()
+
+# Una fila por serie: sin descargar observaciones
+laboral_series() |>
+  dplyr::filter(indicator == "desocupados", region == "nacional") |>
+  dplyr::select(series_key, sex, source_sheet, note_column,
+                value_column, first_period, last_period)
 
 # 2. Buscar indicadores
 laboral_buscar("desocupación")
