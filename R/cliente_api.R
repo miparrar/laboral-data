@@ -1,79 +1,226 @@
-# Cliente liviano de la API pública de laboral-data.
-# Requiere: jsonlite, dplyr y tibble.
-# Los archivos JSON completos se guardan en memoria durante la sesión.
+# Cliente de consulta para los JSON públicos de laboral-data.
+# Interfaz inspirada en bcchr: descubrir, buscar, describir y obtener series.
+# Requiere jsonlite, tibble y dplyr; no necesita credenciales.
 
 .laboral_api <- "https://miparrar.github.io/laboral-data/api/v1/"
 .laboral_cache <- new.env(parent = emptyenv())
 
-laboral_catalogo <- function() {
-  datasets <- jsonlite::fromJSON(
-    paste0(.laboral_api, "catalog.json"), simplifyVector = FALSE
-  )$datasets
+.laboral_validar_texto <- function(x, nombre) {
+  if (!is.character(x) || !length(x) || anyNA(x) ||
+      any(!nzchar(trimws(x)))) {
+    stop("'", nombre, "' debe ser un vector de texto no vacío.", call. = FALSE)
+  }
+  invisible(x)
+}
 
+.laboral_request <- function(path, simplify = FALSE, actualizar = FALSE) {
+  if (!is.logical(actualizar) || length(actualizar) != 1L ||
+      is.na(actualizar)) {
+    stop("'actualizar' debe ser TRUE o FALSE.", call. = FALSE)
+  }
+
+  key <- paste0(if (simplify) "table:" else "raw:", path)
+  if (actualizar || !exists(key, envir = .laboral_cache, inherits = FALSE)) {
+    respuesta <- tryCatch(
+      jsonlite::fromJSON(
+        paste0(.laboral_api, path), simplifyVector = simplify
+      ),
+      error = function(e) {
+        stop("No se pudo consultar '", path, "': ",
+             conditionMessage(e), call. = FALSE)
+      }
+    )
+    assign(key, respuesta, envir = .laboral_cache)
+  }
+  get(key, envir = .laboral_cache, inherits = FALSE)
+}
+
+.laboral_fuente <- function(x) {
+  if (!is.null(x$source_file)) return(x$source_file)
+  if (is.null(x$source_url)) return(NA_character_)
+  basename(strsplit(x$source_url, "?", fixed = TRUE)[[1L]][1L])
+}
+
+#' Conjuntos de datos publicados
+#' @return Tibble con el identificador y la descripción de cada tabulado.
+laboral_catalogo <- function() {
+  datasets <- .laboral_request("catalog.json")$datasets
   tibble::tibble(
     serie = vapply(datasets, function(x) x$id, character(1)),
     descripcion = vapply(datasets, function(x) x$title, character(1))
   )
 }
 
-laboral_leer <- function(serie = "indicadores_principales",
-                         indicador = NULL, region = NULL, sexo = NULL,
-                         edad = NULL, rama = NULL, actualizar = FALSE) {
-  disponibles <- c(
-    "indicadores_principales", "complementarios", "horas",
-    "indicadores_principales_edad", "rama"
-  )
+#' Metadata del catálogo: una fila por indicador y tabulado.
+#' @return Tibble con códigos, etiquetas, dimensiones y fuentes oficiales.
+laboral_metadata <- function() {
+  datasets <- .laboral_request("catalog.json")$datasets
 
-  if (!is.character(serie) || length(serie) != 1L ||
-      is.na(serie) || !serie %in% disponibles) {
-    stop("Serie no disponible. Consulta laboral_catalogo().", call. = FALSE)
-  }
-  if (!is.logical(actualizar) || length(actualizar) != 1L ||
-      is.na(actualizar)) {
-    stop("'actualizar' debe ser TRUE o FALSE.", call. = FALSE)
-  }
+  dplyr::bind_rows(lapply(datasets, function(dataset) {
+    labels <- if (!is.null(dataset$dimension_labels$branch)) {
+      vapply(dataset$dimension_labels$branch,
+             function(x) paste(x$id, x$label), character(1))
+    } else character()
 
-  if (actualizar || !exists(serie, envir = .laboral_cache, inherits = FALSE)) {
-    url <- paste0(.laboral_api, "series/", serie, ".json")
-    respuesta <- tryCatch(
-      jsonlite::fromJSON(url),
-      error = function(e) {
-        stop("No se pudo leer la serie '", serie, "': ",
-             conditionMessage(e), call. = FALSE)
-      }
+    tibble::tibble(
+      series_id = paste(
+        dataset$id,
+        vapply(dataset$indicators, function(x) x$id, character(1)),
+        sep = "/"
+      ),
+      tabulado = dataset$id,
+      titulo = dataset$title,
+      indicador = vapply(dataset$indicators,
+                         function(x) x$id, character(1)),
+      descripcion = vapply(dataset$indicators,
+                           function(x) x$label, character(1)),
+      unidad = vapply(dataset$indicators,
+                      function(x) x$unit, character(1)),
+      dimensiones = if (length(dataset$coverage)) {
+        paste(names(dataset$coverage[[1L]]), collapse = ", ")
+      } else "",
+      hojas = paste(unlist(dataset$source_sheets), collapse = ", "),
+      archivo = .laboral_fuente(dataset),
+      fuente_url = dataset$source_url,
+      ramas = paste(labels, collapse = " ")
     )
+  }))
+}
 
-    if (!is.data.frame(respuesta$observations)) {
-      stop("La respuesta no contiene observaciones tabulares.", call. = FALSE)
+#' Buscar candidatos a series por texto, sin elegir automáticamente una.
+#' @param query Uno o varios textos (sin distinguir acentos ni mayúsculas).
+#' @return Tibble con las series candidatas y el texto que las encontró.
+laboral_buscar <- function(query) {
+  .laboral_validar_texto(query, "query")
+  catalogo <- laboral_metadata()
+
+  normalizar <- function(x) {
+    x <- iconv(x, to = "ASCII//TRANSLIT")
+    x[is.na(x)] <- ""
+    tolower(x)
+  }
+  busqueda <- normalizar(paste(
+    catalogo$series_id, catalogo$titulo, catalogo$descripcion,
+    catalogo$ramas
+  ))
+
+  dplyr::bind_rows(lapply(query, function(texto) {
+    terminos <- strsplit(trimws(normalizar(texto)), "[[:space:]]+")[[1L]]
+    candidatos <- vapply(terminos, function(t) grepl(t, busqueda, fixed = TRUE),
+                        logical(nrow(catalogo)))
+    seleccion <- if (length(terminos) == 1L) candidatos else {
+      rowSums(candidatos) == length(terminos)
     }
+    dplyr::mutate(catalogo[seleccion, , drop = FALSE],
+                  query = texto, .before = 1L)
+  }))
+}
 
-    assign(serie, tibble::as_tibble(respuesta$observations),
-           envir = .laboral_cache)
+#' Describir una o varias series mediante sus códigos exactos.
+laboral_describir <- function(series_id) {
+  .laboral_validar_texto(series_id, "series_id")
+  x <- laboral_metadata()
+  desconocidos <- setdiff(series_id, x$series_id)
+  if (length(desconocidos)) {
+    stop("Series desconocidas: ", paste(desconocidos, collapse = ", "),
+         ". Usa laboral_buscar() para encontrar códigos.", call. = FALSE)
+  }
+  x[match(series_id, x$series_id), , drop = FALSE]
+}
+
+.laboral_datos <- function(serie, actualizar = FALSE) {
+  .laboral_validar_texto(serie, "serie")
+  disponibles <- c("indicadores_principales", "complementarios", "horas",
+                   "indicadores_principales_edad", "rama")
+  if (length(serie) != 1L || !serie %in% disponibles) {
+    stop("Tabulado no disponible. Usa laboral_catalogo().", call. = FALSE)
   }
 
-  datos <- get(serie, envir = .laboral_cache, inherits = FALSE)
-  filtros <- list(
-    indicator = indicador,
-    region = region,
-    sex = sexo,
-    age_group = edad,
-    branch = rama
+  respuesta <- .laboral_request(
+    paste0("series/", serie, ".json"), simplify = TRUE, actualizar = actualizar
   )
+  if (!is.data.frame(respuesta$observations)) {
+    stop("La respuesta no contiene observaciones tabulares.", call. = FALSE)
+  }
 
+  datos <- tibble::as_tibble(respuesta$observations)
+  if (!"source_sheet" %in% names(datos)) {
+    # La API anterior no publicaba hojas; no se infiere una hoja inexistente.
+    datos$source_sheet <- NA_character_
+  }
+
+  dplyr::mutate(
+    datos,
+    series_id = paste0(serie, "/", .data$indicator),
+    source_dataset = serie,
+    source_file = .laboral_fuente(respuesta),
+    source_url = respuesta$source_url,
+    source_sha256 = respuesta$source_sha256
+  )
+}
+
+.laboral_filtrar <- function(datos, filtros) {
   for (columna in names(filtros)) {
     valores <- filtros[[columna]]
     if (is.null(valores)) next
-
     if (!columna %in% names(datos)) {
-      stop("La serie '", serie, "' no tiene dimensión '",
-           columna, "'.", call. = FALSE)
+      stop("Este tabulado no tiene dimensión '", columna, "'.",
+           call. = FALSE)
     }
-    if (!is.character(valores) || !length(valores) || anyNA(valores)) {
-      stop("El filtro '", columna, "' debe contener texto.", call. = FALSE)
-    }
-
+    .laboral_validar_texto(valores, columna)
     datos <- dplyr::filter(datos, .data[[columna]] %in% .env$valores)
   }
-
   datos
+}
+
+.laboral_fechas <- function(datos, desde = NULL, hasta = NULL) {
+  validar <- function(x, nombre) {
+    if (is.null(x)) return(invisible(NULL))
+    if (!is.character(x) || length(x) != 1L || is.na(x) ||
+        !grepl("^[0-9]{4}-(0[1-9]|1[0-2])$", x)) {
+      stop("'", nombre, "' debe tener formato YYYY-MM.", call. = FALSE)
+    }
+  }
+  validar(desde, "desde")
+  validar(hasta, "hasta")
+  if (!is.null(desde) && !is.null(hasta) && desde > hasta) {
+    stop("'desde' no puede ser posterior a 'hasta'.", call. = FALSE)
+  }
+  if (!is.null(desde)) datos <- dplyr::filter(datos, .data$period >= .env$desde)
+  if (!is.null(hasta)) datos <- dplyr::filter(datos, .data$period <= .env$hasta)
+  datos
+}
+
+#' Obtener una o varias series exactas, en formato largo.
+#' Conserva tabulado, archivo, hoja y URL originales para cada observación.
+laboral_obtener <- function(series_id, desde = NULL, hasta = NULL,
+                            region = NULL, sexo = NULL, edad = NULL,
+                            rama = NULL, actualizar = FALSE) {
+  .laboral_validar_texto(series_id, "series_id")
+  ids <- unique(series_id)
+  laboral_describir(ids) # Comprueba códigos contra el catálogo vigente.
+
+  datos <- dplyr::bind_rows(lapply(ids, function(id) {
+    partes <- strsplit(id, "/", fixed = TRUE)[[1L]]
+    x <- .laboral_datos(partes[[1L]], actualizar = actualizar)
+    dplyr::filter(x, .data$indicator == partes[[2L]])
+  }))
+
+  datos <- .laboral_filtrar(datos, list(
+    region = region, sex = sexo, age_group = edad, branch = rama
+  ))
+  .laboral_fechas(datos, desde = desde, hasta = hasta)
+}
+
+#' Lectura por tabulado: interfaz anterior conservada por compatibilidad.
+laboral_leer <- function(serie = "indicadores_principales",
+                         indicador = NULL, region = NULL, sexo = NULL,
+                         edad = NULL, rama = NULL, actualizar = FALSE,
+                         desde = NULL, hasta = NULL) {
+  datos <- .laboral_datos(serie, actualizar = actualizar)
+  datos <- .laboral_filtrar(datos, list(
+    indicator = indicador, region = region, sex = sexo,
+    age_group = edad, branch = rama
+  ))
+  .laboral_fechas(datos, desde = desde, hasta = hasta)
 }
