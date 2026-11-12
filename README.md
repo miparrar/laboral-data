@@ -6,11 +6,11 @@
 
 ## ¿Por qué laboral-data?
 
-La idea es sencilla: facilitar el acceso a las estadísticas de la ENE para trabajar con ellas desde distintos entornos. En lugar de descargar los Excel del INE y procesarlos cada vez, las series quedan disponibles en archivos JSON que se pueden consultar directamente desde R, Python u otras herramientas.
+Buscamos facilitar la consulta, exploración y análisis de la información de la Encuesta Nacional de Empleo (ENE). En un contexto en que la situación de los trabajadores en Chile es delicada, creemos necesario conocer mejor qué está ocurriendo con el empleo y la desocupación, cómo evolucionan y qué diferencias existen entre territorios, grupos de edad, hombres y mujeres y actividades económicas.
 
-Hay una segunda razón: facilitar su uso con modelos de lenguaje y sistemas agénticos. Elegimos JSON porque es un formato estándar, con una estructura bien definida y ampliamente utilizado para intercambiar información entre aplicaciones. YAML puede ser más cómodo de leer y escribir para una persona; JSON, en cambio, resulta práctico para integrarlo con APIs y herramientas que trabajan con datos estructurados.
+Para ello, ponemos los tabulados del INE a disposición en archivos JSON que pueden consultarse directamente desde R, Python y otros entornos. Este formato también facilita su integración con modelos de lenguaje y sistemas agénticos, abriendo nuevas posibilidades para explorar y analizar las estadísticas.
 
-No se trata de producir nuevas estadísticas, sino de hacer más accesibles las que ya publica el INE, manteniendo la referencia a sus fuentes y las notas de calidad.
+No buscamos producir nuevas cifras ni reemplazar las publicaciones del INE, sino hacer más accesible la información existente, conservando la trazabilidad a las fuentes originales y las notas de calidad.
 
 ## Datos disponibles
 
