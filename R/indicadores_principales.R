@@ -201,12 +201,74 @@ ip_analisis_indicador <- function(spec, datos, reglas) {
   spec
 }
 
+# Convierte posiciones de columnas (1, 26, 27, ...) a referencias Excel.
+ip_col_excel <- function(n) {
+  vapply(n, function(x) {
+    letras <- character()
+    while (x > 0L) {
+      x <- x - 1L
+      letras <- c(LETTERS[(x %% 26L) + 1L], letras)
+      x <- x %/% 26L
+    }
+    paste0(letras, collapse = "")
+  }, character(1))
+}
+
+# Inventario a nivel de serie: indicador + combinación exacta de dimensiones.
+# La procedencia se obtiene de las columnas y hojas realmente procesadas.
+ip_series_catalogo <- function(data, config, dataset_id) {
+  dims <- intersect(c("region", "sex", "age_group", "branch"), names(data))
+  grupos <- c("indicator", dims)
+  ids_originales <- vapply(config$indicators, function(x) x$id, character(1))
+  resultado <- data |>
+    dplyr::group_by(dplyr::across(dplyr::all_of(grupos))) |>
+    dplyr::summarise(
+      source_sheet = dplyr::first(.data$source_sheet),
+      first_period = min(.data$period),
+      last_period = max(.data$period),
+      first_valid_period = if (all(is.na(.data$value))) NA_character_ else
+        min(.data$period[!is.na(.data$value)]),
+      last_valid_period = if (all(is.na(.data$value))) NA_character_ else
+        max(.data$period[!is.na(.data$value)]),
+      observations = dplyr::n(),
+      valid_observations = sum(!is.na(.data$value)),
+      unit = dplyr::first(.data$unit),
+      sheets_count = dplyr::n_distinct(.data$source_sheet),
+      units_count = dplyr::n_distinct(.data$unit),
+      .groups = "drop"
+    )
+  if (any(resultado$sheets_count != 1L) || any(resultado$units_count != 1L)) {
+    stop("Una serie abarca varias hojas o unidades; revisar el mapeo.", call. = FALSE)
+  }
+  origen <- if ("branch" %in% names(resultado)) resultado$branch else
+    resultado$indicator
+  indice <- match(origen, ids_originales)
+  if (anyNA(indice)) stop("Columna original desconocida para serie.", call. = FALSE)
+  resultado <- resultado |>
+    dplyr::mutate(
+      note_column = ip_col_excel(3L + 2L * (.env$indice - 1L)),
+      value_column = ip_col_excel(4L + 2L * (.env$indice - 1L)),
+      .after = "source_sheet"
+    ) |>
+    dplyr::select(-dplyr::all_of(c("sheets_count", "units_count")))
+
+  resultado$series_key <- vapply(seq_len(nrow(resultado)), function(i) {
+    paste(c(dataset_id, resultado$indicator[[i]],
+            unlist(resultado[i, dims, drop = FALSE], use.names = FALSE)),
+          collapse = "/")
+  }, character(1))
+  resultado <- dplyr::relocate(resultado, .data$series_key, .before = 1L)
+  if (anyDuplicated(resultado$series_key) || sum(resultado$observations) != nrow(data)) {
+    stop("Inventario de series incompleto o con claves duplicadas.", call. = FALSE)
+  }
+  resultado
+}
+
 # Publicación conjunta de tabulados que comparten el mismo contrato JSON.
 ip_publish <- function(datasets, root = "api/v1") {
   dir.create(file.path(root, "series"), recursive = TRUE, showWarnings = FALSE)
   updated_at <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   catalogs <- list()
-  manifests <- list()
   reglas_analisis <- yaml::read_yaml("config/analisis.yml")
 
   for (id in names(datasets)) {
@@ -214,10 +276,6 @@ ip_publish <- function(datasets, root = "api/v1") {
     data <- entry$data
     config <- entry$config
     series_path <- paste0("series/", id, ".json")
-    dimensions <- intersect(c("region", "sex", "age_group", "branch"), names(data))
-    coverage <- data |>
-      dplyr::distinct(dplyr::across(dplyr::all_of(dimensions))) |>
-      dplyr::arrange(dplyr::across(dplyr::all_of(dimensions)))
     originales <- if (is.null(config$public_indicators)) {
       config$indicators
     } else config$public_indicators
@@ -241,14 +299,22 @@ ip_publish <- function(datasets, root = "api/v1") {
       auto_unbox = TRUE, dataframe = "rows", na = "null", digits = NA
     )
 
+    series_index <- ip_series_catalogo(data, config, id)
     catalogs[[length(catalogs) + 1L]] <- list(
       id = id, title = entry$title, path = series_path,
       frequency = "rolling_quarter",
       source_file = entry$source_file,
       source_url = entry$source_url,
+      source_sha256 = entry$hash,
+      build_sha256 = entry$build_sha256,
+      parser_version = 6L,
+      observations = nrow(data),
+      first_period = min(data$period),
+      last_period = max(data$period),
+      status = "ok",
       source_sheets = names(ip_sheet_map(config)),
       indicators = publicados,
-      coverage = coverage,
+      series = series_index,
       dimension_labels = if (identical(config$dimension_from_indicator, "branch"))
         list(branch = lapply(Filter(function(x) x$id %in% unique(data$branch),
                                     config$indicators), function(x)
@@ -260,26 +326,22 @@ ip_publish <- function(datasets, root = "api/v1") {
         sin_dato = "Valor no disponible en el archivo original"
       )
     )
-    manifests[[length(manifests) + 1L]] <- list(
-      id = id, path = series_path, parser_version = 5L,
-      build_sha256 = entry$build_sha256,
-      source_file = entry$source_file,
-      source_url = entry$source_url, source_sha256 = entry$hash,
-      observations = nrow(data),
-      first_period = min(data$period),
-      last_period = max(data$period),
-      status = "ok"
-    )
   }
   jsonlite::write_json(
-    list(schema_version = 1L, updated_at = updated_at, datasets = catalogs),
+    list(
+      schema_version = 2L,
+      updated_at = updated_at,
+      sdmx_mapping = list(
+        series_key = c("indicator", "region", "sex", "age_group", "branch"),
+        time_dimension = "period",
+        primary_measure = "value",
+        observation_attributes = c("quality_code", "quality"),
+        series_attributes = c("unit", "source_sheet")
+      ),
+      datasets = catalogs
+    ),
     file.path(root, "catalog.json"), pretty = TRUE, auto_unbox = TRUE,
     dataframe = "rows", na = "null", digits = NA
   )
-  jsonlite::write_json(
-    list(schema_version = 1L, updated_at = updated_at, datasets = manifests),
-    file.path(root, "manifest.json"), pretty = TRUE, auto_unbox = TRUE,
-    dataframe = "rows", na = "null", digits = NA
-  )
-  invisible(manifests)
+  invisible(catalogs)
 }

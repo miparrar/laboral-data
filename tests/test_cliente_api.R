@@ -12,7 +12,18 @@ catalogo <- list(datasets = list(
       list(id = "ocupados", label = "Personas ocupadas",
            unit = "thousand_persons")
     ),
-    coverage = list(list(region = "nacional", sex = "total")),
+    series = list(
+      list(series_key = "indicadores_principales/tasa_desocupacion/nacional/total",
+           indicator = "tasa_desocupacion", region = "nacional", sex = "total",
+           source_sheet = "AS", note_column = "I", value_column = "J",
+           first_period = "2026-07", last_period = "2026-08",
+           observations = 2L, unit = "percent"),
+      list(series_key = "indicadores_principales/ocupados/metropolitana/total",
+           indicator = "ocupados", region = "metropolitana", sex = "total",
+           source_sheet = "RM", note_column = "G", value_column = "H",
+           first_period = "2026-08", last_period = "2026-08",
+           observations = 1L, unit = "thousand_persons")
+    ),
     source_file = "indicadores_principales.xlsx",
     source_url = fuente,
     source_sheets = c("AS", "H", "M")
@@ -23,8 +34,14 @@ catalogo <- list(datasets = list(
     indicators = list(
       list(id = "ocupados", label = "Personas ocupadas", unit = "thousand_persons")
     ),
-    coverage = list(list(region = "nacional", sex = "total",
-                         branch = "construccion")),
+    series = list(list(
+      series_key = "rama/ocupados/nacional/total/construccion",
+      indicator = "ocupados", region = "nacional", sex = "total",
+      branch = "construccion", source_sheet = "AS",
+      note_column = "I", value_column = "J",
+      first_period = "2026-08", last_period = "2026-08",
+      observations = 1L, unit = "thousand_persons"
+    )),
     dimension_labels = list(
       branch = list(list(id = "construccion", label = "Construcción"))
     ),
@@ -66,6 +83,13 @@ assign("table:series/rama.json", list(
 stopifnot(
   nrow(laboral_catalogo()) == 2L,
   nrow(laboral_metadata()) == 3L,
+  nrow(laboral_series()) == 3L,
+  identical(
+    laboral_series() |>
+      dplyr::filter(.data$indicator == "tasa_desocupacion") |>
+      dplyr::pull(.data$value_column),
+    "J"
+  ),
   identical(laboral_describir("indicadores_principales/tasa_desocupacion")$archivo,
             "indicadores_principales.xlsx"),
   identical(laboral_describir("indicadores_principales/tasa_desocupacion")$hojas,

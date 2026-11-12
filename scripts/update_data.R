@@ -41,18 +41,18 @@ datasets <- purrr::imap(sources, function(source, id) {
        build_sha256 = build_sha256)
 })
 
-manifest_path <- "api/v1/manifest.json"
-if (file.exists(manifest_path)) {
-  previous <- jsonlite::fromJSON(manifest_path, simplifyVector = FALSE)$datasets
+catalog_path <- "api/v1/catalog.json"
+if (file.exists(catalog_path)) {
+  previous <- jsonlite::fromJSON(catalog_path, simplifyVector = FALSE)$datasets
   unchanged <- purrr::every(names(datasets), function(id) {
     old <- purrr::detect(previous, ~ identical(.x$id, id))
     !is.null(old) &&
       identical(old$source_sha256, datasets[[id]]$hash) &&
-      identical(old$parser_version, 5L) &&
+      identical(old$parser_version, 6L) &&
       identical(old$build_sha256, build_sha256) &&
       file.exists(file.path("api/v1/series", paste0(id, ".json")))
   })
-  if (unchanged && file.exists("api/v1/catalog.json")) {
+  if (unchanged) {
     message("Sin cambios en las fuentes (SHA-256 coincide); no se reescriben los JSON.")
     quit(save = "no", status = 0L)
   }

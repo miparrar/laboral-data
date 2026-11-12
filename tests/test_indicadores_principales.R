@@ -130,50 +130,57 @@ if (file.exists(rama_path)) {
   # a las ramas, ni interpretar NS/NR como una actividad productiva.
 }
 
-# Contrato de publicación: todas las fuentes y series deben estar presentes.
-manifest <- jsonlite::fromJSON("api/v1/manifest.json", simplifyVector = FALSE)
+# Contrato de publicación: un catálogo con inventario por serie.
 catalog <- jsonlite::fromJSON("api/v1/catalog.json", simplifyVector = FALSE)
 sources <- names(yaml::read_yaml("config/fuentes.yml")$sources)
-manifest_ids <- vapply(manifest$datasets, function(x) x$id, character(1))
 catalog_ids <- vapply(catalog$datasets, function(x) x$id, character(1))
-stopifnot(setequal(manifest_ids, sources), setequal(catalog_ids, sources))
+stopifnot(identical(catalog$schema_version, 2L), setequal(catalog_ids, sources))
 for (id in sources) {
-  entry <- purrr::detect(manifest$datasets, ~ identical(.x$id, id))
-  description <- purrr::detect(catalog$datasets, ~ identical(.x$id, id))
+  entry <- purrr::detect(catalog$datasets, ~ identical(.x$id, id))
+  config <- yaml::read_yaml(paste0("config/", id, ".yml"))
   file <- file.path("api/v1", entry$path)
   stopifnot(file.exists(file), identical(entry$status, "ok"))
-  series <- jsonlite::fromJSON(file, simplifyVector = FALSE)
+  observations <- jsonlite::fromJSON(file, simplifyVector = FALSE)
+  specs <- vapply(config$indicators, function(x) x$id, character(1))
+  series_index <- dplyr::bind_rows(entry$series)
+  original <- if ("branch" %in% names(series_index)) {
+    series_index$branch
+  } else series_index$indicator
+  indice <- match(original, specs)
   stopifnot(
-    identical(series$id, id),
-    identical(entry$parser_version, 5L),
-    identical(series$source_file,
+    identical(observations$id, id),
+    identical(entry$parser_version, 6L),
+    identical(observations$source_file,
               yaml::read_yaml("config/fuentes.yml")$sources[[id]]$file),
-    identical(series$source_file, entry$source_file),
-    identical(series$source_url, entry$source_url),
-    identical(series$source_file, description$source_file),
-    setequal(unlist(description$source_sheets),
-             names(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml"))))),
-    setequal(
-      unique(vapply(series$observations, function(x) x$source_sheet,
-                    character(1))),
-      names(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml"))))
-    ),
-    length(series$observations) == entry$observations,
-    length(description$coverage) ==
-      length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))) *
-      if (identical(id, "rama")) length(rama_cfg$indicators) - 1L else 1L,
-    setequal(
-      vapply(description$indicators, function(x) x$id, character(1)),
-      unique(vapply(series$observations, function(x) x$indicator,
-                    character(1)))
-    ),
-    all(vapply(description$indicators, function(x)
+    identical(observations$source_file, entry$source_file),
+    identical(observations$source_url, entry$source_url),
+    identical(observations$source_sha256, entry$source_sha256),
+    setequal(unlist(entry$source_sheets), names(ip_sheet_map(config))),
+    all(series_index$source_sheet %in% names(ip_sheet_map(config))),
+    !anyNA(indice),
+    identical(series_index$note_column, ip_col_excel(3L + 2L * (indice - 1L))),
+    identical(series_index$value_column, ip_col_excel(4L + 2L * (indice - 1L))),
+    nrow(series_index) == dplyr::n_distinct(series_index$series_key),
+    all(series_index$first_period <= series_index$last_period),
+    all(is.na(series_index$first_valid_period) |
+          series_index$first_valid_period >= series_index$first_period),
+    all(is.na(series_index$last_valid_period) |
+          series_index$last_valid_period <= series_index$last_period),
+    sum(series_index$observations) == entry$observations,
+    sum(series_index$valid_observations) <= entry$observations,
+    length(observations$observations) == entry$observations,
+    min(series_index$first_period) == entry$first_period,
+    max(series_index$last_period) == entry$last_period,
+    setequal(vapply(entry$indicators, function(x) x$id, character(1)),
+             unique(vapply(observations$observations,
+                           function(x) x$indicator, character(1)))),
+    all(vapply(entry$indicators, function(x)
       !is.null(x$analysis$measurement_type) &&
       length(x$analysis$allowed) >= 1L, logical(1))),
     nzchar(entry$build_sha256)
   )
 }
-message("Contrato JSON y cobertura de todas las fuentes validados.")
+message("Catálogo por serie, trazabilidad Excel y ausencia de manifiesto validados.")
 
 # Tras la depuración, el total de ramas sólo se consulta en principales.
 source("R/redundancias.R")
