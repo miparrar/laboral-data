@@ -1,7 +1,18 @@
 #!/usr/bin/env Rscript
 source("R/indicadores_principales.R")
+source("R/redundancias.R")
 
 sources <- yaml::read_yaml("config/fuentes.yml")$sources
+# La publicación se reconstruye también cuando cambian políticas o código,
+# aunque los archivos originales del INE mantengan su SHA-256.
+build_files <- c(
+  "R/indicadores_principales.R", "R/redundancias.R", "scripts/update_data.R",
+  "config/analisis.yml", paste0("config/", names(sources), ".yml")
+)
+build_sha256 <- digest::digest(paste(vapply(build_files, function(path) {
+  paste(readLines(path, warn = FALSE, encoding = "UTF-8"), collapse = "\n")
+}, character(1)), collapse = "\n"), algo = "sha256")
+
 args <- commandArgs(trailingOnly = TRUE)
 # --input= se mantiene como alias histórico para indicadores_principales.
 input_args <- args[grepl("^--(input|[a-z_]+-input)=", args)]
@@ -26,7 +37,8 @@ datasets <- purrr::imap(sources, function(source, id) {
   cfg <- yaml::read_yaml(paste0("config/", id, ".yml"))
   list(path = path, config = cfg, source_url = source$url,
        hash = digest::digest(object = path, algo = "sha256", file = TRUE),
-       title = source$name, source_file = source$file)
+       title = source$name, source_file = source$file,
+       build_sha256 = build_sha256)
 })
 
 manifest_path <- "api/v1/manifest.json"
@@ -36,7 +48,8 @@ if (file.exists(manifest_path)) {
     old <- purrr::detect(previous, ~ identical(.x$id, id))
     !is.null(old) &&
       identical(old$source_sha256, datasets[[id]]$hash) &&
-      identical(old$parser_version, 4L) &&
+      identical(old$parser_version, 5L) &&
+      identical(old$build_sha256, build_sha256) &&
       file.exists(file.path("api/v1/series", paste0(id, ".json")))
   })
   if (unchanged && file.exists("api/v1/catalog.json")) {
@@ -62,6 +75,26 @@ datasets <- purrr::imap(datasets, function(entry, id) {
   }
   entry
 })
+
+# Comparar todo el universo original antes de elegir un único registro
+# por concepto, período, cobertura, dimensiones y unidad.
+redundancias <- laboral_resumen_redundancias(datasets)
+if (nrow(redundancias)) {
+  message("Solapamientos detectados en los tabulados del INE:")
+  print(redundancias, n = Inf)
+  if (any(redundancias$discrepancias > 0L)) {
+    warning("Hay valores diferentes para claves compartidas. ",
+            "Se conserva la fuente prioritaria y se informa la discrepancia.",
+            call. = FALSE)
+  }
+}
+datasets <- laboral_depurar_redundancias(datasets)
+if (nrow(laboral_redundancias(datasets))) {
+  stop("La publicación conserva observaciones redundantes.", call. = FALSE)
+}
+message("Observaciones únicas por conjunto: ",
+        paste(vapply(datasets, function(x) nrow(x$data), integer(1)),
+              collapse = ", "))
 
 ip_publish(datasets)
 message("API JSON generada en api/v1/ para: ", paste(names(datasets), collapse = ", "))
