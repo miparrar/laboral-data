@@ -17,7 +17,10 @@ if (file.exists(path)) {
     all(data$region == "nacional" | data$sex == "total"),
     max(data$period) >= "2026-08",
     min(data$period) == "2010-02",
-    !anyDuplicated(data[c("period", "region", "sex", "indicator")])
+    !anyDuplicated(data[c("period", "region", "sex", "indicator")]),
+    setequal(unique(data$source_sheet), names(ip_sheet_map(ip_config()))),
+    all(data$source_sheet[data$region == "nacional" &
+                            data$sex == "mujer"] == "M")
   )
 }
 message("Pruebas completadas.")
@@ -142,6 +145,19 @@ for (id in sources) {
   series <- jsonlite::fromJSON(file, simplifyVector = FALSE)
   stopifnot(
     identical(series$id, id),
+    identical(entry$parser_version, 4L),
+    identical(series$source_file,
+              yaml::read_yaml("config/fuentes.yml")$sources[[id]]$file),
+    identical(series$source_file, entry$source_file),
+    identical(series$source_url, entry$source_url),
+    identical(series$source_file, description$source_file),
+    setequal(unlist(description$source_sheets),
+             names(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml"))))),
+    setequal(
+      unique(vapply(series$observations, function(x) x$source_sheet,
+                    character(1))),
+      names(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml"))))
+    ),
     length(series$observations) == entry$observations,
     length(description$coverage) ==
       length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))) *

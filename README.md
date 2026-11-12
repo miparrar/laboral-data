@@ -22,37 +22,110 @@ Todas las series incluyen trimestre móvil y notas de calidad. En la serie por r
 
 ## Usar desde R
 
-**Sin instalar nada adicional al lector JSON:**
-
-```r
-datos <- jsonlite::fromJSON(
-  "https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json"
-)$observations |>
-  tibble::as_tibble()
-```
-
-**Con el cliente incluido** (desde una copia local del repositorio):
+La consulta sigue cuatro pasos: descubrir las series disponibles, buscar indicadores, revisar su metadata y obtener las observaciones por código exacto.
 
 ```r
 source("R/cliente_api.R")
 
-laboral_catalogo() # Series disponibles
+# 1. Explorar los tabulados
+laboral_catalogo()
 
-desocupacion <- laboral_leer(
-  "indicadores_principales",
-  indicador = "tasa_desocupacion",
+# 2. Buscar indicadores
+laboral_buscar("desocupación")
+
+# 3. Revisar la definición y la fuente
+laboral_describir("indicadores_principales/tasa_desocupacion")
+
+# 4. Descargar los datos como tibble
+desocupacion <- laboral_obtener(
+  "indicadores_principales/tasa_desocupacion",
+  desde = "2020-01",
   region = "nacional",
   sexo = "total"
 )
 
-construccion <- laboral_leer(
-  "rama",
-  rama = "construccion",
-  region = "nacional"
-)
+# Identificar el tabulado y la hoja de Excel de cada observación
+desocupacion |>
+  dplyr::select(period, value, quality, source_file, source_sheet, source_url)
 ```
 
-`laboral_leer()` devuelve un **tibble**. Permite filtrar por `indicador`, `region`, `sexo`, `edad` y `rama` (según la serie). Guarda el JSON descargado en memoria durante la sesión; usa `actualizar = TRUE` para volver a consultarlo. Requiere `jsonlite`, `dplyr` y `tibble`.
+`laboral_obtener()` admite varios códigos de serie y filtros por período, región, sexo, edad y rama. Los resultados están en formato largo. La función anterior, `laboral_leer()`, se mantiene para consultar un tabulado completo o filtrarlo directamente:
+
+```r
+construccion <- laboral_leer("rama", rama = "construccion")
+```
+
+El cliente requiere `jsonlite`, `dplyr` y `tibble`, no utiliza credenciales y conserva en memoria los JSON ya descargados durante la sesión. Para volver a consultarlos, utiliza `actualizar = TRUE`.
+
+La interfaz está inspirada en [**`bcchr`**, de Joshua Kunst e Ignacio Rossi](https://github.com/jbkunst/bcchr), especialmente en la separación entre búsqueda, descripción y descarga de series. `laboral-data` es un cliente independiente y no necesita instalar `bcchr`.
+
+### Ejemplos de consulta
+
+**Desocupación de hombres y mujeres desde 2022:**
+
+```r
+laboral_obtener(
+  "indicadores_principales/tasa_desocupacion",
+  desde = "2022-01",
+  region = "nacional",
+  sexo = c("hombre", "mujer")
+) |>
+  dplyr::select(period, sex, value, quality)
+```
+
+**Desocupación de jóvenes de 15 a 24 años, con la hoja de origen:**
+
+```r
+laboral_obtener(
+  "indicadores_principales_edad/tasa_desocupacion",
+  desde = "2024-01",
+  edad = "15-24"
+) |>
+  dplyr::select(period, age_group, value, source_file, source_sheet)
+```
+
+**Ocupación en construcción en dos regiones:**
+
+```r
+laboral_obtener(
+  "rama/ocupados",
+  desde = "2025-01",
+  region = c("metropolitana", "biobio"),
+  rama = "construccion"
+) |>
+  dplyr::select(period, region, branch, value)
+```
+
+**Consultar dos indicadores en una sola llamada:**
+
+```r
+laboral_obtener(
+  c(
+    "indicadores_principales/tasa_desocupacion",
+    "complementarios/su3"
+  ),
+  desde = "2023-01",
+  region = "nacional",
+  sexo = "total"
+) |>
+  dplyr::select(period, series_id, value, unit)
+```
+
+Los ejemplos devuelven **tibbles** y mantienen las notas de calidad. Recuerda que `period` identifica el mes central de un trimestre móvil, no un mes independiente.
+
+### Trazabilidad
+
+Cada observación conserva `source_sheet`, el **nombre exacto de la hoja** procesada del Excel original. El JSON de cada tabulado identifica también `source_file` (archivo Excel), `source_url` (enlace oficial del INE) y `source_sha256` (huella del archivo descargado). El cliente R incorpora esos metadatos como columnas, de modo que se puede volver desde una estimación al tabulado y la hoja de origen.
+
+También puedes leer directamente los JSON, sin utilizar el cliente:
+
+```r
+respuesta <- jsonlite::fromJSON(
+  "https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json"
+)
+
+datos <- tibble::as_tibble(respuesta$observations)
+```
 
 ## Cómo funciona
 
