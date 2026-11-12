@@ -4,13 +4,11 @@
 
 ## ¿Por qué laboral-data?
 
-Los tabulados del INE son una fuente fundamental para analizar el mercado laboral chileno, pero trabajar directamente con archivos Excel exige descargarlos, identificar sus hojas y adaptar su estructura. `laboral-data` facilita ese acceso: ofrece series normalizadas y disponibles mediante URL, listas para consultar e integrar en R, Python y otros entornos de análisis.
+La idea es sencilla: facilitar el acceso a las estadísticas de la ENE para trabajar con ellas desde distintos entornos. En lugar de descargar los Excel del INE y procesarlos cada vez, las series quedan disponibles en archivos JSON que se pueden consultar directamente desde R, Python u otras herramientas.
 
-También busca facilitar la integración con modelos de lenguaje y sistemas agénticos. JSON es un formato de intercambio ampliamente soportado, con una sintaxis explícita y herramientas de validación que favorecen su consumo programático. YAML suele ser más cómodo para la lectura y edición humana; ambos pueden procesarse automáticamente, pero JSON resulta especialmente práctico para APIs y salidas estructuradas de modelos de lenguaje.
+Hay una segunda razón: facilitar su uso con modelos de lenguaje y sistemas agénticos. Elegí JSON porque es un formato estándar, con una estructura bien definida y ampliamente utilizado para intercambiar información entre aplicaciones. YAML puede ser más cómodo de leer y escribir para una persona; JSON, en cambio, resulta práctico para integrarlo con APIs y herramientas que trabajan con datos estructurados.
 
-La intención no es reemplazar las publicaciones del INE, sino **reducir la fricción entre los datos oficiales y sus posibles usos**, conservando su procedencia y advertencias de calidad.
-
-[Explorar datos](https://miparrar.github.io/laboral-data/) · [Catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) · [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json)
+No se trata de producir nuevas estadísticas, sino de hacer más accesibles las que ya publica el INE, manteniendo la referencia a sus fuentes y las notas de calidad.
 
 ## Datos disponibles
 
