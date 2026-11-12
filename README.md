@@ -2,7 +2,11 @@
 
 **laboral-data transforma los tabulados de la Encuesta Nacional de Empleo (ENE) del INE en archivos JSON públicos, estructurados y actualizados.** Así facilita su consulta y análisis desde R, Python o modelos de lenguaje.
 
-Buscamos hacer más accesible esta información para contribuir a comprender la situación de los trabajadores en Chile.
+De este modo buscamos hacer más accesible esta información para contribuir a comprender la situación de los trabajadores en Chile.
+
+Los datos conservan tanto el valor de cada estimación como las notas de calidad estadística publicadas por el INE, que permiten distinguir estimaciones sin advertencia de calidad, poco fiables y no fiables, de acuerdo con el [Estándar para la evaluación de la calidad de las estimaciones en encuestas de hogares](https://www.ine.gob.cl/docs/default-source/institucionalidad/buenas-pr%C3%A1cticas/clasificaciones-y-estandares/est%C3%A1ndar-evaluaci%C3%B3n-de-calidad-de-estimaciones-publicaci%C3%B3n-27022020.pdf).
+
+La metadata se construye a partir de los tabulados originales y sus definiciones. Está pensada para facilitar la exploración de los datos y su integración con sistemas agénticos. Cada observación mantiene, además, la referencia al archivo y la hoja de Excel de la que proviene.
 
 ## Datos disponibles
 
