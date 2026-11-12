@@ -108,6 +108,7 @@ tabulado_process_sheet <- function(path, sheet, config, header_row = 6L, data_ro
       trimestre_movil = trimws(values$V2),
       region = region,
       sex = sex,
+      source_sheet = sheet,
       age_group = if (is.null(sheet_dimensions$age_group)) NULL else sheet_dimensions$age_group,
       indicator = spec$id,
       value = value,
@@ -161,7 +162,9 @@ ip_process <- function(path, config = ip_config()) {
   if (anyDuplicated(result[key])) {
     stop("Observaciones duplicadas en la clave estadística.", call. = FALSE)
   }
-  if (anyNA(result$period) || anyNA(result$quality) ||
+  if (anyNA(result$period) || anyNA(result$source_sheet) ||
+      !setequal(unique(result$source_sheet), expected) ||
+      anyNA(result$quality) ||
       anyNA(result$anio) || anyNA(result$trimestre_movil)) {
     stop("Valores de período/calidad incompletos.", call. = FALSE)
   }
@@ -195,6 +198,7 @@ ip_publish <- function(datasets, root = "api/v1") {
     series <- list(
       schema_version = 1L, id = id,
       source = "Instituto Nacional de Estadísticas (Chile)",
+      source_file = entry$source_file,
       source_url = entry$source_url,
       source_sha256 = entry$hash,
       frequency = "rolling_quarter",
@@ -208,6 +212,9 @@ ip_publish <- function(datasets, root = "api/v1") {
     catalogs[[length(catalogs) + 1L]] <- list(
       id = id, title = entry$title, path = series_path,
       frequency = "rolling_quarter",
+      source_file = entry$source_file,
+      source_url = entry$source_url,
+      source_sheets = names(ip_sheet_map(config)),
       indicators = if (is.null(config$public_indicators))
         config$indicators else config$public_indicators,
       coverage = coverage,
@@ -222,7 +229,8 @@ ip_publish <- function(datasets, root = "api/v1") {
       )
     )
     manifests[[length(manifests) + 1L]] <- list(
-      id = id, path = series_path, parser_version = 3L,
+      id = id, path = series_path, parser_version = 4L,
+      source_file = entry$source_file,
       source_url = entry$source_url, source_sha256 = entry$hash,
       observations = nrow(data),
       first_period = min(data$period),
