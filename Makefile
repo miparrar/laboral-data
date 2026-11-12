@@ -10,3 +10,4 @@ update:
 
 test:
 	$(RSCRIPT) tests/test_indicadores_principales.R
+	$(RSCRIPT) tests/test_cliente_api.R
