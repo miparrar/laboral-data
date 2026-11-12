@@ -178,12 +178,36 @@ ip_process <- function(path, config = ip_config()) {
   result
 }
 
+# Metadatos de capacidades analíticas publicados junto a cada medida.
+# Describen opciones posibles, no ejecutan cálculos ni garantizan inferencia.
+ip_analisis_indicador <- function(spec, datos, reglas) {
+  unidad <- reglas$units[[spec$unit]]
+  if (is.null(unidad)) {
+    stop("Sin política analítica para la unidad: ", spec$unit, call. = FALSE)
+  }
+  dims <- intersect(names(reglas$dimension_analyses), names(datos))
+  dims <- dims[vapply(dims, function(d) dplyr::n_distinct(datos[[d]]) > 1L,
+                       logical(1))]
+  otras <- unname(unlist(reglas$dimension_analyses[dims], use.names = FALSE))
+  extra <- reglas$indicators[[spec$id]]
+
+  spec$analysis <- list(
+    measurement_type = unidad$measurement_type,
+    allowed = unique(c(unlist(unidad$analyses, use.names = FALSE), otras)),
+    warnings = unname(unlist(unidad$warnings, use.names = FALSE))
+  )
+  if (!is.null(extra$definition)) spec$definition <- extra$definition
+  if (!is.null(extra$aliases)) spec$aliases <- unname(unlist(extra$aliases))
+  spec
+}
+
 # Publicación conjunta de tabulados que comparten el mismo contrato JSON.
 ip_publish <- function(datasets, root = "api/v1") {
   dir.create(file.path(root, "series"), recursive = TRUE, showWarnings = FALSE)
   updated_at <- format(Sys.time(), "%Y-%m-%dT%H:%M:%SZ", tz = "UTC")
   catalogs <- list()
   manifests <- list()
+  reglas_analisis <- yaml::read_yaml("config/analisis.yml")
 
   for (id in names(datasets)) {
     entry <- datasets[[id]]
@@ -194,6 +218,14 @@ ip_publish <- function(datasets, root = "api/v1") {
     coverage <- data |>
       dplyr::distinct(dplyr::across(dplyr::all_of(dimensions))) |>
       dplyr::arrange(dplyr::across(dplyr::all_of(dimensions)))
+    originales <- if (is.null(config$public_indicators)) {
+      config$indicators
+    } else config$public_indicators
+    publicados <- Filter(function(spec) spec$id %in% unique(data$indicator),
+                         originales)
+    if (!length(publicados)) stop("Sin indicadores publicados en ", id)
+    publicados <- lapply(publicados, ip_analisis_indicador,
+                         datos = data, reglas = reglas_analisis)
 
     series <- list(
       schema_version = 1L, id = id,
@@ -215,11 +247,11 @@ ip_publish <- function(datasets, root = "api/v1") {
       source_file = entry$source_file,
       source_url = entry$source_url,
       source_sheets = names(ip_sheet_map(config)),
-      indicators = if (is.null(config$public_indicators))
-        config$indicators else config$public_indicators,
+      indicators = publicados,
       coverage = coverage,
       dimension_labels = if (identical(config$dimension_from_indicator, "branch"))
-        list(branch = lapply(config$indicators, function(x)
+        list(branch = lapply(Filter(function(x) x$id %in% unique(data$branch),
+                                    config$indicators), function(x)
           list(id = x$id, label = x$label))) else NULL,
       quality_codes = list(
         sin_advertencia = "Sin nota de advertencia en el Excel",
@@ -229,7 +261,8 @@ ip_publish <- function(datasets, root = "api/v1") {
       )
     )
     manifests[[length(manifests) + 1L]] <- list(
-      id = id, path = series_path, parser_version = 4L,
+      id = id, path = series_path, parser_version = 5L,
+      build_sha256 = entry$build_sha256,
       source_file = entry$source_file,
       source_url = entry$source_url, source_sha256 = entry$hash,
       observations = nrow(data),
