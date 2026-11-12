@@ -144,11 +144,11 @@
     <div class="wrap metrics" aria-label="Resumen de datos disponibles">
       <div class="metrics-box">
         <div class="metric"><strong id="dataset-count">5</strong><span>Conjuntos de datos</span></div>
-        <div class="metric"><strong id="observation-count">200.382</strong><span>Observaciones</span></div>
+        <div class="metric"><strong id="observation-count">180.967</strong><span>Observaciones</span></div>
         <div class="metric"><strong id="period-start">2010</strong><span>Inicio de las series</span></div>
         <div class="metric"><strong id="period-end">2026-08</strong><span>Último trimestre móvil publicado</span></div>
       </div>
-      <p class="status" id="last-updated" aria-live="polite">Metadatos publicados en el manifiesto de la API.</p>
+      <p class="status" id="last-updated" aria-live="polite">Metadatos publicados en el catálogo de la API.</p>
     </div>
     <section id="datos" class="wrap">
       <div class="section-head">
@@ -171,7 +171,7 @@
           <h2>Una URL.<br>Datos reproducibles.</h2>
           <p>No necesitas credenciales ni una base de datos. Accede por HTTP a los archivos JSON y utiliza sus observaciones en R, Python o cualquier aplicación.</p>
           <div class="pill-list"><span>JSON</span><span>R / tidyverse</span><span>HTTP</span><span>GitHub Pages</span></div>
-          <p><a href="./api/v1/manifest.json">Ver manifiesto de versiones →</a></p>
+          <p><a href="./api/v1/catalog.json">Ver catálogo de metadatos →</a></p>
         </div>
         <div class="terminal" aria-label="Ejemplo de uso con R">
           <div class="terminal-head"><span>R · tidyverse</span><button id="copy-code" type="button">Copiar</button></div>
@@ -201,7 +201,7 @@ desocupacion &lt;- serie |&gt;
       <h2>Datos públicos, con trazabilidad.</h2>
       <div class="principles">
         <div class="principle"><strong>Fuente oficial</strong><p>Se procesan los tabulados de la Encuesta Nacional de Empleo del Instituto Nacional de Estadísticas (INE) de Chile. No se producen estimaciones independientes.</p></div>
-        <div class="principle"><strong>Actualización auditable</strong><p>El pipeline en R valida los archivos, registra hashes SHA-256 y publica cobertura temporal, número de observaciones y versión del parser en el manifiesto.</p></div>
+        <div class="principle"><strong>Actualización auditable</strong><p>El pipeline en R valida los archivos, registra hashes SHA-256 y publica cobertura temporal, número de observaciones y versión del parser en el catálogo.</p></div>
         <div class="principle"><strong>Advertencias preservadas</strong><p>Las observaciones mantienen las notas de calidad del INE: sin advertencia, estimación poco fiable, no fiable o sin dato. Revisa estas marcas antes de analizar.</p></div>
       </div>
       <div class="note-box"><strong>Consideraciones:</strong> la ENE publica trimestres móviles superpuestos, no meses independientes. La desagregación geográfica y por sexo depende del conjunto. En ocupación por rama, la categoría total no debe sumarse a las ramas. Consulta el catálogo y la <a href="https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion">documentación oficial del INE</a>.</div>
@@ -210,7 +210,7 @@ desocupacion &lt;- serie |&gt;
   <footer class="footer">
     <div class="wrap footer-inner">
       <p><strong>laboral-data</strong> · Proyecto abierto e independiente. No es un servicio oficial del INE.</p>
-      <p><a href="https://github.com/miparrar/laboral-data">Código fuente</a> · <a href="./api/v1/catalog.json">Catálogo</a> · <a href="./api/v1/manifest.json">Manifiesto</a></p>
+      <p><a href="https://github.com/miparrar/laboral-data">Código fuente</a> · <a href="./api/v1/catalog.json">Catálogo</a> </p>
     </div>
   </footer>
   <script>
@@ -244,16 +244,16 @@ desocupacion &lt;- serie |&gt;
         parent.appendChild(a);
         return a;
       }
-      function render(catalog, manifest) {
-        document.getElementById("dataset-count").textContent = format.format(manifest.datasets.length);
-        document.getElementById("observation-count").textContent = format.format(manifest.datasets.reduce(function (s, d) { return s + d.observations; }, 0));
-        document.getElementById("period-start").textContent = manifest.datasets.reduce(function (v, d) { return v < d.first_period ? v : d.first_period; }, "9999").slice(0, 4);
-        document.getElementById("period-end").textContent = manifest.datasets.reduce(function (v, d) { return v > d.last_period ? v : d.last_period; }, "0000");
-        var dt = new Date(manifest.updated_at);
-        document.getElementById("last-updated").textContent = "Metadatos actualizados: " + (Number.isNaN(dt.valueOf()) ? manifest.updated_at : new Intl.DateTimeFormat("es-CL", { dateStyle: "long", timeZone: "UTC" }).format(dt)) + " · Fuente: INE Chile.";
+      function render(catalog) {
+        document.getElementById("dataset-count").textContent = format.format(catalog.datasets.length);
+        document.getElementById("observation-count").textContent = format.format(catalog.datasets.reduce(function (s, d) { return s + d.observations; }, 0));
+        document.getElementById("period-start").textContent = catalog.datasets.reduce(function (v, d) { return v < d.first_period ? v : d.first_period; }, "9999").slice(0, 4);
+        document.getElementById("period-end").textContent = catalog.datasets.reduce(function (v, d) { return v > d.last_period ? v : d.last_period; }, "0000");
+        var dt = new Date(catalog.updated_at);
+        document.getElementById("last-updated").textContent = "Metadatos actualizados: " + (Number.isNaN(dt.valueOf()) ? catalog.updated_at : new Intl.DateTimeFormat("es-CL", { dateStyle: "long", timeZone: "UTC" }).format(dt)) + " · Fuente: INE Chile.";
         grid.replaceChildren();
         catalog.datasets.forEach(function (dataset, i) {
-          var m = manifest.datasets.find(function (item) { return item.id === dataset.id; });
+          var m = dataset;
           if (!m) return;
           var card = document.createElement("article");
           card.className = "card";
@@ -268,20 +268,19 @@ desocupacion &lt;- serie |&gt;
           var details = document.createElement("details");
           details.className = "details";
           addText(details, "summary", "Ver dimensiones y cobertura");
-          var dim = dataset.coverage && dataset.coverage[0] ? Object.keys(dataset.coverage[0]).join(", ") : "Según catálogo";
-          addText(details, "p", "Dimensiones: " + dim + ". Coberturas: " + (dataset.coverage ? dataset.coverage.length : "consultar catálogo") + ". Indicadores y notas de calidad disponibles en el catálogo.");
+          var dim = dataset.series && dataset.series[0] ? ["region", "sex", "age_group", "branch"].filter(function (name) { return name in dataset.series[0]; }).join(", ") : "Según catálogo";
+          addText(details, "p", "Dimensiones: " + dim + ". Coberturas: " + (dataset.series ? new Set(dataset.series.map(function (s) { return [s.region, s.sex, s.age_group, s.branch].filter(Boolean).join("|"); })).size : "consultar catálogo") + ". Indicadores y notas de calidad disponibles en el catálogo.");
           link(details, "Ficha de metadatos →", base + "catalog.json", false);
           card.appendChild(details);
           grid.appendChild(card);
         });
       }
-      Promise.all([
-        fetch(base + "catalog.json").then(function (r) { if (!r.ok) throw Error("Catálogo no disponible"); return r.json(); }),
-        fetch(base + "manifest.json").then(function (r) { if (!r.ok) throw Error("Manifiesto no disponible"); return r.json(); })
-      ]).then(function (parts) { render(parts[0], parts[1]); })
-      .catch(function () {
-        document.getElementById("last-updated").textContent = "No se pudo cargar el resumen automático. Los enlaces al catálogo y al manifiesto siguen disponibles.";
-      });
+      fetch(base + "catalog.json")
+        .then(function (r) { if (!r.ok) throw Error("Catálogo no disponible"); return r.json(); })
+        .then(render)
+        .catch(function () {
+          document.getElementById("last-updated").textContent = "No se pudo cargar el resumen automático. El catálogo JSON sigue disponible.";
+        });
       var copy = document.getElementById("copy-code");
       copy.addEventListener("click", function () {
         var content = document.getElementById("r-code").textContent;
