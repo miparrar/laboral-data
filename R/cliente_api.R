@@ -76,9 +76,11 @@ laboral_metadata <- function() {
                            function(x) x$label, character(1)),
       unidad = vapply(dataset$indicators,
                       function(x) x$unit, character(1)),
-      dimensiones = if (length(dataset$coverage)) {
-        paste(names(dataset$coverage[[1L]]), collapse = ", ")
-      } else "",
+      dimensiones = {
+        series <- if (!is.null(dataset$series)) dataset$series else dataset$coverage
+        paste(intersect(c("region", "sex", "age_group", "branch"),
+                        names(series[[1L]])), collapse = ", ")
+      },
       hojas = paste(unlist(dataset$source_sheets), collapse = ", "),
       archivo = .laboral_fuente(dataset),
       fuente_url = dataset$source_url,
@@ -99,6 +101,38 @@ laboral_metadata <- function() {
         character(1))
     )
   }))
+}
+
+#' Catálogo de series estadísticas en formato largo (sin observaciones).
+#' Cada fila identifica indicador y combinación de dimensiones, hoja y columnas
+#' del Excel del INE, períodos de cobertura y metadatos analíticos.
+laboral_series <- function() {
+  datasets <- .laboral_request("catalog.json")$datasets
+  series <- dplyr::bind_rows(lapply(datasets, function(ds) {
+    if (is.null(ds$series)) return(tibble::tibble())
+    dplyr::mutate(
+      dplyr::bind_rows(ds$series),
+      tabulado = ds$id,
+      titulo = ds$title,
+      archivo = .laboral_fuente(ds),
+      fuente_url = ds$source_url,
+      path = ds$path,
+      .before = 1L
+    )
+  }))
+  if (!nrow(series)) {
+    stop("El catálogo aún no contiene el inventario de series.", call. = FALSE)
+  }
+  definiciones <- laboral_metadata() |>
+    dplyr::select(
+      .data$tabulado, .data$indicador, .data$descripcion,
+      .data$definicion, .data$sinonimos, .data$tipo_medida,
+      .data$analisis, .data$advertencias
+    )
+  dplyr::left_join(
+    series, definiciones,
+    by = c("tabulado", "indicator" = "indicador")
+  )
 }
 
 #' Buscar candidatos a series por texto, sin elegir automáticamente una.
