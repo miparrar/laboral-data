@@ -1,34 +1,58 @@
 # laboral-data
 
-**[Explorar datos y colecciones](https://miparrar.github.io/laboral-data/)** · [Catálogo JSON](https://miparrar.github.io/laboral-data/api/v1/catalog.json) · [Manifiesto de versiones](https://miparrar.github.io/laboral-data/api/v1/manifest.json)
+**Datos abiertos de la Encuesta Nacional de Empleo (ENE) de Chile.** Tabulados del Instituto Nacional de Estadísticas (INE) convertidos a JSON estructurado, validado y actualizado automáticamente.
 
-**laboral-data transforma los tabulados que publica el Instituto Nacional de Estadísticas (INE) para la Encuesta Nacional de Empleo (ENE) en archivos JSON estructurados, validados y accesibles públicamente.**
+[Explorar datos](https://miparrar.github.io/laboral-data/) · [Catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) · [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json)
 
-La descripción de las estadísticas, sus definiciones y los tabulados originales se encuentran en la [página oficial de Ocupación y Desocupación del INE](https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion).
+## Datos disponibles
 
-## Cómo funciona
+- [Indicadores principales](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json): ocupación, desocupación y participación; nacional por sexo y regiones.
+- [Indicadores complementarios](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json): presión laboral, subutilización y fuerza de trabajo potencial; nacional por sexo y regiones.
+- [Horas trabajadas](https://miparrar.github.io/laboral-data/api/v1/series/horas.json): jornadas y promedios de horas habituales y efectivas; nacional por sexo.
+- [Ocupación por rama](https://miparrar.github.io/laboral-data/api/v1/series/rama.json): ocupados por actividad económica; nacional por sexo y regiones.
+- [Indicadores por edad](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales_edad.json): indicadores principales en seis tramos de edad; total nacional.
 
-El proyecto descarga los Excel del INE, los procesa con R y normaliza las observaciones y sus notas de calidad. Luego valida los resultados y publica archivos JSON mediante GitHub Pages. Los Excel originales se respaldan en GitHub Releases.
+Todas las series incluyen trimestre móvil y notas de calidad. En la serie por rama, `branch = "total"` **no se suma** a las actividades; `no_sabe_no_responde` no es una actividad económica. Consulta el [catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json) para identificar indicadores, unidades y dimensiones.
 
-La actualización automática utiliza el [calendario de publicaciones ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). También puede ejecutarse manualmente.
+## Usar desde R
 
-## Consumo de datos
-
-- [Catálogo](https://miparrar.github.io/laboral-data/api/v1/catalog.json): conjuntos de datos y variables disponibles.
-- [Manifiesto](https://miparrar.github.io/laboral-data/api/v1/manifest.json): versiones, cobertura temporal y archivos.
-- [Indicadores principales (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json).
-- [Indicadores complementarios (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/complementarios.json).
-- [Horas trabajadas (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/horas.json).
-- [Ocupación por rama de actividad (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/rama.json): total de ocupados y 22 categorías del cuadro (21 actividades y «No sabe / No responde»), por sexo a nivel nacional y por región para ambos sexos. Los registros incorporan `branch` y mantienen el indicador común `ocupados` (en miles). Nota: no sumar `branch=total` a las ramas; `no_sabe_no_responde` no es una actividad económica.
-- [Indicadores principales por tramo etario (JSON)](https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales_edad.json): 13 indicadores, seis tramos nacionales de 15–24 a 65 años o más. Las observaciones incluyen `age_group` (`15-24`, `25-34`, `35-44`, `45-54`, `55-64` o `65+`), además de `region` y `sex`.
-
-Ejemplo en R:
+**Sin instalar nada adicional al lector JSON:**
 
 ```r
 datos <- jsonlite::fromJSON(
   "https://miparrar.github.io/laboral-data/api/v1/series/indicadores_principales.json"
+)$observations |>
+  tibble::as_tibble()
+```
+
+**Con el cliente incluido** (desde una copia local del repositorio):
+
+```r
+source("R/cliente_api.R")
+
+laboral_catalogo() # Series disponibles
+
+desocupacion <- laboral_leer(
+  "indicadores_principales",
+  indicador = "tasa_desocupacion",
+  region = "nacional",
+  sexo = "total"
+)
+
+construccion <- laboral_leer(
+  "rama",
+  rama = "construccion",
+  region = "nacional"
 )
 ```
+
+`laboral_leer()` devuelve un **tibble**. Permite filtrar por `indicador`, `region`, `sexo`, `edad` y `rama` (según la serie). Guarda el JSON descargado en memoria durante la sesión; usa `actualizar = TRUE` para volver a consultarlo. Requiere `jsonlite`, `dplyr` y `tibble`.
+
+## Cómo funciona
+
+Los archivos Excel originales se descargan desde el [INE](https://www.ine.gob.cl/estadisticas-por-tema/mercado-laboral/ocupacion-y-desocupacion), se procesan y validan con R y se publican mediante GitHub Pages. Se preservan notas de calidad, hashes SHA-256 y versiones de procesamiento. Los Excel se respaldan en GitHub Releases.
+
+La actualización sigue el [calendario ENE de `laborales`](https://github.com/miparrar/laborales/tree/main/src_data/calendario_ene). Los trimestres móviles son períodos superpuestos, no observaciones mensuales independientes.
 
 ## Ejecución local
 
@@ -37,3 +61,5 @@ make deps
 make update
 make test
 ```
+
+**Proyecto independiente; no es un servicio oficial del INE.**
