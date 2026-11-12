@@ -1,0 +1,67 @@
+anio: 2026
+zona_horaria: America/Santiago
+fuente: "https://www.ine.gob.cl/docs/default-source/prensa-y-comunicacion/calendario/calendario-de-publicaciones.pdf.pdf?sfvrsn=93b45045_58"
+actualizacion_fuente: "2026-04-10"
+producto: EMPLEO NACIONAL
+# El período identifica el mes central del trimestre según trimestres_moviles.yaml.
+publicaciones:
+  - fecha: "2026-01-29"
+    hora: "09:00"
+    trimestre: OND
+    anio_trimestre: 2025
+    periodo: "2025-11"
+  - fecha: "2026-02-27"
+    hora: "09:00"
+    trimestre: NDE
+    anio_trimestre: 2025
+    periodo: "2025-12"
+  - fecha: "2026-03-30"
+    hora: "09:00"
+    trimestre: DEF
+    anio_trimestre: 2026
+    periodo: "2026-01"
+  - fecha: "2026-04-29"
+    hora: "09:00"
+    trimestre: EFM
+    anio_trimestre: 2026
+    periodo: "2026-02"
+  - fecha: "2026-05-29"
+    hora: "09:00"
+    trimestre: FMA
+    anio_trimestre: 2026
+    periodo: "2026-03"
+  - fecha: "2026-06-30"
+    hora: "09:00"
+    trimestre: MAM
+    anio_trimestre: 2026
+    periodo: "2026-04"
+  - fecha: "2026-07-31"
+    hora: "09:00"
+    trimestre: AMJ
+    anio_trimestre: 2026
+    periodo: "2026-05"
+  - fecha: "2026-08-28"
+    hora: "09:00"
+    trimestre: MJJ
+    anio_trimestre: 2026
+    periodo: "2026-06"
+  - fecha: "2026-09-30"
+    hora: "09:00"
+    trimestre: JJA
+    anio_trimestre: 2026
+    periodo: "2026-07"
+  - fecha: "2026-10-29"
+    hora: "09:00"
+    trimestre: JAS
+    anio_trimestre: 2026
+    periodo: "2026-08"
+  - fecha: "2026-11-27"
+    hora: "09:00"
+    trimestre: ASO
+    anio_trimestre: 2026
+    periodo: "2026-09"
+  - fecha: "2026-12-30"
+    hora: "09:00"
+    trimestre: SON
+    anio_trimestre: 2026
+    periodo: "2026-10"

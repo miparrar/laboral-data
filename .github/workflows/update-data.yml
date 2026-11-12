@@ -62,6 +62,7 @@ jobs:
         if: github.event_name != 'schedule' || steps.calendar.outputs.due == 'true'
         run: |
           make update
+          Rscript scripts/build_calendar.R
           make test
           Rscript -e 'm <- jsonlite::fromJSON("api/v1/manifest.json"); stopifnot(setequal(m$datasets$id, names(yaml::read_yaml("config/fuentes.yml")$sources))); message("Publicación validada: ", paste(m$datasets$id, collapse = ", "))'
 
