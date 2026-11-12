@@ -59,6 +59,60 @@ El cliente requiere `jsonlite`, `dplyr` y `tibble`, no utiliza credenciales y co
 
 La interfaz está inspirada en [**`bcchr`**, de Joshua Kunst e Ignacio Rossi](https://github.com/jbkunst/bcchr), especialmente en la separación entre búsqueda, descripción y descarga de series. `laboral-data` es un cliente independiente y no necesita instalar `bcchr`.
 
+### Ejemplos de consulta
+
+**Desocupación de hombres y mujeres desde 2022:**
+
+```r
+laboral_obtener(
+  "indicadores_principales/tasa_desocupacion",
+  desde = "2022-01",
+  region = "nacional",
+  sexo = c("hombre", "mujer")
+) |>
+  dplyr::select(period, sex, value, quality)
+```
+
+**Desocupación de jóvenes de 15 a 24 años, con la hoja de origen:**
+
+```r
+laboral_obtener(
+  "indicadores_principales_edad/tasa_desocupacion",
+  desde = "2024-01",
+  edad = "15-24"
+) |>
+  dplyr::select(period, age_group, value, source_file, source_sheet)
+```
+
+**Ocupación en construcción en dos regiones:**
+
+```r
+laboral_obtener(
+  "rama/ocupados",
+  desde = "2025-01",
+  region = c("metropolitana", "biobio"),
+  rama = "construccion"
+) |>
+  dplyr::select(period, region, branch, value)
+```
+
+**Consultar dos indicadores en una sola llamada:**
+
+```r
+laboral_obtener(
+  c(
+    "indicadores_principales/tasa_desocupacion",
+    "complementarios/su3"
+  ),
+  desde = "2023-01",
+  region = "nacional",
+  sexo = "total"
+) |>
+  dplyr::select(period, series_id, value, unit)
+```
+
+Los ejemplos devuelven **tibbles** y mantienen las notas de calidad. Recuerda que `period` identifica el mes central de un trimestre móvil, no un mes independiente.
+
 ### Trazabilidad
 
 Cada observación conserva `source_sheet`, el **nombre exacto de la hoja** procesada del Excel original. El JSON de cada tabulado identifica también `source_file` (archivo Excel), `source_url` (enlace oficial del INE) y `source_sha256` (huella del archivo descargado). El cliente R incorpora esos metadatos como columnas, de modo que se puede volver desde una estimación al tabulado y la hoja de origen.
