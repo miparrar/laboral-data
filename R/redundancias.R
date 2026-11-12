@@ -29,8 +29,8 @@
         .row = dplyr::row_number(),
         branch = dplyr::na_if(.data$branch, "total")
       ) |>
-      dplyr::select(.data$.dataset, .data$.row,
-                    dplyr::all_of(.laboral_clave), .data$value)
+      dplyr::select(dplyr::all_of(c(".dataset", ".row",
+                                    .laboral_clave, "value")))
   })
 }
 
