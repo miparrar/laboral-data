@@ -26,7 +26,7 @@ datasets <- purrr::imap(sources, function(source, id) {
   cfg <- yaml::read_yaml(paste0("config/", id, ".yml"))
   list(path = path, config = cfg, source_url = source$url,
        hash = digest::digest(object = path, algo = "sha256", file = TRUE),
-       title = source$name)
+       title = source$name, source_file = source$file)
 })
 
 manifest_path <- "api/v1/manifest.json"
@@ -36,7 +36,7 @@ if (file.exists(manifest_path)) {
     old <- purrr::detect(previous, ~ identical(.x$id, id))
     !is.null(old) &&
       identical(old$source_sha256, datasets[[id]]$hash) &&
-      identical(old$parser_version, 3L) &&
+      identical(old$parser_version, 4L) &&
       file.exists(file.path("api/v1/series", paste0(id, ".json")))
   })
   if (unchanged && file.exists("api/v1/catalog.json")) {
