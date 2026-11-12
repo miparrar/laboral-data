@@ -145,7 +145,7 @@ for (id in sources) {
   series <- jsonlite::fromJSON(file, simplifyVector = FALSE)
   stopifnot(
     identical(series$id, id),
-    identical(entry$parser_version, 4L),
+    identical(entry$parser_version, 5L),
     identical(series$source_file,
               yaml::read_yaml("config/fuentes.yml")$sources[[id]]$file),
     identical(series$source_file, entry$source_file),
@@ -161,10 +161,21 @@ for (id in sources) {
     length(series$observations) == entry$observations,
     length(description$coverage) ==
       length(ip_sheet_map(yaml::read_yaml(paste0("config/", id, ".yml")))) *
-      if (identical(id, "rama")) length(rama_cfg$indicators) else 1L,
-    length(description$indicators) ==
-      length(if (identical(id, "rama")) rama_cfg$public_indicators
-             else yaml::read_yaml(paste0("config/", id, ".yml"))$indicators)
+      if (identical(id, "rama")) length(rama_cfg$indicators) - 1L else 1L,
+    setequal(
+      vapply(description$indicators, function(x) x$id, character(1)),
+      unique(vapply(series$observations, function(x) x$indicator,
+                    character(1)))
+    ),
+    all(vapply(description$indicators, function(x)
+      !is.null(x$analysis$measurement_type) &&
+      length(x$analysis$allowed) >= 1L, logical(1))),
+    nzchar(entry$build_sha256)
   )
 }
 message("Contrato JSON y cobertura de todas las fuentes validados.")
+
+# Tras la depuración, el total de ramas sólo se consulta en principales.
+source("R/redundancias.R")
+stopifnot(nrow(laboral_auditar_publicadas()) == 0L)
+message("Catálogo analítico y ausencia de redundancias validados.")
