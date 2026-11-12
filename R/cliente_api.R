@@ -200,10 +200,15 @@ laboral_obtener <- function(series_id, desde = NULL, hasta = NULL,
   ids <- unique(series_id)
   laboral_describir(ids) # Comprueba códigos contra el catálogo vigente.
 
+  # Una sola descarga por tabulado, incluso al solicitar varios indicadores.
+  tabulados <- unique(sub("/.*$", "", ids))
+  fuentes <- stats::setNames(
+    lapply(tabulados, .laboral_datos, actualizar = actualizar),
+    tabulados
+  )
   datos <- dplyr::bind_rows(lapply(ids, function(id) {
     partes <- strsplit(id, "/", fixed = TRUE)[[1L]]
-    x <- .laboral_datos(partes[[1L]], actualizar = actualizar)
-    dplyr::filter(x, .data$indicator == partes[[2L]])
+    dplyr::filter(fuentes[[partes[[1L]]]], .data$indicator == partes[[2L]])
   }))
 
   datos <- .laboral_filtrar(datos, list(
