@@ -1,26 +1,32 @@
 #!/usr/bin/env Rscript
-# Fuente única del calendario: repositorio laborales.
-# Un cron diario es solo un disparador; el calendario decide si corresponde actualizar.
-calendar_base <- "https://raw.githubusercontent.com/miparrar/laborales/main/src_data/calendario_ene"
+# Fuente única: archivos YAML versionados en laboral-data.
+# Cron diario sólo dispara la verificación; la fecha y hora oficial mandan.
+calendar_base <- "config/calendario_ene"
 now <- as.POSIXct(Sys.time(), tz = "America/Santiago")
 year <- as.integer(format(now, "%Y", tz = "America/Santiago"))
 today <- as.Date(format(now, "%Y-%m-%d", tz = "America/Santiago"))
 clock <- format(now, "%H:%M", tz = "America/Santiago")
 
 read_year <- function(year) {
-  url <- sprintf("%s/%d.yaml", calendar_base, year)
-  tmp <- tempfile(fileext = ".yaml")
-  on.exit(unlink(tmp), add = TRUE)
-  ok <- tryCatch({
-    suppressWarnings(utils::download.file(url, tmp, mode = "wb", quiet = TRUE))
-    TRUE
-  }, error = function(e) FALSE)
-  if (!ok) return(NULL)
-  yaml::read_yaml(tmp)
+  path <- file.path(calendar_base, sprintf("%d.yaml", year))
+  if (!file.exists(path)) return(NULL)
+  result <- yaml::read_yaml(path)
+  if (!identical(result$anio, as.integer(year)) ||
+      !identical(result$zona_horaria, "America/Santiago") ||
+      !identical(result$producto, "EMPLEO NACIONAL") ||
+      length(result$publicaciones) != 12L) {
+    stop("Calendario ENE inválido: ", path, call. = FALSE)
+  }
+  result
 }
 
-calendars <- Filter(Negate(is.null), lapply(unique(c(year - 1L, year)), read_year))
-if (!length(calendars)) stop("No se pudo obtener ningún calendario ENE desde laborales.")
+current <- read_year(year)
+if (is.null(current)) {
+  stop("Falta el calendario ENE del año vigente: ",
+       file.path(calendar_base, paste0(year, ".yaml")), call. = FALSE)
+}
+previous <- read_year(year - 1L)
+calendars <- Filter(Negate(is.null), list(previous, current))
 
 rows <- do.call(rbind, lapply(calendars, function(calendar) {
   do.call(rbind, lapply(calendar$publicaciones, function(p) {
